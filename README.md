@@ -20,8 +20,20 @@ In order to push to the remote (origin): ```git push``` + credentials
 For installing the latest dependecies, change to the `back-end/` directory: ```cd back-end/```  
 Than, use: ```npm install```
 For running the app:
-    - ```node app.js`` in `back-end` directory
+    - ```node app.js``` in `back-end` directory  
     - ```nodemon```  FOR INSTALLING NODEMON: ```npm install -g nodemon``` 
 
+## Using MySQL 
 
+For accesing the mysql command line:  
+- ```mysql -u <user>``` if you don't have a passwd  
+- ```mysql -u <user> -p``` and then type the passwd  
+- FOR ROOT: ```mysql -u root```
 
+In case you want to create a new user, check [this](https://ebu.gitbook.io/webtech-superheroes/configurare-mediu-de-lucru/mysql) tutorial  
+
+For database manipulation:  
+- show databases: ```SHOW DATABASES```  
+- for changing a database: ```USE DATABASE-NAME```  
+- for showing tables from db: ```SHOW TABLES```  
+- check the fields from one table: ```DESCRIBE TABLE-NAME```  

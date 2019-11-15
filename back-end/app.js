@@ -8,9 +8,9 @@ const PORT = 3000;
 //initializare express
 const app = express();
 
-// app.use(cors);
 //for json requests
 app.use(bodyParser.json());
+app.use(express.urlencoded());
 
 //sincronizare baza de date, in functie de modele
 model.sequelize.sync();

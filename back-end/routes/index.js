@@ -12,7 +12,7 @@ const loginRequired = (req, res, next)=>{
 
 router.post('/register', userController.createUsers);
 router.post('/login', (req, res)=>{
-    res.status(200).send({message:"ura"});
+    res.status(200).send({message:`${req.body.password}`});
 });
 router.post('/logout', loginRequired, (req, res)=>{
     res.status(200).send({message:"todo"});

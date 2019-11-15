@@ -9,8 +9,8 @@ const PORT = 3000;
 const app = express();
 
 //for json requests
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
-app.use(express.urlencoded());
 
 //sincronizare baza de date, in functie de modele
 model.sequelize.sync();

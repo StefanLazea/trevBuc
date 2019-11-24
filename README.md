@@ -2,11 +2,11 @@
 Our app for giving feedback for public transport in Bucharest.
 
 ## Start the app  
-For installing the latest dependecies, change to the `back-end/` directory: ```cd back-end/```  
-Than, use: ```npm install```
-For running the app:
+For installing the latest dependecies, change to the `back-end/` directory: ```cd back-end/```    
+Than, use: ```npm install```   
+For running the app:  
     - ```node app.js``` in `back-end` directory  
-    - ```nodemon```  FOR INSTALLING NODEMON: ```npm install -g nodemon``` 
+    - ```nodemon```  FOR INSTALLING NODEMON: ```npm install -g nodemon```  
     
 
 ## Project structure

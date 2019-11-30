@@ -4,10 +4,10 @@ const Users = sequelize.import('./users.js');
 const transportType = sequelize.import('./transportType.js');
 const Reviews = sequelize.import('./reviews.js');
 
-Users.hasMany(Reviews, {onDelete: 'cascade'});
-Reviews.hasOne(transportType, {onDelete: 'cascade'});
+Users.hasMany(Reviews, { onDelete: 'cascade' });
+Reviews.hasOne(transportType, { onDelete: 'cascade' });
 
-module.exports={
+module.exports = {
     sequelize,
     Users,
     Reviews,

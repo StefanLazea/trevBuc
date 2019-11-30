@@ -17,6 +17,6 @@ model.sequelize.sync();
 
 app.use('/', routes);
 
-app.listen(PORT, ()=>{
+app.listen(PORT, () => {
   console.log(`App started on http://localhost:${PORT}`)
 });

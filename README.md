@@ -97,13 +97,3 @@ For database manipulation:
 - for showing tables from db: ```SHOW TABLES```  
 - check the fields from one table: ```DESCRIBE TABLE-NAME```  
 
-##TESTING IN POSTMAN:
-
-POST /register  
-```
-{
-	"username": "stefan",
-	"password": "pass",
-	"email":"lazeastefan@gmail.com"
-}
-```

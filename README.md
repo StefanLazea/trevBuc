@@ -21,7 +21,8 @@ For installing the latest dependecies, change to the `back-end/` directory: ```c
 Than, use: ```npm install```
 For running the app:
     - ```node app.js``` in `back-end` directory  
-    - ```nodemon```  FOR INSTALLING NODEMON: ```npm install -g nodemon``` 
+    - ```nodemon```  FOR INSTALLING NODEMON: ```npm install -g nodemon```  
+	- create in ```back-end/``` directory, the ```.env``` file as mentioned in [this sample](back-end/.env.sample)
 
 ## Using MySQL 
 
@@ -48,3 +49,14 @@ POST /register
 	"email":"lazeastefan@gmail.com"
 }
 ```
+
+POST /login  
+```
+{
+	"username": "stefan",
+	"password": "pass",
+	"email":"lazeastefan@gmail.com"
+}
+```  
+- you will receive a token for auth on private routes
+

@@ -1,19 +1,27 @@
 const Users = require('../models').Users;
+const { findUserByUsername } = require('../services/users');
 const bcrypt = require('bcryptjs');
-const uuid = require("uuid");
+const jwt = require('jsonwebtoken');
 
-module.exports = {
-    createUsers: (req, res) => {
-        const userToken = "Bearer " + uuid.v4();
-        // var salt = bcrypt.genSaltSync(10);
-        // ePassword = bcrypt.hashSync(req.body.password, salt);
-        Users.create({
-            username: req.body.username,
-            email: req.body.email,
-            password: req.body.password,
-            token: userToken
-        });
+const registerUser = async (req, res) => {
+    let userFound = await findUserByUsername(req.body.username);
 
-        res.status(200).send({ message: `email ${userToken} + ${req.body.username}` })
+    if (userFound) {
+        return res.status(409).send({ message: "User already exists" });
     }
+
+    res.status(200).send({ message: "testam" })
+};
+
+const login = async (req, res) => {
+
+};
+
+const logout = async (req, res) => {
+
+};
+module.exports = {
+    registerUser,
+    login,
+    logout
 }

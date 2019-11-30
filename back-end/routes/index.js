@@ -11,10 +11,11 @@ const loginRequired = (req, res, next) => {
     }
 }
 
-router.post('/register', userController.createUsers);
-router.post('/login', (req, res) => {
-    res.status(200).send({ message: `${req.body.password}` });
-});
+router.post('/register', userController.registerUser);
+router.post('/login', userController.login);
+router.post('/logout', userController.logout);
+
+//todo
 router.post('/reviews', (req, res) => {
     const leavingPoint = req.body.leaving_point;
     // if(leaving_point === "")
@@ -24,7 +25,5 @@ router.post('/reviews', (req, res) => {
     res.send(`Am primit ${req.body.leaving_point}`);
 
 })
-router.post('/logout', loginRequired, (req, res) => {
-    res.status(200).send({ message: "todo" });
-});
+
 module.exports = router;

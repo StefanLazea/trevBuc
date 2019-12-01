@@ -11,13 +11,12 @@ const verifyToken = function (req, res, next) {
     const verified = jwt.verify(trimmedToken, process.env.TOKEN_SECRET,
         function (err, decoded) {
             if (err) {
-                return res.status(403).send({ message: "Forbidden1", err: err });
+                return res.status(403).send({ message: "Forbidden", err: err });
             } else {
                 req.user = verified;
                 next();
             }
         });
-
 }
 
 module.exports = {

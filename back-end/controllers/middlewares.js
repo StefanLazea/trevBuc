@@ -13,7 +13,7 @@ const verifyToken = function (req, res, next) {
             if (err) {
                 return res.status(403).send({ message: "Forbidden", err: err });
             } else {
-                req.user = verified;
+                req.user = decoded;
                 next();
             }
         });

@@ -41,11 +41,11 @@ const login = async (req, res) => {
 
     const token = jwt.sign({ id: userFound.id }, process.env.TOKEN_SECRET,
         {
-            expiresIn: "30s"
+            expiresIn: "3h"
         });
 
     const refreshToken = jwt.sign({ id: userFound.id }, process.env.REFRESH_TOKEN_SECRET,
-        { expiresIn: "30s" }
+        { expiresIn: "3 days" }
     );
 
     res.cookie("refreshToken", refreshToken, { signed: true, httpOnly: true })

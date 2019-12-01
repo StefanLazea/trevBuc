@@ -12,13 +12,12 @@ router.post('/logout', userController.logout);
 router.get('/refreshToken', verifyAuth, tokenController.refreshToken);
 
 //todo
-router.post('/reviews', (req, res) => {
+router.post('/reviews', verifyAuth, (req, res) => {
     const leavingPoint = req.body.leaving_point;
-    // if(leaving_point === "")
     Review.create({
         leaving_point: req.body.leaving_point
     })
-    return es.send(`Am primit ${req.body.leaving_point}`);
+    return res.send(`Am primit ${req.body.leaving_point}`);
 
 })
 

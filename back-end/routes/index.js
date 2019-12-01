@@ -1,19 +1,14 @@
 const router = require("express").Router();
 const userController = require('../controllers/users');
+const tokenController = require('../controllers/token');
 const Review = require("../models").Reviews;
 
-const loginRequired = (req, res, next) => {
-    if (!req.headers.authorization) {
-        return res.status(403).send({ message: "Not authorized" });
-    } else {
-        req.token = req.headers.authorization.split(" ")[1];
-        next();
-    }
-}
-
+//register an user
 router.post('/register', userController.registerUser);
+//route for login an user with credentials
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
+router.get('/refreshToken', tokenController.refreshToken);
 
 //todo
 router.post('/reviews', (req, res) => {

@@ -45,7 +45,7 @@ const login = async (req, res) => {
         });
 
     const refreshToken = jwt.sign({ id: userFound.id }, process.env.REFRESH_TOKEN_SECRET,
-        { expiresIn: "3 days" }
+        { expiresIn: "30s" }
     );
 
     res.cookie("refreshToken", refreshToken, { signed: true, httpOnly: true })
@@ -55,9 +55,11 @@ const login = async (req, res) => {
         })
 };
 
+//todo
 const logout = async (req, res) => {
 
 };
+
 module.exports = {
     registerUser,
     login,

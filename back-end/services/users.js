@@ -11,6 +11,16 @@ const findUserByUsername = async (username) => {
     return userFound;
 }
 
+const findUserById = async (id) => {
+    let userFound;
+    await Users.findOne({
+        where: {
+            id: id
+        }
+    }).then(user => userFound = user);
+    return userFound;
+}
 module.exports = {
-    findUserByUsername
+    findUserByUsername,
+    findUserById
 }

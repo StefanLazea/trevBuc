@@ -12,7 +12,7 @@ const registerUser = async (req, res) => {
 
     const salt = bcrypt.genSaltSync(10);
     //fails if the password attribute is not found in body
-    ePassword = bcrypt.hashSync(req.body.password, salt);
+    let ePassword = bcrypt.hashSync(req.body.password, salt);
 
     try {
         Users.create({
@@ -44,18 +44,9 @@ const login = async (req, res) => {
             expiresIn: "3h"
         });
 
-    const refreshToken = jwt.sign({ id: userFound.id }, process.env.REFRESH_TOKEN_SECRET,
-        { expiresIn: "3 days" }
-    );
-
-    res.cookie("refreshToken", refreshToken, { signed: true, httpOnly: true })
-        .send({
-            token: "Bearer " + token,
-            registerUser: "Bearer " + refreshToken
-        })
+    res.send({token: "Bearer " + token })
 };
 
-//todo
 const logout = async (req, res) => {
 
 };

@@ -1,5 +1,6 @@
 let Sequelize = require('sequelize');
 
+
 const sequelize = new Sequelize(
     'wb_transport',
     'root',

@@ -1,13 +1,13 @@
 let Sequelize = require('sequelize');
-
+let config = require('../configuration.json');
 
 const sequelize = new Sequelize(
     'wb_transport',
-    'root',
+    config.db_user,
     '',
     {
         dialect: 'mysql',
-        host: 'localhost',
+        host: "localhost",
         charset: 'utf8',
           collate: 'utf8_general_ci',
         define: {

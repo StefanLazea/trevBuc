@@ -1,3 +1,4 @@
 {
-    "db_user" : "introdu user-ul tau aici"
+    "db_user" : "introdu user-ul tau aici",
+    "port" : 3000
 }

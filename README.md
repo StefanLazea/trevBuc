@@ -61,6 +61,7 @@ Than, use: ```npm install```
 For running the app:  
     - ```node app.js``` in `back-end` directory  
     - ```nodemon```  FOR INSTALLING NODEMON: ```npm install -g nodemon```  
+	- create in ```back-end/``` directory, the ```.env``` file as mentioned in [this sample](back-end/.env.sample)
     
 
 ## Project structure
@@ -96,4 +97,25 @@ For database manipulation:
 - for changing a database: ```USE DATABASE-NAME```  
 - for showing tables from db: ```SHOW TABLES```  
 - check the fields from one table: ```DESCRIBE TABLE-NAME```  
+
+##TESTING IN POSTMAN:
+
+POST /register  
+```
+{
+	"username": "stefan",
+	"password": "pass",
+	"email":"lazeastefan@gmail.com"
+}
+```
+
+POST /login  
+```
+{
+	"username": "stefan",
+	"password": "pass",
+	"email":"lazeastefan@gmail.com"
+}
+```  
+- you will receive a token for auth on private routes
 

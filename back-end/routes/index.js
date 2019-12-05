@@ -10,16 +10,13 @@ router.post('/register', userController.registerUser);
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 //route for transport types 
-router.get('/gatt', transportTypeController.getAllTransportTypes);
-//route by mihnea for reviews
-router.get('/reviews',verifyAuth, reviewsController.getAllReviews);
 
+router.get('/reviews',verifyAuth, reviewsController.getAllReviews);
 //update a review
 router.put('/reviews/:id', verifyAuth, reviewsController.updateReview);
+router.get('/transport-type', transportTypeController.getAllTransportTypes);
 
-
-//todo
-// am modificat putin post-ul lui stefan
+//aici poti sa pui direct comentariu cu ce face metoda
 router.post('/reviews', verifyAuth, (req, res) => {
     const leavingPoint = req.body.leaving_point;
    Review.create({

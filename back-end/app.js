@@ -14,6 +14,7 @@ dotenv.config();
 app.use(bodyParser.json());
 
 //sincronizare baza de date, in functie de modele
+//in case we want to drop the tables:{ force: true }
 model.sequelize.sync();
 
 app.use('/', routes);

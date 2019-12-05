@@ -9,27 +9,30 @@ router.post('/register', userController.registerUser);
 //route for login an user with credentials
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
-//route for transport types 
 
-router.get('/reviews',verifyAuth, reviewsController.getAllReviews);
+//get all reviews
+router.get('/reviews', reviewsController.getAllReviews);
 //update a review
 router.put('/reviews/:id', verifyAuth, reviewsController.updateReview);
+//get all transport types
 router.get('/transport-type', transportTypeController.getAllTransportTypes);
 
-//aici poti sa pui direct comentariu cu ce face metoda
+//post method
+//create a new review given the set of date from the request
 router.post('/reviews', verifyAuth, (req, res) => {
     const leavingPoint = req.body.leaving_point;
-   Review.create({
+    Review.create({
         leaving_point: req.body.leaving_point,
         arriving_point: req.body.arriving_point,
         leaving_hour: req.body.leaving_hour,
         duration: req.body.duration,
         observations: req.body.observations,
         rating: req.body.rating,
-        congestion_level: req.body.congestion_level
-        
+        congestion_level: req.body.congestion_level,
+        userId: req.body.userId,
+        transportTypeId: req.body.transportTypeId
     })
-    return res.send(`Am primit ${req.body.leaving_point}`);
+    return res.send(`Review created`);
 
 })
 

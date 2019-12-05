@@ -103,19 +103,43 @@ For database manipulation:
 POST /register  
 ```
 {
-	"username": "stefan",
-	"password": "pass",
-	"email":"lazeastefan@gmail.com"
+	"username": "myemail@gmail.com",
+	"password": "pass"
 }
 ```
 
 POST /login  
 ```
 {
-	"username": "stefan",
-	"password": "pass",
-	"email":"lazeastefan@gmail.com"
+	"username": "myemail@gmail.com",
+	"password": "pass"
 }
 ```  
 - you will receive a token for auth on private routes
 
+
+POST /reviews
+request body:
+```
+{
+	"leaving_point": "Bucuresti",
+    "arriving_point": "Pitesti",
+    "leaving_hour": "12:10",
+    "duration": 50,
+    "observations": "minunat",
+    "rating": "super",
+    "congestion_level":10,
+    "userId": 1,
+    "transportTypeId":null
+}
+```
+
+## FOR POSTMAN USERS:  
+In order to get your token automatically into the ```Authorization``` headers;  
+
+```
+let jsonData = pm.response.json()
+let reqToken = jsonData.token;
+console.log(reqToken)
+pm.environment.set("token", reqToken);
+```

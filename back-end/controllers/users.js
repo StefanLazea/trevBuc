@@ -44,7 +44,7 @@ const login = async (req, res) => {
             expiresIn: "3h"
         });
 
-    res.send({token: "Bearer " + token })
+    res.send({ token: "Bearer " + token })
 };
 
 const logout = async (req, res) => {

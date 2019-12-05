@@ -10,11 +10,9 @@ router.post('/register', userController.registerUser);
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 //route for transport types 
-router.get('/gatt', transportTypeController.getAllTransportTypes);
+router.get('/transport-type', transportTypeController.getAllTransportTypes);
 //route for reviews
-router.get('/gar', reviewsController.getAllReviews);
-
-
+router.get('/reviews', reviewsController.getAllReviews);
 //todo
 router.post('/reviews', verifyAuth, (req, res) => {
     const leavingPoint = req.body.leaving_point;

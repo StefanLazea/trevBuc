@@ -9,8 +9,7 @@ const getAllReviews = async (req, res) => {
     catch (err) {
         return res.status(409).send({ message: "No elements found in the database" });
     }
-    return reviewsFound;
-    i
+    return res.send(reviewsFound);
 };
 
 const updateReview = async (req,res) => {

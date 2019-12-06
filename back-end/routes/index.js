@@ -14,8 +14,12 @@ router.post('/logout', userController.logout);
 router.get('/reviews', reviewsController.getAllReviews);
 //update a review
 router.put('/reviews/:id', verifyAuth, reviewsController.updateReview);
+
+
 //get all transport types
 router.get('/transport-type', transportTypeController.getAllTransportTypes);
+//create a transport type
+router.post('/transport-type',transportTypeController.createTransportType);
 
 //post method
 //create a new review given the set of date from the request
@@ -31,8 +35,8 @@ router.post('/reviews', verifyAuth, (req, res) => {
         congestion_level: req.body.congestion_level,
         userId: req.body.userId,
         transportTypeId: req.body.transportTypeId
-    })
-    return res.send(`Review created`);
+    }).then(result =>res.send(result))
+   // return res.send(`Review created`);
 
 })
 

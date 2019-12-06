@@ -1,5 +1,12 @@
 const TransportType = require('../models').transportType;
 
+const createTransportType = async (req,res) =>{
+    await TransportType.create({
+        name: req.body.name,
+        type: req.body.type
+    }). then(result => res.send(result));
+}
+
 const getAllTransportTypes = async (req, res) => {
 
     let transportTypesFound;
@@ -15,5 +22,5 @@ const getAllTransportTypes = async (req, res) => {
 };
 
 module.exports = {
-    getAllTransportTypes
+    getAllTransportTypes,createTransportType
 }

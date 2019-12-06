@@ -23,6 +23,9 @@ router.get('/reviews', reviewsController.getAllReviews);
 //update a review
 router.put('/reviews/:id', verifyAuth, reviewsController.updateReview);
 
+//get review by transport type
+router.get('/reviews/:type', reviewsController.getReviewByTransportType);
+
 // TRANSPORT-TYPE
 
 //get all transport types

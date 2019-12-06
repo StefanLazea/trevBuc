@@ -1,4 +1,5 @@
 const Reviews = require('../models').Reviews;
+const TransportTypes = require('../models').transportType;
 
 const createReview = async (req,res) =>
 {
@@ -43,8 +44,18 @@ const updateReview = async (req, res) => {
 
 }
 
+const getReviewByTransportType = async (req, res) =>{
+    let foundTransportTypeId;
+      await TransportTypes.findOne(
+        {where: {type: req.params.type}}
+        ).then((result) => foundTransportTypeId=result.id);
+        
+        await Reviews.findAll({where : {transportTypeId: foundTransportTypeId }}).then(result => res.send(result));
+}
+
 module.exports = {
     createReview,
     getAllReviews,
-    updateReview
+    updateReview,
+    getReviewByTransportType
 }

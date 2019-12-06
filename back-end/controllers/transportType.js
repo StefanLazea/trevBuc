@@ -1,4 +1,5 @@
 const TransportType = require('../models').transportType;
+const { findUserByUsername } = require('../services/users');
 
 const getAllTransportTypes = async (req, res) => {
 
@@ -14,6 +15,24 @@ const getAllTransportTypes = async (req, res) => {
     res.send(transportTypesFound);
 };
 
+const getAllTranportTypesByType = async(req,resp)=>{
+    let namesTransportTypes;
+    try{
+        await TransportType.findAll({
+         where: {
+         type: "Ratb"}
+        }).then((TansportTypebyType) => namesTransportTypes = TansportTypebyType);
+    }
+  catch(err) {
+            return resp.status( 404).send({ message: "NOT FOUND" });
+        }
+        resp.send(namesTransportTypes);
+}
+    
+
+
 module.exports = {
-    getAllTransportTypes
+    getAllTransportTypes,
+    getAllTranportTypesByType
+    
 }

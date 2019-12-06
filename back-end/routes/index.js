@@ -5,6 +5,11 @@ const reviewsController = require('../controllers/reviews')
 const verifyAuth = require('../controllers/middlewares').verifyToken;
 const Review = require("../models").Reviews;
 
+
+//iris
+router.get('/transport-type/type',transportTypeController.getAllTranportTypesByType);
+
+
 router.post('/register', userController.registerUser);
 //route for login an user with credentials
 router.post('/login', userController.login);

@@ -1,11 +1,11 @@
 # web-transport
-Our app for giving feedback for public transport in Bucharest.
+Our app for giving feedback on public transport in Bucharest.
 
 ## Introduction
 - What is the main need/problem this product solves? <br />
-Our product gives you the possibily of sharing and receiving informations/experiences on public transport based on categories (metros, trams, buses). Thus we make the public transport and the selection of the route based on the leaving point and destination easier. 
+Our product gives you the possibily of sharing and receiving information/experiences on public transport based on categories (metros, trams, buses). Thus we make the public transport and the selection of the route based on the leaving point and destination easier. 
 - To whom this product addresses? <br />
-Our app is destined for people of all ages, due to the great diversity of this market segment, which makes it easy to use with the right friendly interface. 
+Our app is destined for people of all ages, due to the great diversity of this market segment, which makes it easy to use with the proper friendly interface. 
 - What other similar existing products are there on the market? <br />
 Moovit <br />
 Info Autogari <br />

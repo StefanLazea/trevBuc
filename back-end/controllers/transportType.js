@@ -27,7 +27,7 @@ const getAllTranportTypesByType = async(req,resp)=>{
     try{
         await TransportType.findAll({
          where: {
-         type: "Ratb"}
+         type: req.param.type}
         }).then((TansportTypebyType) => namesTransportTypes = TansportTypebyType);
     }
   catch(err) {
@@ -36,12 +36,25 @@ const getAllTranportTypesByType = async(req,resp)=>{
         resp.send(namesTransportTypes);
 }
     
+const getTranportTypesById = async(req,resp)=>{
+    let TransprtTypes;
+    try{
+        await TransportType.findAll({
+         where: {
+         type: req.params.id}
+        }).then((TansportTypebyType) => TransprtTypes = TansportTypebyType);
+    }
+  catch(err) {
+            return resp.status( 404).send({ message: "NOT FOUND" });
+        }
+        resp.send(TransprtTypes);
+}
 
 
 module.exports = {
 
     getAllTransportTypes,
     createTransportType,
-    getAllTranportTypesByType
-    
+    getAllTranportTypesByType,
+    getTranportTypesById
 }

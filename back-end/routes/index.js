@@ -34,4 +34,9 @@ router.get('/transport-type', transportTypeController.getAllTransportTypes);
 router.post('/transport-type',transportTypeController.createTransportType);
 
 
+router.get('/transport-type/:type',transportTypeController.getAllTranportTypesByType);
+
+router.get('/transport-type/:id',transportTypeController.getTranportTypesById);
+
+
 module.exports = router;

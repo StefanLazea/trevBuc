@@ -15,7 +15,7 @@ router.post('/logout', userController.logout);
 
 //post method
 //create a new review given the set of date from the request
-router.post('/reviews',verifyAuth, reviewsController.createReview);
+router.post('/reviews', verifyAuth, reviewsController.createReview);
 
 //get all reviews
 router.get('/reviews', reviewsController.getAllReviews);
@@ -31,12 +31,11 @@ router.get('/reviews/:type', reviewsController.getReviewByTransportType);
 //get all transport types
 router.get('/transport-type', transportTypeController.getAllTransportTypes);
 //create a transport type
-router.post('/transport-type',transportTypeController.createTransportType);
+router.post('/transport-type', transportTypeController.createTransportType);
 
 
-router.get('/transport-type/:type',transportTypeController.getAllTranportTypesByType);
-
-router.get('/transport-type/:id',transportTypeController.getTranportTypesById);
+router.get('/transport-type/:type', transportTypeController.getAllTranportTypesByType);
+router.get('/transport-type/:id', transportTypeController.getTranportTypesById);
 
 
 module.exports = router;

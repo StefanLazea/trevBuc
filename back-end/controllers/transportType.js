@@ -1,18 +1,19 @@
 const TransportType = require('../models').transportType;
 const { findUserByUsername } = require('../services/users');
 
-const createTransportType = async (req,res) =>{
+const createTransportType = async (req, res) => {
     await TransportType.create({
         name: req.body.name,
         type: req.body.type
-    }). then(result => res.send(result));
+    }).then(result => res.send(result));
 }
 
 const getAllTransportTypes = async (req, res) => {
 
     let transportTypesFound;
     try {
-        await TransportType.findAll().then((allTransportTypes) => transportTypesFound = allTransportTypes);
+        await TransportType.findAll()
+            .then((allTransportTypes) => transportTypesFound = allTransportTypes);
     }
     catch (err) {
         return res.status(409).send({ message: "No elements found in the database" });
@@ -22,32 +23,34 @@ const getAllTransportTypes = async (req, res) => {
     res.send(transportTypesFound);
 };
 
-const getAllTranportTypesByType = async(req,resp)=>{
+const getAllTranportTypesByType = async (req, resp) => {
     let namesTransportTypes;
-    try{
+    try {
         await TransportType.findAll({
-         where: {
-         type: req.param.type}
-        }).then((TansportTypebyType) => namesTransportTypes = TansportTypebyType);
+            where: {
+                type: req.param.type
+            }
+        }).then((tansportTypebyType) => namesTransportTypes = tansportTypebyType);
     }
-  catch(err) {
-            return resp.status( 404).send({ message: "NOT FOUND" });
-        }
-        resp.send(namesTransportTypes);
+    catch (err) {
+        return resp.status(404).send({ message: "Not found" });
+    }
+    resp.send(namesTransportTypes);
 }
-    
-const getTranportTypesById = async(req,resp)=>{
-    let TransprtTypes;
-    try{
-        await TransportType.findAll({
-         where: {
-         type: req.params.id}
-        }).then((TansportTypebyType) => TransprtTypes = TansportTypebyType);
+
+const getTranportTypesById = async (req, resp) => {
+    let transprtTypes;
+    try {
+        await transprtTypes.findAll({
+            where: {
+                type: req.params.id
+            }
+        }).then((tansportTypebyType) => transprtTypes = tansportTypebyType);
     }
-  catch(err) {
-            return resp.status( 404).send({ message: "NOT FOUND" });
-        }
-        resp.send(TransprtTypes);
+    catch (err) {
+        return resp.status(404).send({ message: "Not found" });
+    }
+    resp.send(transprtTypes);
 }
 
 

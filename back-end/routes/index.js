@@ -26,6 +26,12 @@ router.put('/reviews/:id', verifyAuth, reviewsController.updateReview);
 //get review by transport type
 router.get('/reviews/:type', reviewsController.getReviewByTransportType);
 
+//delete review by id
+router.delete('/reviews/:id', reviewsController.deleteReviewById);
+
+//get review by id
+router.get('/reviews/:id', reviewsController.getReviewById);
+
 // TRANSPORT-TYPE
 
 //get all transport types

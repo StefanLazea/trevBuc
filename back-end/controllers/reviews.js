@@ -53,9 +53,33 @@ const getReviewByTransportType = async (req, res) =>{
         await Reviews.findAll({where : {transportTypeId: foundTransportTypeId }}).then(result => res.send(result));
 }
 
+const deleteReviewById = async(req, res) => {
+    await Reviews.destroy({
+            where: {id: req.params.id}
+        }).then(result => res.send(result))
+}
+
+const getReviewById = async(req, res) => {
+    let foundReview;
+    try{
+    await Reviews.findOne({
+        where: {id: req.params.id}
+    }).then(result => foundReview = result.id);
+    
+    await Reviews.findAll({where: {reviewId: foundReview}}).then(result => res.send(result));
+        
+}
+    catch(err) {
+            return res.status(404).send({ message: "NOT FOUND" });
+        }
+}
+
+
 module.exports = {
     createReview,
     getAllReviews,
     updateReview,
-    getReviewByTransportType
+    getReviewByTransportType,
+    deleteReviewById,
+    getReviewById
 }

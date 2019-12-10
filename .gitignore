@@ -2,3 +2,4 @@ back-end/node_modules/
 .env
 configuration.json
 front-end/node_modules/
+.vscode/

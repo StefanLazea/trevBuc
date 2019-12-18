@@ -1,5 +1,5 @@
 const TransportType = require('../models').transportType;
-const { findUserByUsername } = require('../services/users');
+//const { findUserByUsername } = require('../services/users');
 
 const createTransportType = async (req, res) => {
     await TransportType.create({
@@ -23,39 +23,40 @@ const getAllTransportTypes = async (req, res) => {
     res.send(transportTypesFound);
 };
 
+
 const getAllTranportTypesByType = async (req, resp) => {
     let namesTransportTypes;
     try {
         await TransportType.findAll({
             where: {
-                type: req.param.type
+                type: req.params.type
             }
         }).then((tansportTypebyType) => namesTransportTypes = tansportTypebyType);
     }
     catch (err) {
-        return resp.status(404).send({ message: "Not found" });
+        return resp.status(404).send({ message: "Not found" + namesTransportTypes });
     }
     resp.send(namesTransportTypes);
 }
 
+
 const getTranportTypesById = async (req, resp) => {
-    let transprtTypes;
+    let transportTypes;
     try {
-        await transprtTypes.findAll({
+        await TransportType.findOne({
             where: {
-                type: req.params.id
+                id: req.params.id
             }
-        }).then((tansportTypebyType) => transprtTypes = tansportTypebyType);
+        }).then((tansportTypeById) => transportTypes = tansportTypeById);
     }
     catch (err) {
         return resp.status(404).send({ message: "Not found" });
     }
-    resp.send(transprtTypes);
+    resp.send(transportTypes);
 }
 
 
 module.exports = {
-
     getAllTransportTypes,
     createTransportType,
     getAllTranportTypesByType,

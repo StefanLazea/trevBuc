@@ -40,8 +40,8 @@ router.get('/transport-type', transportTypeController.getAllTransportTypes);
 router.post('/transport-type', transportTypeController.createTransportType);
 
 
-router.get('/transport-type/:type', transportTypeController.getAllTranportTypesByType);
 router.get('/transport-type/:id', transportTypeController.getTranportTypesById);
+router.get('/transport-type/type/:type', transportTypeController.getAllTranportTypesByType);
 
 
 module.exports = router;

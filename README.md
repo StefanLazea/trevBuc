@@ -62,8 +62,8 @@ For running the app:
     - ```node app.js``` in `back-end` directory  
     - ```nodemon```  FOR INSTALLING NODEMON: ```npm install -g nodemon```  
 	- create in ```back-end/``` directory, the ```.env``` file as mentioned in [this sample](back-end/.env.sample)
-    
 
+### [For the frontend app](front-end/README.md)
 ## Project structure
 - `back-end/` keeps the api for the app
  

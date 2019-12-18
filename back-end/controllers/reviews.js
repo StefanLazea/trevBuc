@@ -12,7 +12,7 @@ const createReview = async (req, res) => {
         congestion_level: req.body.congestion_level,
         userId: req.body.userId,
         transportTypeId: req.body.transportTypeId
-    }).then(result => res.send(result))
+    }).then(res.status(201).send({message:"Review created"}))
 }
 
 const getAllReviews = async (req, res) => {
@@ -42,15 +42,17 @@ const updateReview = async (req, res) => {
             where:
                 { id: req.params.id }
         }
-    ).then(updatedReview => res.send(updatedReview));
+    ).then(res.status(201).send({message:"The review with the id '" + req.params.id + "' has been updated"}));
 
 }
 
-const getReviewByTransportType = async (req, res) => {
+
+const getReviewsByTransportTypeId = async (req, res) => {
     let foundTransportTypeId;
+    try{
     await TransportTypes.findOne(
         {
-            where: { type: req.params.type }
+            where: { id: req.params.id }
         }
     ).then((result) => foundTransportTypeId = result.id);
 
@@ -58,24 +60,29 @@ const getReviewByTransportType = async (req, res) => {
         {
             where: { transportTypeId: foundTransportTypeId }
         }).then(result => res.send(result));
+    }
+    catch(err)
+    {
+        return res.status(404).send({ message: "No elements found in the database" });
+    }
 }
 
+
 const deleteReviewById = async(req, res) => {
-    await Reviews.destroy({
-            where: {id: req.params.id}
-        }).then(result => res.send(result))
+    await Reviews.destroy(
+        {
+            where: { id: req.params.id }
+        }).then(res.status(201).send({message:"Review deleted"}))
 }
 
 const getReviewById = async(req, res) => {
-    let foundReview;
     try{
-    await Reviews.findOne({
-        where: {id: req.params.id}
-    }).then(result => foundReview = result.id);
+    await Reviews.findOne(
+        {
+            where: { id: req.params.id }
+        }).then(result => res.send(result));
+    }
     
-    await Reviews.findAll({where: {reviewId: foundReview}}).then(result => res.send(result));
-        
-}
     catch(err) {
             return res.status(404).send({ message: "NOT FOUND" });
         }
@@ -86,7 +93,7 @@ module.exports = {
     createReview,
     getAllReviews,
     updateReview,
-    getReviewByTransportType,
+    getReviewsByTransportTypeId,
     deleteReviewById,
     getReviewById
 }

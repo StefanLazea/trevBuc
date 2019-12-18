@@ -19,12 +19,11 @@ const getAllTransportTypes = async (req, res) => {
         return res.status(409).send({ message: "No elements found in the database" });
     }
 
-
     res.send(transportTypesFound);
 };
 
 
-const getAllTranportTypesByType = async (req, resp) => {
+const getAllTranportTypesByType = async (req, res) => {
     let namesTransportTypes;
     try {
         await TransportType.findAll({
@@ -34,13 +33,13 @@ const getAllTranportTypesByType = async (req, resp) => {
         }).then((tansportTypebyType) => namesTransportTypes = tansportTypebyType);
     }
     catch (err) {
-        return resp.status(404).send({ message: "Not found" + namesTransportTypes });
+        return res.status(404).send({ message: "Not found" + namesTransportTypes });
     }
-    resp.send(namesTransportTypes);
+    res.send(namesTransportTypes);
 }
 
 
-const getTranportTypesById = async (req, resp) => {
+const getTranportTypeById = async (req, res) => {
     let transportTypes;
     try {
         await TransportType.findOne({
@@ -50,9 +49,9 @@ const getTranportTypesById = async (req, resp) => {
         }).then((tansportTypeById) => transportTypes = tansportTypeById);
     }
     catch (err) {
-        return resp.status(404).send({ message: "Not found" });
+        return res.status(404).send({ message: "Not found" });
     }
-    resp.send(transportTypes);
+    res.send(transportTypes);
 }
 
 
@@ -60,5 +59,5 @@ module.exports = {
     getAllTransportTypes,
     createTransportType,
     getAllTranportTypesByType,
-    getTranportTypesById
+    getTranportTypeById
 }

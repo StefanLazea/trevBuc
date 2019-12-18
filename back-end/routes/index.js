@@ -23,8 +23,8 @@ router.get('/reviews', reviewsController.getAllReviews);
 //update a review
 router.put('/reviews/:id', verifyAuth, reviewsController.updateReview);
 
-//get review by transport type
-router.get('/reviews/:type', reviewsController.getReviewByTransportType);
+//get review for the transport type with the id
+router.get('/reviews/transport-type/:id', reviewsController.getReviewsByTransportTypeId);
 
 //delete review by id
 router.delete('/reviews/:id', reviewsController.deleteReviewById);
@@ -40,7 +40,7 @@ router.get('/transport-type', transportTypeController.getAllTransportTypes);
 router.post('/transport-type', transportTypeController.createTransportType);
 
 
-router.get('/transport-type/:id', transportTypeController.getTranportTypesById);
+router.get('/transport-type/:id', transportTypeController.getTranportTypeById);
 router.get('/transport-type/type/:type', transportTypeController.getAllTranportTypesByType);
 
 

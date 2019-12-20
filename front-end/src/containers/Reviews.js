@@ -8,7 +8,7 @@ export default class Reviews extends React.Component {
     }
 
     componentDidMount() {
-        Axios.get(`http://localhost:3009/reviews`)
+        Axios.get(`http://localhost:3000/reviews`)
             .then(res => {
                 const reviews = res.data;
                 console.log(reviews)

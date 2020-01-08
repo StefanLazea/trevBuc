@@ -1,29 +1,33 @@
 import React from "react";
 import Axios from "axios";
 import "./Reviews.css";
-import 'bootstrap/dist/css/bootstrap.css';
 
 export default class Reviews extends React.Component {
     state = {
         reviews: [], 
-        transportTypes: []
+        transportTypes: [],
+        user :{
+            username: "test",
+            password:"test"
+        }
+        
     }
+    
+    selectRef = React.createRef();
 
-     selectRef = React.createRef();
+    handleSelect = () => {
+        var transportType= {
+                name : this.selectRef.current.value,
+                type : this.selectRef.current.value
 
- handleSelect = () => {
-     var transportType= {
-             name : this.selectRef.current.value,
-             type : this.selectRef.current.value
-
-     } 
-     Axios.post(`http://localhost:3000/transport-type`,transportType)
+        } 
+                   
+        Axios.post(`http://localhost:3000/transport-type`,transportType)
             .then(res => {
             
             })
 
-
- }
+    }
 
     componentDidMount() {
         Axios.get(`http://localhost:3000/reviews`)
@@ -32,7 +36,12 @@ export default class Reviews extends React.Component {
                 console.log(reviews)
                 this.setState({ reviews });
             })
+        Axios.post(`http://localhost:3000/login`, this.state.user)
+            .then(res => {
+                localStorage.setItem("token", res.data.token);
+            })
     }
+
     render() {
         return <>
             <label>Select the transport type</label>

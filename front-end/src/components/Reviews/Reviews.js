@@ -5,7 +5,6 @@ import "./Reviews.css";
 export default class Reviews extends React.Component {
     state = {
         reviews: [], 
-        transportTypes: [],
         user :{
             username: "test",
             password:"test"
@@ -36,6 +35,7 @@ export default class Reviews extends React.Component {
                 console.log(reviews)
                 this.setState({ reviews });
             })
+            
         Axios.post(`http://localhost:3000/login`, this.state.user)
             .then(res => {
                 localStorage.setItem("token", res.data.token);
@@ -49,14 +49,15 @@ export default class Reviews extends React.Component {
             <option value="Taxi">Taxi</option>
             <option value="Metrou">Metrou</option>
             <option value="STB">STB</option>
-          </select>
+            </select>
                 <div className="lander">
                     <h1>Welcome to reviews</h1>
+                    <h2>{this.state.token}</h2>
                     <ul>
                         {this.state.reviews.map(review => <li key={review.id}>{review.leaving_point}</li>)}
                     </ul>
                 </div>
             
-        </>
+            </>
     }
 }

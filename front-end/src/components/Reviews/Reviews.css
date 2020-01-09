@@ -1,0 +1,29 @@
+.transportNamebox{
+    margin-top: 2px;
+    margin-bottom: 5px;
+}
+
+.form-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.submit-button{
+    margin-top: 10px;
+    width: 150px
+}
+
+.textarea{
+    resize: vertical;
+}
+
+.lander{
+    margin-top: 100px;
+}
+
+.checked {
+    color: orange;
+  }
+  .rating-bar{
+      flex-direction: row;
+  }

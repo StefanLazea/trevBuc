@@ -13,6 +13,22 @@ export default class Reviews extends React.Component {
         checked: false
         
     }
+    transportTypeRef = React.createRef();
+    transportNameRef= React.createRef();
+    leavingPointRef= React.createRef();
+    arrivngPointRef = React.createRef();
+    durationRef = React.createRef();
+    leftHourRef = React.createRef();
+    observationsRef = React.createRef();
+    congestionLevelRef = React.createRef();
+
+    star1 = React.createRef();
+    star2 = React.createRef();
+    star3 = React.createRef();
+    star4 = React.createRef();
+    star5 = React.createRef();
+
+
     starClick1 = () =>{
         this.star1.current.className = "fa fa-star checked";
         this.star2.current.className = "fa fa-star";
@@ -52,18 +68,33 @@ export default class Reviews extends React.Component {
         this.star4.current.className = "fa fa-star checked";
         this.star5.current.className = "fa fa-star checked";
     }
-    transportTypeRef = React.createRef();
-    transportNameRef= React.createRef();
-    feedbackRef = React.createRef();
-    star1 = React.createRef();
-    star2 = React.createRef();
-    star3 = React.createRef();
-    star4 = React.createRef();
-    star5 = React.createRef();
+    
 
 
-    handleSubmit = (event) => {
-      event.preventDefault();
+    handleSubmit = async (event) => {
+        event.preventDefault();
+        var transportType = {
+            name: this.transportNameRef.current.value,
+            type: this.transportTypeRef.current.value
+        }
+      await  Axios.post("http://18.188.203.248:3001/transport-type",transportType).then(res =>
+        console.log(res.data)
+        )
+        
+
+        var review = {
+            leaving_point: this.leavingPointRef.current.value,
+            arriving_point: this.arrivngPointRef.current.value,
+            leaving_hour: String(this.leftHourRef.current.value),
+            duration: String(this.durationRef.current.value),
+            observations: this.observationsRef.current.value,
+            rating: 5,
+            congestion_level: this.congestionLevelRef.current.value,
+            user_id: null,
+            transportId: null
+        }
+        console.log(review);
+      
     }
 
 
@@ -120,10 +151,15 @@ export default class Reviews extends React.Component {
             </select>
             <label>Transport name</label>
             <input type="text" className="transportNamebox"  ref={this.transportNameRef} placeholder={this.state.placeholderText}></input>
-               
-               <label>Feedback</label>
-            <textarea ref={this.feedbackRef} className="textarea"></textarea>
-            <label>Give a rating from 1 to 5</label>
+            <input type="text" className="transportNamebox"  ref={this.leavingPointRef} placeholder= "Punct de plecare"></input>
+            <input type="text" className="transportNamebox"  ref={this.arrivngPointRef} placeholder= "Punct de sosire"></input>
+            <input type="time" className="transportNamebox"  ref={this.leftHourRef} required></input>
+            <input type="text" className="transportNamebox"  ref={this.durationRef}  placeholder= "Cat a durat"required></input>
+            <label>Grad de aglomerare</label>
+            <input type="number" className="transportNamebox"  ref={this.congestionLevelRef}  min={1} max={10} required></input>
+               <label>Observatii</label>
+            <textarea ref={this.observationsRef} className="textarea"></textarea>
+            <label>Rating</label>
             <div className="ratingBar">
             <span ref={this.star1} onClick={this.starClick1} className="fa fa-star"></span>   
               <span ref={this.star2} onClick={this.starClick2} className="fa fa-star"></span>

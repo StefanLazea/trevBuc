@@ -3,6 +3,15 @@
     margin-bottom: 5px;
 }
 
+.numberInput{
+    width: 70px;
+}
+
+.durationInput{
+    margin-top: 10px;
+    width:150px;
+}
+
 .form-container{
     display: flex;
     flex-direction: column;

@@ -64,11 +64,12 @@ For running the app, follow the steps:
     - ```nodemon```  FOR INSTALLING NODEMON: ```npm install -g nodemon```  
 	
 
-### [For the frontend app](front-end/README.md)
-    For installing the latest dependencies, proceed as above.  
-    For running the app:  
-    - create in ```front-end/src``` directory, the ```configuration.json``` file as mentioned in [this sample](front-end/src/configuration.sample.json)
-    - ```npm start```
+### [For the frontend app](front-end/README.md)  
+For installing the latest dependencies, proceed as above.  
+For running the app:  
+- create in ```front-end/src``` directory, the ```configuration.json``` file as mentioned in 
+[this sample](front-end/src/configuration.sample.json)  
+- ```npm start```
 
 
 ## Project structure

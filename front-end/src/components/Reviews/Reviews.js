@@ -3,8 +3,8 @@ import Axios from "axios";
 import "./Reviews.css";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { getUserId } from '../../services/Token';
-
+import { getUserId, getToken } from '../../services/Token';
+const backUrl = require("../../../src/configuration.json").backend_url;
 
 
 export default class Reviews extends React.Component {
@@ -21,7 +21,7 @@ export default class Reviews extends React.Component {
             starNumber: 1,
             checked: false,
             buttonText: "Add Review",
-            updatedIndex : -1,
+            updatedIndex: -1,
             updatedReviewId: -1
 
         }
@@ -50,12 +50,12 @@ export default class Reviews extends React.Component {
         this.setState({ starNumber: i });
 
     }
-      updateReview = async (id) =>{
-          var reviewToUpdate;
-          var transportTypeToUpdate;
+    updateReview = async (id) => {
+        var reviewToUpdate;
+        var transportTypeToUpdate;
 
-        await  Axios.get('http://18.222.228.112:3001/reviews/'+id).then(res=> reviewToUpdate=res.data);
-        await  Axios.get('http://18.222.228.112:3001/transport-type/'+reviewToUpdate.transportTypeId).then(res=> transportTypeToUpdate=res.data);
+        await Axios.get(backUrl + '/reviews/' + id).then(res => reviewToUpdate = res.data);
+        await Axios.get(backUrl + '/transport-type/' + reviewToUpdate.transportTypeId).then(res => transportTypeToUpdate = res.data);
         this.leavingPointRef.current.value = reviewToUpdate.leaving_point;
         this.arrivngPointRef.current.value = reviewToUpdate.arriving_point;
         this.transportNameRef.current.value = transportTypeToUpdate.name;
@@ -67,11 +67,11 @@ export default class Reviews extends React.Component {
         this.starClick(parseInt(reviewToUpdate.rating));
         var index = this.state.reviews.indexOf(reviewToUpdate);
         console.log("index" + index);
-        this.setState({buttonText: "Update review",updatedIndex:index,updatedReviewId:id});
-        
+        this.setState({ buttonText: "Update review", updatedIndex: index, updatedReviewId: id });
 
 
-      }
+
+    }
     handleSubmit = async (event) => {
         event.preventDefault();
         var transportType = {
@@ -79,51 +79,47 @@ export default class Reviews extends React.Component {
             type: this.transportTypeRef.current.value
         }
         var transportTypeDb;
-            await Axios.post("http://18.222.228.112:3001/transport-type", transportType).then(res => {
-                transportTypeDb = res.data;
-                console.log(transportTypeDb)
-            }
-            )
-    
-            var review = {
-                leaving_point: String(this.leavingPointRef.current.value),
-                arriving_point: String(this.arrivngPointRef.current.value),
-                leaving_hour: String(this.leftHourRef.current.value),
-                duration: parseInt(this.durationRef.current.value),
-                observations: String(this.observationsRef.current.value),
-                rating: String(this.state.starNumber),
-                congestion_level: parseInt(this.congestionLevelRef.current.value),
-                userId: parseInt(this.state.user.user_id),
-                transportTypeId: parseInt(transportTypeDb.id),
-    
-            }
+        await Axios.post(backUrl + "/transport-type", transportType).then(res => {
+            transportTypeDb = res.data;
+            console.log(transportTypeDb)
+        }
+        )
 
-        if(this.state.buttonText === "Add review"){
-        
-            
-    
-            Axios.post("http://18.222.228.112:3001/reviews", review).then(res => {
-                var existingReviews = [...this.state.reviews];
-                existingReviews.push(res.data);
-                console.log(res.data);
-                this.setState({reviews:existingReviews});
-            }
-            )
+        var review = {
+            leaving_point: String(this.leavingPointRef.current.value),
+            arriving_point: String(this.arrivngPointRef.current.value),
+            leaving_hour: String(this.leftHourRef.current.value),
+            duration: parseInt(this.durationRef.current.value),
+            observations: String(this.observationsRef.current.value),
+            rating: String(this.state.starNumber),
+            congestion_level: parseInt(this.congestionLevelRef.current.value),
+            userId: parseInt(getUserId()),
+            transportTypeId: parseInt(transportTypeDb.id),
+
+        }
+
+        if (this.state.buttonText === "Add review") {
+
+
+
+            Axios.post(backUrl + "/reviews", review,
+                { headers: { "Authorization": getToken() } }).then(res => {
+                    var existingReviews = [...this.state.reviews];
+                    existingReviews.push(res.data);
+                    console.log(res.data);
+                    this.setState({ reviews: existingReviews });
+                })
         }
         else {
-            Axios.put("http://18.222.228.112:3001/reviews/"+this.state.updatedReviewId, review).then(res => {
-                var existingReviews = [...this.state.reviews];
-                existingReviews[this.state.updatedIndex] = res.data;
-                console.log(this.state.updatedIndex);
-                this.setState({reviews:existingReviews,buttonText:"Add review"});
-            })
-
-
-
-
-       
+            Axios.put(backUrl + "/reviews/" + this.state.updatedReviewId, review,
+                { headers: { "Authorization": getToken() } }).then(res => {
+                    var existingReviews = [...this.state.reviews];
+                    existingReviews[this.state.updatedIndex] = res.data;
+                    console.log(this.state.updatedIndex);
+                    this.setState({ reviews: existingReviews, buttonText: "Add review" });
+                })
+        }
     }
-}
 
     handleSelect = () => {
         switch (this.transportTypeRef.current.value) {
@@ -140,7 +136,6 @@ export default class Reviews extends React.Component {
     }
 
     componentDidMount() {
-        console.log(getUserId());
         Axios.get(`http://localhost:3000/reviews`)
             .then(res => {
                 const reviews = res.data;
@@ -158,7 +153,7 @@ export default class Reviews extends React.Component {
     }
 
     render() {
-        
+
         return <>
             <form className="form-container" onSubmit={this.handleSubmit}>
                 <label>Select the transport type</label>
@@ -192,13 +187,13 @@ export default class Reviews extends React.Component {
 
                 {this.state.reviews.map(review => <div key={review.id} className="feedbackContainer" onClick={() => this.updateReview(review.id)}>
 
-                   <label> Leaving point </label>
-                    {review.leaving_point}  
+                    <label> Leaving point </label>
+                    {review.leaving_point}
                     <label> Arriving point  </label>
-                     {review.arriving_point} 
-                    
-                    
-                    </div>)}
+                    {review.arriving_point}
+
+
+                </div>)}
 
             </div>
         </>

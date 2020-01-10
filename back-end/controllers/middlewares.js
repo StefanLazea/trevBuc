@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const secret = require('../configuration.json').token_secret;
 
 const verifyToken = function (req, res, next) {
     const token = req.headers.authorization;
@@ -6,9 +7,8 @@ const verifyToken = function (req, res, next) {
         return res.status(401).send({ message: 'Not authorized' });
     }
 
-
     const trimmedToken = token.split(" ")[1];
-    const verified = jwt.verify(trimmedToken, process.env.TOKEN_SECRET,
+    const verified = jwt.verify(trimmedToken, secret,
         function (err, decoded) {
             if (err) {
                 return res.status(403).send({ message: "Forbidden", err: err });

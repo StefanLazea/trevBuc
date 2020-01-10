@@ -22,10 +22,3 @@ app.use('/', routes);
 app.listen(PORT, () => {
   console.log(`App started on http://localhost:${PORT}`)
 });
-app.get('/Login/:id', function (request, response) {
-  response.send('am apelat GET /messages/' + request.params.id);
-});
-app.post('/Login', function (request, response) {
-  console.log(request.body);
-  response.send('Am apelat POST /messages');
-});

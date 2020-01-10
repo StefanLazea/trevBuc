@@ -1,3 +1,4 @@
 {
+    "backend_url": "http://localhost/3000",
     "token_secret": "same as in the back end"
 }

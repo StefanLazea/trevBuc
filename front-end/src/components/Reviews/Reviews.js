@@ -16,7 +16,10 @@ export default class Reviews extends React.Component {
             },
             placeholderText: "Example: 300",
             starNumber: 1,
-            checked: false
+            checked: false,
+            buttonText: "Add Review",
+            updatedIndex : -1,
+            updatedReviewId: -1
 
         }
     }
@@ -44,7 +47,28 @@ export default class Reviews extends React.Component {
         this.setState({ starNumber: i });
 
     }
+      updateReview = async (id) =>{
+          var reviewToUpdate;
+          var transportTypeToUpdate;
 
+        await  Axios.get('http://18.222.228.112:3001/reviews/'+id).then(res=> reviewToUpdate=res.data);
+        await  Axios.get('http://18.222.228.112:3001/transport-type/'+reviewToUpdate.transportTypeId).then(res=> transportTypeToUpdate=res.data);
+        this.leavingPointRef.current.value = reviewToUpdate.leaving_point;
+        this.arrivngPointRef.current.value = reviewToUpdate.arriving_point;
+        this.transportNameRef.current.value = transportTypeToUpdate.name;
+        this.transportTypeRef.current.value = transportTypeToUpdate.type;
+        this.leftHourRef.current.value = reviewToUpdate.leaving_hour;
+        this.durationRef.current.value = reviewToUpdate.duration;
+        this.congestionLevelRef.current.value = reviewToUpdate.congestion_level;
+        this.observationsRef.current.value = reviewToUpdate.observations;
+        this.starClick(parseInt(reviewToUpdate.rating));
+        var index = this.state.reviews.indexOf(reviewToUpdate);
+        console.log("index" + index);
+        this.setState({buttonText: "Update review",updatedIndex:index,updatedReviewId:id});
+        
+
+
+      }
     handleSubmit = async (event) => {
         event.preventDefault();
         var transportType = {
@@ -52,35 +76,50 @@ export default class Reviews extends React.Component {
             type: this.transportTypeRef.current.value
         }
         var transportTypeDb;
+            await Axios.post("http://18.222.228.112:3001/transport-type", transportType).then(res => {
+                transportTypeDb = res.data;
+                console.log(transportTypeDb)
+            }
+            )
+    
+            var review = {
+                leaving_point: String(this.leavingPointRef.current.value),
+                arriving_point: String(this.arrivngPointRef.current.value),
+                leaving_hour: String(this.leftHourRef.current.value),
+                duration: parseInt(this.durationRef.current.value),
+                observations: String(this.observationsRef.current.value),
+                rating: String(this.state.starNumber),
+                congestion_level: parseInt(this.congestionLevelRef.current.value),
+                userId: parseInt(this.state.user.user_id),
+                transportTypeId: parseInt(transportTypeDb.id),
+    
+            }
 
-
-        await Axios.post("http://18.222.228.112:3001/transport-type", transportType).then(res => {
-            transportTypeDb = res.data;
-            console.log(transportTypeDb)
+        if(this.state.buttonText === "Add review"){
+        
+            
+    
+            
+    
+            Axios.post("http://18.222.228.112:3001/reviews", review).then(res => {
+                var existingReviews = [...this.state.reviews];
+                existingReviews.push(res.data);
+                console.log(res.data);
+                this.setState({reviews:existingReviews});
+            }
+            )
         }
-        )
-
-
-
-        var review = {
-            leaving_point: String(this.leavingPointRef.current.value),
-            arriving_point: String(this.arrivngPointRef.current.value),
-            leaving_hour: String(this.leftHourRef.current.value),
-            duration: parseInt(this.durationRef.current.value),
-            observations: String(this.observationsRef.current.value),
-            rating: String(this.state.starNumber),
-            congestion_level: parseInt(this.congestionLevelRef.current.value),
-            userId: parseInt(this.state.user.user_id),
-            transportTypeId: parseInt(transportTypeDb.id),
-
-
+        else {
+            Axios.put("http://18.222.228.112:3001/reviews/"+this.state.updatedReviewId, review).then(res => {
+                var existingReviews = [...this.state.reviews];
+                existingReviews[this.state.updatedIndex] = res.data;
+                console.log(this.state.updatedIndex);
+                this.setState({reviews:existingReviews,buttonText:"Add review"});
+            })
         }
-        console.log(review);
 
-        Axios.post("http://18.222.228.112:3001/reviews", review).then(res => {
-            console.log(res.data);
-        }
-        )
+
+        
     }
 
 
@@ -114,6 +153,7 @@ export default class Reviews extends React.Component {
     }
 
     render() {
+        
         return <>
             <form className="form-container" onSubmit={this.handleSubmit}>
                 <label>Select the transport type</label>
@@ -141,13 +181,19 @@ export default class Reviews extends React.Component {
                     <span id={'star3'} onClick={() => this.starClick(4)} className="fa fa-star"></span>
                     <span id={'star4'} onClick={() => this.starClick(5)} className="fa fa-star"></span>
                 </div>
-                <button className="submit-button" type="submit"> Add review</button>
+                <button className="submit-button" type="submit">{this.state.buttonText}</button>
             </form>
             <div className="lander">
 
-                {this.state.reviews.map(review => <div key={review.id}>
+                {this.state.reviews.map(review => <div key={review.id} className="feedbackContainer" onClick={() => this.updateReview(review.id)}>
 
-                    {review.leaving_point}  </div>)}
+                   <label> Leaving point </label>
+                    {review.leaving_point}  
+                    <label> Arriving point  </label>
+                     {review.arriving_point} 
+                    
+                    
+                    </div>)}
 
             </div>
         </>

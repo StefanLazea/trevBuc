@@ -1,6 +1,9 @@
 import React from "react";
 import Axios from "axios";
 import "./Reviews.css";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import { getUserId } from '../../services/Token';
 
 
 
@@ -11,8 +14,8 @@ export default class Reviews extends React.Component {
             reviews: [],
             user: {
                 user_id: 1,
-                username: "test",
-                password: "test"
+                username: "lazeastefan@gmail.com",
+                password: "test123123"
             },
             placeholderText: "Example: 300",
             starNumber: 1,
@@ -35,7 +38,7 @@ export default class Reviews extends React.Component {
 
 
     starClick = (i) => {
-        
+
         for (let j = 0; j < i; j++) {
             document.getElementById("star" + j).className = "fa fa-star checked";
         }
@@ -43,7 +46,7 @@ export default class Reviews extends React.Component {
         for (let j = i; j < 5; j++) {
             document.getElementById("star" + j).className = "fa fa-star";
         }
-        
+
         this.setState({ starNumber: i });
 
     }
@@ -99,8 +102,6 @@ export default class Reviews extends React.Component {
         
             
     
-            
-    
             Axios.post("http://18.222.228.112:3001/reviews", review).then(res => {
                 var existingReviews = [...this.state.reviews];
                 existingReviews.push(res.data);
@@ -116,12 +117,13 @@ export default class Reviews extends React.Component {
                 console.log(this.state.updatedIndex);
                 this.setState({reviews:existingReviews,buttonText:"Add review"});
             })
-        }
 
 
-        
+
+
+       
     }
-
+}
 
     handleSelect = () => {
         switch (this.transportTypeRef.current.value) {
@@ -138,18 +140,21 @@ export default class Reviews extends React.Component {
     }
 
     componentDidMount() {
-        Axios.get(`http://18.222.228.112:3001/reviews`)
+        console.log(getUserId());
+        Axios.get(`http://localhost:3000/reviews`)
             .then(res => {
                 const reviews = res.data;
                 this.setState({ reviews: reviews });
             })
-            document.getElementById("star0").className = "fa fa-star checked"
+        document.getElementById("star0").className = "fa fa-star checked"
 
-        // Axios.post(`http://localhost:3000/login`, this.state.user)
-        //     .then(res => {
-        //         console.log(res.data.toket);
-        //         localStorage.setItem("token", res.data.token);
-        //     })
+        Axios.post(`http://localhost:3000/login`, this.state.user)
+            .then((res) => {
+                localStorage.setItem("token", res.data.token);
+            })
+            .catch(error => {
+                toast(error.response.data.message)
+            });
     }
 
     render() {

@@ -58,12 +58,20 @@ Tester: Joita Mihnea
 ## Start the app  
 For installing the latest dependecies, change to the `back-end/` directory: ```cd back-end/```    
 Than, use: ```npm install```   
-For running the app:  
-    - ```node app.js``` in `back-end` directory  
+For running the app, follow the steps:  
+    - - create in ```back-end/``` directory, the ```configuration.json``` file as mentioned in [this sample](back-end/configuration.sample.json)  
+    - ```node app.js``` in `back-end` directory   
     - ```nodemon```  FOR INSTALLING NODEMON: ```npm install -g nodemon```  
-	- create in ```back-end/``` directory, the ```.env``` file as mentioned in [this sample](back-end/.env.sample)
+	
 
-### [For the frontend app](front-end/README.md)
+### [For the frontend app](front-end/README.md)  
+For installing the latest dependencies, proceed as above.  
+For running the app:  
+- create in ```front-end/src``` directory, the ```configuration.json``` file as mentioned in 
+[this sample](front-end/src/configuration.sample.json)  
+- ```npm start```
+
+
 ## Project structure
 - `back-end/` keeps the api for the app
  

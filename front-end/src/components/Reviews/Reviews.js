@@ -14,16 +14,19 @@ export default class Reviews extends React.Component {
             reviews: [],
             user: {
                 user_id: 1,
-                username: "lazeastefan@gmail.com",
-                password: "test123123"
+                username: "joitamihnea1999@gmail.com",
+                password: "asd"
             },
             placeholderText: "Example: 300",
             starNumber: 1,
             checked: false,
             buttonText: "Add Review",
+            addButtonState: false,
+            showButtonState: false,
+            searchFilter: "",
+            filteredReviews: [],
             updatedIndex: -1,
             updatedReviewId: -1
-
         }
     }
 
@@ -100,8 +103,6 @@ export default class Reviews extends React.Component {
 
         if (this.state.buttonText === "Add review") {
 
-
-
             Axios.post(backUrl + "/reviews", review,
                 { headers: { "Authorization": getToken() } }).then(res => {
                     var existingReviews = [...this.state.reviews];
@@ -136,14 +137,14 @@ export default class Reviews extends React.Component {
     }
 
     componentDidMount() {
-        Axios.get(`http://localhost:3000/reviews`)
+        Axios.get(`http://localhost:3001/reviews`)
             .then(res => {
                 const reviews = res.data;
                 this.setState({ reviews: reviews });
             })
-        document.getElementById("star0").className = "fa fa-star checked"
+        //document.getElementById("star0").className = "fa fa-star checked"
 
-        Axios.post(`http://localhost:3000/login`, this.state.user)
+        Axios.post(`http://localhost:3001/login`, this.state.user)
             .then((res) => {
                 localStorage.setItem("token", res.data.token);
             })
@@ -152,10 +153,37 @@ export default class Reviews extends React.Component {
             });
     }
 
-    render() {
+    
 
+    handleInputChange = (event) =>{
+        let myReviews = this.state.reviews
+        myReviews = myReviews.filter(review => review.leaving_point === event.target.value )
+        event.preventDefault()
+        console.log(event.target.searchFilter)
+        console.log(event.target.value)
+        
+            this.setState({
+                searchFilter : event.target.value,
+                filteredReviews: myReviews
+            })
+
+    }
+
+    PressAddReview = () => {
+        this.setState( {addButtonState : !this.state.addButtonState})
+        this.setState( {showButtonState: false })
+    }
+
+    PressShowReview = () => {
+        this.setState( {showButtonState : !this.state.showButtonState})
+        this.setState( {addButtonState: false })
+    }
+
+    render() {
         return <>
-            <form className="form-container" onSubmit={this.handleSubmit}>
+        <button onClick = {this.PressAddReview}>Add Review</button>
+        <button onClick = {this.PressShowReview}>Show Reviewes</button>
+        {this.state.addButtonState === true ? <form className="form-container" onSubmit={this.handleSubmit}>
                 <label>Select the transport type</label>
                 <select className="form-control" ref={this.transportTypeRef} onChange={this.handleSelect}>
                     <option value="STB">STB</option>
@@ -182,20 +210,57 @@ export default class Reviews extends React.Component {
                     <span id={'star4'} onClick={() => this.starClick(5)} className="fa fa-star"></span>
                 </div>
                 <button className="submit-button" type="submit">{this.state.buttonText}</button>
-            </form>
-            <div className="lander">
+            </form> : null}
+   
+            {this.state.showButtonState === true ? 
+            <form>
+                <div className="lander">
+
+                <label>Search By Leaving Point</label>
+                
+                <input type="text" placeholder="Leaving Point" name="searchFilter" onInput={this.handleInputChange}></input>
 
                 {this.state.reviews.map(review => <div key={review.id} className="feedbackContainer" onClick={() => this.updateReview(review.id)}>
 
-                    <label> Leaving point </label>
-                    {review.leaving_point}
-                    <label> Arriving point  </label>
-                    {review.arriving_point}
+                {this.state.searchFilter.length > 0 ? 
+
+                this.state.filteredReviews.map(review => 
+                    <table border="1">
+                    <tbody>
+                        <tr>
+                            <th>Name</th>
+                            <th>Leaving Point</th>
+                            <th>Arriving Point</th>
+                            <th>Leaving Hour</th>
+                            <th>Travel Duration</th>
+                            <th>Congestion Level</th>
+                            <th>Observations</th>
+                            <th>Rating</th>
+                        </tr>
+                        <tr>
+                            <td>{review.transportTypeId}</td>
+                            <td>{review.leaving_point}</td>
+                            <td>{review.arriving_point}</td>
+                            <td>{review.leaving_hour}</td>
+                            <td>{review.duration}</td>
+                            <td>{review.congestion_level}</td>
+                            <td>{review.observations}</td>
+                            <td>{review.rating}</td>
+                        </tr>
+                    </tbody>   
+                 </table>
+                ): null } 
+
 
 
                 </div>)}
-
             </div>
+            </form> : null}
+
+           
+             
+           
+       
         </>
     }
 }

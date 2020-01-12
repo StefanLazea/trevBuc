@@ -1,5 +1,0 @@
-{
-    "db_user": "introdu user-ul tau aici",
-    "port": 3000,
-    "token_secret": "secret for generation"
-}

@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 import Routes from './Routes';
 import "./App.css";
 import 'react-toastify/dist/ReactToastify.css';
-import Login from "./components/Login/Login";
 
 toast.configure()
 
@@ -25,9 +24,9 @@ function App(props) {
             <LinkContainer to="/register">
               <NavItem>Register</NavItem>
             </LinkContainer>
-             <LinkContainer to="/login"> 
-               <NavItem>Login</NavItem>
-             </LinkContainer>
+            <LinkContainer to="/login">
+              <NavItem>Login</NavItem>
+            </LinkContainer>
             <LinkContainer to="/reviews">
               <NavItem>Reviews</NavItem>
             </LinkContainer>

@@ -8,7 +8,6 @@ const Review = require("../models").Reviews;
 router.post('/register', userController.registerUser);
 //route for login an user with credentials
 router.post('/login', userController.login);
-router.post('/logout', userController.logout);
 
 
 // REVIEWS

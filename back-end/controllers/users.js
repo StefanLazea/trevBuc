@@ -5,6 +5,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const registerUser = async (req, res) => {
+    if (req.body.username === "" || req.body.password === "") {
+        return res.status(500).send({ message: "User or password empty" });
+    }
     let userFound = await findUserByUsername(req.body.username);
 
     if (userFound) {
@@ -27,6 +30,9 @@ const registerUser = async (req, res) => {
 };
 
 const login = async (req, res) => {
+    if (req.body.username === "" || req.body.password === "") {
+        return res.status(500).send({ message: "User or password empty" });
+    }
     let userFound = await findUserByUsername(req.body.username);
 
     if (!userFound) {
@@ -43,15 +49,10 @@ const login = async (req, res) => {
         {
             expiresIn: "3h"
         });
-    res.send({ token: "Bearer " + token })
-};
-
-const logout = async (req, res) => {
-
+    res.send({ token: "Bearer " + token, message: "V-ati logat cu success" })
 };
 
 module.exports = {
     registerUser,
     login,
-    logout
 }

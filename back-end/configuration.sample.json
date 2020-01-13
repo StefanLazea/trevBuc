@@ -1,0 +1,5 @@
+{
+    "db_user": "root",
+    "port": 3000,
+    "token_secret": "secret token, string random"
+}

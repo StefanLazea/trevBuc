@@ -14,7 +14,7 @@ export default class Reviews extends React.Component {
             reviews: [],
             user: {
                 user_id: 1,
-                username: "joitamihnea1999@gmail.com",
+                username: "laur33@gmail.com",
                 password: "asd"
             },
             placeholderText: "Example: 300",
@@ -101,7 +101,7 @@ export default class Reviews extends React.Component {
 
         }
 
-        if (this.state.buttonText === "Add review") {
+        if (this.state.buttonText === "Add Review") {
 
             Axios.post(backUrl + "/reviews", review,
                 { headers: { "Authorization": getToken() } }).then(res => {
@@ -117,7 +117,7 @@ export default class Reviews extends React.Component {
                     var existingReviews = [...this.state.reviews];
                     existingReviews[this.state.updatedIndex] = res.data;
                     console.log(this.state.updatedIndex);
-                    this.setState({ reviews: existingReviews, buttonText: "Add review" });
+                    this.setState({ reviews: existingReviews, buttonText: "Add Review" });
                 })
         }
     }
@@ -142,7 +142,6 @@ export default class Reviews extends React.Component {
                 const reviews = res.data;
                 this.setState({ reviews: reviews });
             })
-        //document.getElementById("star0").className = "fa fa-star checked"
 
         Axios.post(`http://localhost:3001/login`, this.state.user)
             .then((res) => {
@@ -156,10 +155,9 @@ export default class Reviews extends React.Component {
     
 
     handleInputChange = (event) =>{
-        let myReviews = this.state.reviews
+        let myReviews = [...this.state.reviews];
         myReviews = myReviews.filter(review => review.leaving_point === event.target.value )
         event.preventDefault()
-        console.log(event.target.searchFilter)
         console.log(event.target.value)
         
             this.setState({
@@ -203,7 +201,7 @@ export default class Reviews extends React.Component {
                 <textarea ref={this.observationsRef} className="textarea"></textarea>
                 <label>Rating</label>
                 <div className="ratingBar">
-                    <span id={"star0"} onClick={() => this.starClick(1)} className="fa fa-star" ></span>
+                    <span id={"star0"} onClick={() => this.starClick(1)} className="fa fa-star checked" ></span>
                     <span id={'star1'} onClick={() => this.starClick(2)} className="fa fa-star"></span>
                     <span id={'star2'} onClick={() => this.starClick(3)} className="fa fa-star"></span>
                     <span id={'star3'} onClick={() => this.starClick(4)} className="fa fa-star"></span>
@@ -212,7 +210,7 @@ export default class Reviews extends React.Component {
                 <button className="submit-button" type="submit">{this.state.buttonText}</button>
             </form> : null}
    
-            {this.state.showButtonState === true ? 
+            {         this.state.showButtonState === true ? 
             <form>
                 <div className="lander">
 
@@ -220,41 +218,42 @@ export default class Reviews extends React.Component {
                 
                 <input type="text" placeholder="Leaving Point" name="searchFilter" onInput={this.handleInputChange}></input>
 
-                {this.state.reviews.map(review => <div key={review.id} className="feedbackContainer" onClick={() => this.updateReview(review.id)}>
+                { (this.state.searchFilter.length > 0 && this.state.filteredReviews.length > 0) ? 
+                 <table  border="1">
+                 <tbody>
+                     <tr>
+                         <th>Name</th>
+                         <th>Leaving Point</th>
+                         <th>Arriving Point</th>
+                         <th>Leaving Hour</th>
+                         <th>Travel Duration</th>
+                         <th>Congestion Level</th>
+                         <th>Observations</th>
+                         <th>Rating</th>
+                     </tr>
+                           {
+                              this.state.filteredReviews.map(review => 
+                   
+                             <tr>
+        <td>{review.transportTypeId}</td>
+        <td>{review.leaving_point}</td>
+        <td>{review.arriving_point}</td>
+        <td>{review.leaving_hour}</td>
+        <td>{review.duration}</td>
+        <td>{review.congestion_level}</td>
+        <td>{review.observations}</td>
+        <td>{review.rating}</td>
+                             </tr>)
+                                 }
 
-                {this.state.searchFilter.length > 0 ? 
-
-                this.state.filteredReviews.map(review => 
-                    <table border="1">
-                    <tbody>
-                        <tr>
-                            <th>Name</th>
-                            <th>Leaving Point</th>
-                            <th>Arriving Point</th>
-                            <th>Leaving Hour</th>
-                            <th>Travel Duration</th>
-                            <th>Congestion Level</th>
-                            <th>Observations</th>
-                            <th>Rating</th>
-                        </tr>
-                        <tr>
-                            <td>{review.transportTypeId}</td>
-                            <td>{review.leaving_point}</td>
-                            <td>{review.arriving_point}</td>
-                            <td>{review.leaving_hour}</td>
-                            <td>{review.duration}</td>
-                            <td>{review.congestion_level}</td>
-                            <td>{review.observations}</td>
-                            <td>{review.rating}</td>
-                        </tr>
+               
                     </tbody>   
                  </table>
-                ): null } 
+                : null }
 
 
 
-                </div>)}
-            </div>
+                </div> 
             </form> : null}
 
            

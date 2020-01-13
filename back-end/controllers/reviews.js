@@ -12,7 +12,9 @@ const createReview = async (req, res) => {
         congestion_level: req.body.congestion_level,
         userId: req.body.userId,
         transportTypeId: req.body.transportTypeId
-    }).then(res.status(201).send({message:"Review created"}))
+    }).then(result => {res.send(result);
+        res.status(201).send({message:"Review created"})}
+        )
 }
 
 const getAllReviews = async (req, res) => {

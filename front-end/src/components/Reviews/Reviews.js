@@ -4,6 +4,7 @@ import "./Reviews.css";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { getUserId, getToken } from '../../services/Token';
+import FilteredReviews from './FilteredReviews';
 const backUrl = require("../../../src/configuration.json").backend_url;
 
 
@@ -103,7 +104,7 @@ export default class Reviews extends React.Component {
 
         if (this.state.buttonText === "Add Review") {
 
-            Axios.post(backUrl + "/reviews", review,
+          await   Axios.post(backUrl + "/reviews", review,
                 { headers: { "Authorization": getToken() } }).then(res => {
                     var existingReviews = [...this.state.reviews];
                     existingReviews.push(res.data);
@@ -174,7 +175,7 @@ export default class Reviews extends React.Component {
 
     PressShowReview = () => {
         this.setState( {showButtonState : !this.state.showButtonState})
-        this.setState( {addButtonState: false })
+        this.setState( {addButtonState: false,filteredReviews: [], reviews: [...this.state.reviews]})
     }
 
     render() {
@@ -210,7 +211,7 @@ export default class Reviews extends React.Component {
                 <button className="submit-button" type="submit">{this.state.buttonText}</button>
             </form> : null}
    
-            {         this.state.showButtonState === true ? 
+                  { this.state.showButtonState === true ? 
             <form>
                 <div className="lander">
 
@@ -219,36 +220,7 @@ export default class Reviews extends React.Component {
                 <input type="text" placeholder="Leaving Point" name="searchFilter" onInput={this.handleInputChange}></input>
 
                 { (this.state.searchFilter.length > 0 && this.state.filteredReviews.length > 0) ? 
-                 <table  border="1">
-                 <tbody>
-                     <tr>
-                         <th>Name</th>
-                         <th>Leaving Point</th>
-                         <th>Arriving Point</th>
-                         <th>Leaving Hour</th>
-                         <th>Travel Duration</th>
-                         <th>Congestion Level</th>
-                         <th>Observations</th>
-                         <th>Rating</th>
-                     </tr>
-                           {
-                              this.state.filteredReviews.map(review => 
-                   
-                             <tr>
-        <td>{review.transportTypeId}</td>
-        <td>{review.leaving_point}</td>
-        <td>{review.arriving_point}</td>
-        <td>{review.leaving_hour}</td>
-        <td>{review.duration}</td>
-        <td>{review.congestion_level}</td>
-        <td>{review.observations}</td>
-        <td>{review.rating}</td>
-                             </tr>)
-                                 }
-
-               
-                    </tbody>   
-                 </table>
+                  <FilteredReviews reviews={this.state.filteredReviews}/>
                 : null }
 
 

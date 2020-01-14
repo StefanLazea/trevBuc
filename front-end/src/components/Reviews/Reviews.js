@@ -20,11 +20,14 @@ export default class Reviews extends React.Component {
             buttonText: "Add Review",
             addButtonState: false,
             showButtonState: false,
+            isUserLoggedIn: true,
             searchFilter: "",
             filteredReviews: [],
             updatedIndex: -1,
             updatedReviewId: -1
         }
+       
+        
     }
 
     transportTypeRef = React.createRef();
@@ -74,44 +77,42 @@ export default class Reviews extends React.Component {
     }
     handleSubmit = async (event) => {
         event.preventDefault();
-        if(this.state.userId === -1){
-            console.log("user is not logged in");
-        }
-        var transportType = {
-            name: this.transportNameRef.current.value,
-            type: this.transportTypeRef.current.value
-        }
-        var transportTypeDb;
-        await Axios.post(backUrl + "/transport-type", transportType).then(res => {
-            transportTypeDb = res.data;
-        }
-        )
-       
         
-
-        var review = {
-            leaving_point: String(this.leavingPointRef.current.value),
-            arriving_point: String(this.arrivngPointRef.current.value),
-            leaving_hour: String(this.leftHourRef.current.value),
-            duration: parseInt(this.durationRef.current.value),
-            observations: String(this.observationsRef.current.value),
-            rating: String(this.state.starNumber),
-            congestion_level: parseInt(this.congestionLevelRef.current.value),
-            userId: parseInt(this.state.userId), 
-            transportTypeId: parseInt(transportTypeDb.id),
-
-        }
-
-        Axios.post(backUrl + "/reviews", review,
-        { headers: { "Authorization": getToken() } }).then(res => {
-            var existingReviews = [...this.state.reviews];
-            existingReviews.push(res.data);
-            console.log(res.data);
-            this.setState({ reviews: existingReviews });
-        })
-      
-
-       
+            var transportType = {
+                name: this.transportNameRef.current.value,
+                type: this.transportTypeRef.current.value
+            }
+            var transportTypeDb;
+            await Axios.post(backUrl + "/transport-type", transportType).then(res => {
+                transportTypeDb = res.data;
+            }
+            )
+           
+            
+    
+            var review = {
+                leaving_point: String(this.leavingPointRef.current.value),
+                arriving_point: String(this.arrivngPointRef.current.value),
+                leaving_hour: String(this.leftHourRef.current.value),
+                duration: parseInt(this.durationRef.current.value),
+                observations: String(this.observationsRef.current.value),
+                rating: String(this.state.starNumber),
+                congestion_level: parseInt(this.congestionLevelRef.current.value),
+                userId: parseInt(this.state.userId), 
+                transportTypeId: parseInt(transportTypeDb.id),
+    
+            }
+    
+            Axios.post(backUrl + "/reviews", review,
+            { headers: { "Authorization": getToken() } }).then(res => {
+                var existingReviews = [...this.state.reviews];
+                existingReviews.push(res.data);
+                console.log(res.data);
+                this.setState({ reviews: existingReviews });
+            })
+        
+        
+        
 
           
         
@@ -144,9 +145,24 @@ export default class Reviews extends React.Component {
         Axios.get(backUrl+ '/reviews')
             .then(res => {
                 const reviews = res.data;
-                this.setState({ reviews: reviews });
+                this.setState({reviews: reviews});
+                try {
+                    this.setState({ userId: getUserId(),isUserLoggedIn: true});
+                  }
+                  catch(error) {
+                    this.setState({isUserLoggedIn: false});
+                    // expected output: ReferenceError: nonExistentFunction is not defined
+                    // Note - error messages will vary depending on browser
+                  }
+                
+               
+               
             })
-            this.setState({userId: localStorage.getItem('userId')});
+
+    
+        
+           
+        
 
 
         // Axios.post(backUrl+ '/login', this.state.user)
@@ -178,8 +194,15 @@ export default class Reviews extends React.Component {
     }
 
     PressAddReview = () => {
-        this.setState( {addButtonState : !this.state.addButtonState})
-        this.setState( {showButtonState: false })
+        if(this.state.isUserLoggedIn){
+            this.setState( {addButtonState : !this.state.addButtonState})
+            this.setState( {showButtonState: false })
+        }
+
+        else {
+            toast("U need to login in order to add a review!");
+        }
+       
     }
 
     PressShowReview = () => {

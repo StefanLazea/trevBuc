@@ -1,5 +1,6 @@
 import React from "react";
 import Axios from "axios";
+import NavigationBar from '../Navbar/NavigationBar'
 import "./Reviews.css";
 // import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -112,10 +113,6 @@ export default class Reviews extends React.Component {
 
 
 
-
-
-
-
         // Axios.put(backUrl + "/reviews/" + this.state.updatedReviewId, review,
         //     { headers: { "Authorization": getToken() } }).then(res => {
         //         var existingReviews = [...this.state.reviews];
@@ -188,59 +185,57 @@ export default class Reviews extends React.Component {
     }
 
     render() {
-        return <>
-            <button onClick={this.PressAddReview}>Add Review</button>
-            <button onClick={this.PressShowReview}>Show Reviewes</button>
-            {this.state.addButtonState === true ? <form className="form-container" onSubmit={this.handleSubmit}>
-                <label>Select the transport type</label>
-                <select className="form-control" ref={this.transportTypeRef} onChange={this.handleSelect}>
-                    <option value="STB">STB</option>
-                    <option value="Taxi">Taxi</option>
-                    <option value="Metrou">Metrou</option>
-                </select>
-                <label>Transport name</label>
-                <input type="text" className="transportNamebox" ref={this.transportNameRef} placeholder={this.state.placeholderText}></input>
-                <input type="text" className="transportNamebox" ref={this.leavingPointRef} placeholder="Punct de plecare"></input>
-                <input type="text" className="transportNamebox" ref={this.arrivngPointRef} placeholder="Punct de sosire"></input>
-                <label>Leaving Hour</label>
-                <input type="time" className="numberInput" ref={this.leftHourRef} required></input>
-                <input type="text" className="durationInput" ref={this.durationRef} placeholder="Time in minutes" required></input>
-                <label>Grad de aglomerare</label>
-                <input type="number" className="numberInput" ref={this.congestionLevelRef} min={1} max={10} placeholder="1 - 10" required></input>
-                <label>Observatii</label>
-                <textarea ref={this.observationsRef} className="textarea"></textarea>
-                <label>Rating</label>
-                <div className="ratingBar">
-                    <span id={"star0"} onClick={() => this.starClick(1)} className="fa fa-star checked" ></span>
-                    <span id={'star1'} onClick={() => this.starClick(2)} className="fa fa-star"></span>
-                    <span id={'star2'} onClick={() => this.starClick(3)} className="fa fa-star"></span>
-                    <span id={'star3'} onClick={() => this.starClick(4)} className="fa fa-star"></span>
-                    <span id={'star4'} onClick={() => this.starClick(5)} className="fa fa-star"></span>
-                </div>
-                <button className="submit-button" type="submit">{this.state.buttonText}</button>
-            </form> : null}
-
-            {this.state.showButtonState === true ?
-                <form>
-                    <div className="lander">
-
-                        <label>Search By Leaving Point</label>
-
-                        <input type="text" placeholder="Leaving Point" name="searchFilter" onInput={this.handleInputChange}></input>
-
-                        {(this.state.searchFilter.length > 0 && this.state.filteredReviews.length > 0) ?
-                            <FilteredReviews reviews={this.state.filteredReviews} />
-                            : null}
-
-
-
+        return (
+            <div className="App container">
+                <NavigationBar />
+                <button onClick={this.PressAddReview}>Add Review</button>
+                <button onClick={this.PressShowReview}>Show Reviewes</button>
+                {this.state.addButtonState === true ? <form className="form-container" onSubmit={this.handleSubmit}>
+                    <label>Select the transport type</label>
+                    <select className="form-control" ref={this.transportTypeRef} onChange={this.handleSelect}>
+                        <option value="STB">STB</option>
+                        <option value="Taxi">Taxi</option>
+                        <option value="Metrou">Metrou</option>
+                    </select>
+                    <label>Transport name</label>
+                    <input type="text" className="transportNamebox" ref={this.transportNameRef} placeholder={this.state.placeholderText}></input>
+                    <input type="text" className="transportNamebox" ref={this.leavingPointRef} placeholder="Punct de plecare"></input>
+                    <input type="text" className="transportNamebox" ref={this.arrivngPointRef} placeholder="Punct de sosire"></input>
+                    <label>Leaving Hour</label>
+                    <input type="time" className="numberInput" ref={this.leftHourRef} required></input>
+                    <input type="text" className="durationInput" ref={this.durationRef} placeholder="Time in minutes" required></input>
+                    <label>Grad de aglomerare</label>
+                    <input type="number" className="numberInput" ref={this.congestionLevelRef} min={1} max={10} placeholder="1 - 10" required></input>
+                    <label>Observatii</label>
+                    <textarea ref={this.observationsRef} className="textarea"></textarea>
+                    <label>Rating</label>
+                    <div className="ratingBar">
+                        <span id={"star0"} onClick={() => this.starClick(1)} className="fa fa-star checked" ></span>
+                        <span id={'star1'} onClick={() => this.starClick(2)} className="fa fa-star"></span>
+                        <span id={'star2'} onClick={() => this.starClick(3)} className="fa fa-star"></span>
+                        <span id={'star3'} onClick={() => this.starClick(4)} className="fa fa-star"></span>
+                        <span id={'star4'} onClick={() => this.starClick(5)} className="fa fa-star"></span>
                     </div>
+                    <button className="submit-button" type="submit">{this.state.buttonText}</button>
                 </form> : null}
 
+                {this.state.showButtonState === true ?
+                    <form>
+                        <div className="lander">
+
+                            <label>Search By Leaving Point</label>
+
+                            <input type="text" placeholder="Leaving Point" name="searchFilter" onInput={this.handleInputChange}></input>
+
+                            {(this.state.searchFilter.length > 0 && this.state.filteredReviews.length > 0) ?
+                                <FilteredReviews reviews={this.state.filteredReviews} />
+                                : null}
 
 
 
-
-        </>
+                        </div>
+                    </form> : null}
+            </div>
+        )
     }
 }

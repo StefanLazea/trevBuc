@@ -10,7 +10,7 @@ toast.configure()
 function App(props) {
   return (
     <div className="App container">
-      <NavigationBar />
+      {/* <NavigationBar /> */}
       <Routes />
     </div>
   );

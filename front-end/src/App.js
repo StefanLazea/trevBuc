@@ -1,6 +1,6 @@
 import React from "react";
 import { toast } from 'react-toastify';
-import NavigationBar from './components/Navbar/NavigationBar'
+//import NavigationBar from './components/Navbar/NavigationBar'
 import Routes from './Routes';
 import "./App.css";
 import 'react-toastify/dist/ReactToastify.css';

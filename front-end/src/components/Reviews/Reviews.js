@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { getUserId, getToken } from '../../services/Token';
 import FilteredReviews from './FilteredReviews';
+import ReviewForm from './ReviewForm/ReviewForm';
 const backUrl = require("../../../src/configuration.json").backend_url;
 
 
@@ -30,14 +31,7 @@ export default class Reviews extends React.Component {
         
     }
 
-    transportTypeRef = React.createRef();
-    transportNameRef = React.createRef();
-    leavingPointRef = React.createRef();
-    arrivngPointRef = React.createRef();
-    durationRef = React.createRef();
-    leftHourRef = React.createRef();
-    observationsRef = React.createRef();
-    congestionLevelRef = React.createRef();
+    
 
 
     starClick = (i) => {
@@ -127,55 +121,15 @@ export default class Reviews extends React.Component {
         
     }
 
-    handleSelect = () => {
-        switch (this.transportTypeRef.current.value) {
-            case "Taxi":
-                this.setState({ placeholderText: "Example: B-47-ASD" });
-                break;
-            case "Metrou":
-                this.setState({ placeholderText: "Example: M2" });
-                break;
-            default:
-                this.setState({ placeholderText: "Example: 300" });
-
-        }
-    }
-
+ 
     componentDidMount() {
-        Axios.get(backUrl+ '/reviews')
-            .then(res => {
-                const reviews = res.data;
-                this.setState({reviews: reviews});
                 try {
                     this.setState({ userId: getUserId(),isUserLoggedIn: true});
                   }
                   catch(error) {
                     this.setState({isUserLoggedIn: false});
-                    // expected output: ReferenceError: nonExistentFunction is not defined
-                    // Note - error messages will vary depending on browser
-                  }
-                
-               
-               
-            })
 
-    
-        
-           
-        
-
-
-        // Axios.post(backUrl+ '/login', this.state.user)
-        //     .then((res) => {
-        //         localStorage.setItem("token", res.data.token);
-        //       this.setState({userId: localStorage.getItem("userId")});
-               
-        //     })
-        //     .catch(error => {
-        //         toast(error.response.data.message)
-        //     });
-
-            
+                  }           
     }
 
     
@@ -206,42 +160,20 @@ export default class Reviews extends React.Component {
     }
 
     PressShowReview = () => {
-        this.setState( {showButtonState : !this.state.showButtonState})
-        this.setState( {addButtonState: false,filteredReviews: [], reviews: [...this.state.reviews]})
+        Axios.get(backUrl+ '/reviews')
+        .then(res => this.setState({reviews: res.data, 
+            showButtonState : !this.state.showButtonState,
+            addButtonState: false,
+            filteredReviews: [] }));
     }
 
     render() {
         return <>
         <button onClick = {this.PressAddReview}>Add Review</button>
         <button onClick = {this.PressShowReview}>Show Reviewes</button>
-        {this.state.addButtonState === true ? <form className="form-container" onSubmit={this.handleSubmit}>
-                <label>Select the transport type</label>
-                <select className="form-control" ref={this.transportTypeRef} onChange={this.handleSelect}>
-                    <option value="STB">STB</option>
-                    <option value="Taxi">Taxi</option>
-                    <option value="Metrou">Metrou</option>
-                </select>
-                <label>Transport name</label>
-                <input type="text" className="transportNamebox" ref={this.transportNameRef} placeholder={this.state.placeholderText}></input>
-                <input type="text" className="transportNamebox" ref={this.leavingPointRef} placeholder="Punct de plecare"></input>
-                <input type="text" className="transportNamebox" ref={this.arrivngPointRef} placeholder="Punct de sosire"></input>
-                <label>Leaving Hour</label>
-                <input type="time" className="numberInput" ref={this.leftHourRef} required></input>
-                <input type="text" className="durationInput" ref={this.durationRef} placeholder="Time in minutes" required></input>
-                <label>Grad de aglomerare</label>
-                <input type="number" className="numberInput" ref={this.congestionLevelRef} min={1} max={10} placeholder="1 - 10" required></input>
-                <label>Observatii</label>
-                <textarea ref={this.observationsRef} className="textarea"></textarea>
-                <label>Rating</label>
-                <div className="ratingBar">
-                    <span id={"star0"} onClick={() => this.starClick(1)} className="fa fa-star checked" ></span>
-                    <span id={'star1'} onClick={() => this.starClick(2)} className="fa fa-star"></span>
-                    <span id={'star2'} onClick={() => this.starClick(3)} className="fa fa-star"></span>
-                    <span id={'star3'} onClick={() => this.starClick(4)} className="fa fa-star"></span>
-                    <span id={'star4'} onClick={() => this.starClick(5)} className="fa fa-star"></span>
-                </div>
-                <button className="submit-button" type="submit">{this.state.buttonText}</button>
-            </form> : null}
+        {this.state.addButtonState === true ?
+         <ReviewForm userId={this.state.userId} />
+        : null}
    
                   { this.state.showButtonState === true ? 
             <form>

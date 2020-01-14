@@ -2,9 +2,9 @@ import React from "react";
 import Axios from "axios";
 import NavigationBar from '../Navbar/NavigationBar'
 import "./Reviews.css";
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { getToken } from '../../services/Token';
+import { getUserId, getToken } from '../../services/Token';
 import FilteredReviews from './FilteredReviews';
 const backUrl = require("../../../src/configuration.json").backend_url;
 
@@ -21,11 +21,14 @@ export default class Reviews extends React.Component {
             buttonText: "Add Review",
             addButtonState: false,
             showButtonState: false,
+            isUserLoggedIn: true,
             searchFilter: "",
             filteredReviews: [],
             updatedIndex: -1,
             updatedReviewId: -1
         }
+
+
     }
 
     transportTypeRef = React.createRef();
@@ -75,9 +78,7 @@ export default class Reviews extends React.Component {
     }
     handleSubmit = async (event) => {
         event.preventDefault();
-        if (this.state.userId === -1) {
-            console.log("user is not logged in");
-        }
+
         var transportType = {
             name: this.transportNameRef.current.value,
             type: this.transportTypeRef.current.value
@@ -113,6 +114,10 @@ export default class Reviews extends React.Component {
 
 
 
+
+
+
+
         // Axios.put(backUrl + "/reviews/" + this.state.updatedReviewId, review,
         //     { headers: { "Authorization": getToken() } }).then(res => {
         //         var existingReviews = [...this.state.reviews];
@@ -142,8 +147,23 @@ export default class Reviews extends React.Component {
             .then(res => {
                 const reviews = res.data;
                 this.setState({ reviews: reviews });
+                try {
+                    this.setState({ userId: getUserId(), isUserLoggedIn: true });
+                }
+                catch (error) {
+                    this.setState({ isUserLoggedIn: false });
+                    // expected output: ReferenceError: nonExistentFunction is not defined
+                    // Note - error messages will vary depending on browser
+                }
+
+
+
             })
-        this.setState({ userId: localStorage.getItem('userId') });
+
+
+
+
+
 
 
         // Axios.post(backUrl+ '/login', this.state.user)
@@ -175,8 +195,15 @@ export default class Reviews extends React.Component {
     }
 
     PressAddReview = () => {
-        this.setState({ addButtonState: !this.state.addButtonState })
-        this.setState({ showButtonState: false })
+        if (this.state.isUserLoggedIn) {
+            this.setState({ addButtonState: !this.state.addButtonState })
+            this.setState({ showButtonState: false })
+        }
+
+        else {
+            toast("U need to login in order to add a review!");
+        }
+
     }
 
     PressShowReview = () => {

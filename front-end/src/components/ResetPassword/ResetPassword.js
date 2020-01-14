@@ -8,6 +8,7 @@ export default class ResetPassword extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      username:" ",
     password:" "
     }
 
@@ -16,14 +17,17 @@ export default class ResetPassword extends React.Component {
  handleChange= event=>{
    this.setState({name:event.target.value});
  }
+ 
+ 
  handleSubmit=e=>{
    e.preventDefault();
    const password={
+     username:this.state.username,
      password:this.state.password
    }
  }
  
-
+  
   render() {
 
     return (

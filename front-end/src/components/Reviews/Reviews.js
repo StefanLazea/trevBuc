@@ -136,14 +136,14 @@ export default class Reviews extends React.Component {
     }
 
     componentDidMount() {
-        Axios.get(`http://localhost:3000/reviews`)
+        Axios.get(backUrl + '/reviews')
             .then(res => {
                 const reviews = res.data;
                 this.setState({ reviews: reviews });
             })
         document.getElementById("star0").className = "fa fa-star checked"
 
-        Axios.post(`http://localhost:3000/login`, this.state.user)
+        Axios.post( backUrl + `/login`, this.state.user)
             .then((res) => {
                 localStorage.setItem("token", res.data.token);
             })

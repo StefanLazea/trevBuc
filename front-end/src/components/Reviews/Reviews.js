@@ -1,5 +1,6 @@
 import React from "react";
 import Axios from "axios";
+import NavigationBar from '../Navbar/NavigationBar'
 import "./Reviews.css";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,7 +15,7 @@ export default class Reviews extends React.Component {
         super(props);
         this.state = {
             reviews: [],
-                userId: -1,
+            userId: -1,
             placeholderText: "Example: 300",
             starNumber: 1,
             checked: false,
@@ -27,8 +28,8 @@ export default class Reviews extends React.Component {
             updatedIndex: -1,
             updatedReviewId: -1
         }
-       
-        
+
+
     }
 
     
@@ -71,54 +72,48 @@ export default class Reviews extends React.Component {
     }
     handleSubmit = async (event) => {
         event.preventDefault();
-        
-            var transportType = {
-                name: this.transportNameRef.current.value,
-                type: this.transportTypeRef.current.value
-            }
-            var transportTypeDb;
-            await Axios.post(backUrl + "/transport-type", transportType).then(res => {
-                transportTypeDb = res.data;
-            }
-            )
-           
-            
-    
-            var review = {
-                leaving_point: String(this.leavingPointRef.current.value),
-                arriving_point: String(this.arrivngPointRef.current.value),
-                leaving_hour: String(this.leftHourRef.current.value),
-                duration: parseInt(this.durationRef.current.value),
-                observations: String(this.observationsRef.current.value),
-                rating: String(this.state.starNumber),
-                congestion_level: parseInt(this.congestionLevelRef.current.value),
-                userId: parseInt(this.state.userId), 
-                transportTypeId: parseInt(transportTypeDb.id),
-    
-            }
-    
-            Axios.post(backUrl + "/reviews", review,
+
+        var transportType = {
+            name: this.transportNameRef.current.value,
+            type: this.transportTypeRef.current.value
+        }
+        var transportTypeDb;
+        await Axios.post(backUrl + "/transport-type", transportType).then(res => {
+            transportTypeDb = res.data;
+        }
+        )
+
+
+
+        var review = {
+            leaving_point: String(this.leavingPointRef.current.value),
+            arriving_point: String(this.arrivngPointRef.current.value),
+            leaving_hour: String(this.leftHourRef.current.value),
+            duration: parseInt(this.durationRef.current.value),
+            observations: String(this.observationsRef.current.value),
+            rating: String(this.state.starNumber),
+            congestion_level: parseInt(this.congestionLevelRef.current.value),
+            userId: parseInt(this.state.userId),
+            transportTypeId: parseInt(transportTypeDb.id),
+
+        }
+
+        Axios.post(backUrl + "/reviews", review,
             { headers: { "Authorization": getToken() } }).then(res => {
                 var existingReviews = [...this.state.reviews];
                 existingReviews.push(res.data);
                 console.log(res.data);
                 this.setState({ reviews: existingReviews });
             })
-        
-        
-        
 
-          
-        
-       
-            // Axios.put(backUrl + "/reviews/" + this.state.updatedReviewId, review,
-            //     { headers: { "Authorization": getToken() } }).then(res => {
-            //         var existingReviews = [...this.state.reviews];
-            //         existingReviews[this.state.updatedIndex] = res.data;
-            //         console.log(this.state.updatedIndex);
-            //         this.setState({ reviews: existingReviews, buttonText: "Add Review" });
-            //     })
-        
+        // Axios.put(backUrl + "/reviews/" + this.state.updatedReviewId, review,
+        //     { headers: { "Authorization": getToken() } }).then(res => {
+        //         var existingReviews = [...this.state.reviews];
+        //         existingReviews[this.state.updatedIndex] = res.data;
+        //         console.log(this.state.updatedIndex);
+        //         this.setState({ reviews: existingReviews, buttonText: "Add Review" });
+        //     })
+
     }
 
  
@@ -132,31 +127,28 @@ export default class Reviews extends React.Component {
                   }           
     }
 
-    
 
-    handleInputChange = (event) =>{
+
+    handleInputChange = (event) => {
         let myReviews = [...this.state.reviews];
-        myReviews = myReviews.filter(review => review.leaving_point === event.target.value )
+        myReviews = myReviews.filter(review => review.leaving_point === event.target.value)
         event.preventDefault()
-        console.log(event.target.value)
-        
-            this.setState({
-                searchFilter : event.target.value,
-                filteredReviews: myReviews
-            })
+        this.setState({
+            searchFilter: event.target.value,
+            filteredReviews: myReviews
+        })
 
     }
 
     PressAddReview = () => {
-        if(this.state.isUserLoggedIn){
-            this.setState( {addButtonState : !this.state.addButtonState})
-            this.setState( {showButtonState: false })
+        if (this.state.isUserLoggedIn) {
+            this.setState({ addButtonState: !this.state.addButtonState,showButtonState: false   })
         }
 
         else {
             toast("U need to login in order to add a review!");
         }
-       
+
     }
 
     PressShowReview = () => {
@@ -169,6 +161,9 @@ export default class Reviews extends React.Component {
 
     render() {
         return <>
+
+         <div className="App container">
+                <NavigationBar />
         <button onClick = {this.PressAddReview}>Add Review</button>
         <button onClick = {this.PressShowReview}>Show Reviewes</button>
         {this.state.addButtonState === true ?
@@ -190,11 +185,10 @@ export default class Reviews extends React.Component {
 
 
                 </div> 
-            </form> : null}
-
+            </form> : null
+    }
            
-             
-           
+            </div>
        
         </>
     }

@@ -32,7 +32,7 @@ export default class Reviews extends React.Component {
 
     }
 
-    
+
 
 
     starClick = (i) => {
@@ -116,15 +116,15 @@ export default class Reviews extends React.Component {
 
     }
 
- 
-    componentDidMount() {
-                try {
-                    this.setState({ userId: getUserId(),isUserLoggedIn: true});
-                  }
-                  catch(error) {
-                    this.setState({isUserLoggedIn: false});
 
-                  }           
+    componentDidMount() {
+        try {
+            this.setState({ userId: getUserId(), isUserLoggedIn: true });
+        }
+        catch (error) {
+            this.setState({ isUserLoggedIn: false });
+
+        }
     }
 
 
@@ -142,7 +142,7 @@ export default class Reviews extends React.Component {
 
     PressAddReview = () => {
         if (this.state.isUserLoggedIn) {
-            this.setState({ addButtonState: !this.state.addButtonState,showButtonState: false   })
+            this.setState({ addButtonState: !this.state.addButtonState, showButtonState: false })
         }
 
         else {
@@ -152,44 +152,46 @@ export default class Reviews extends React.Component {
     }
 
     PressShowReview = () => {
-        Axios.get(backUrl+ '/reviews')
-        .then(res => this.setState({reviews: res.data, 
-            showButtonState : !this.state.showButtonState,
-            addButtonState: false,
-            filteredReviews: [] }));
+        Axios.get(backUrl + '/reviews')
+            .then(res => this.setState({
+                reviews: res.data,
+                showButtonState: !this.state.showButtonState,
+                addButtonState: false,
+                filteredReviews: []
+            }));
     }
 
     render() {
         return <>
 
-         <div className="App container">
+            <div className="App container">
                 <NavigationBar />
-        <button onClick = {this.PressAddReview}>Add Review</button>
-        <button onClick = {this.PressShowReview}>Show Reviewes</button>
-        {this.state.addButtonState === true ?
-         <ReviewForm userId={this.state.userId} />
-        : null}
-   
-                  { this.state.showButtonState === true ? 
-            <form>
-                <div className="lander">
+                <button onClick={this.PressAddReview}>Add Review</button>
+                <button onClick={this.PressShowReview}>Show Reviewes</button>
+                {this.state.addButtonState === true ?
+                    <ReviewForm userId={this.state.userId} />
+                    : null}
 
-                <label>Search By Leaving Point</label>
-                
-                <input type="text" placeholder="Leaving Point" name="searchFilter" onInput={this.handleInputChange}></input>
+                {this.state.showButtonState === true ?
+                    <form>
+                        <div className="lander">
 
-                { (this.state.searchFilter.length > 0 && this.state.filteredReviews.length > 0) ? 
-                  <FilteredReviews reviews={this.state.filteredReviews}/>
-                : null }
+                            <label>Search By Leaving Point</label>
+
+                            <input type="text" placeholder="Leaving Point" name="searchFilter" onInput={this.handleInputChange}></input>
+
+                            {(this.state.searchFilter.length > 0 && this.state.filteredReviews.length > 0) ?
+                                <FilteredReviews reviews={this.state.filteredReviews} />
+                                : null}
 
 
 
-                </div> 
-            </form> : null
-    }
-           
+                        </div>
+                    </form> : null
+                }
+
             </div>
-       
+
         </>
     }
 }

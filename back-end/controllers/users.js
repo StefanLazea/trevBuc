@@ -49,7 +49,8 @@ const login = async (req, res) => {
         {
             expiresIn: "3h"
         });
-    res.send({ token: "Bearer " + token, message: "V-ati logat cu success" })
+        
+    res.send({userId: userFound.id, token: "Bearer " + token, message: "V-ati logat cu success" })
 };
 
 module.exports = {

@@ -9,8 +9,9 @@ import ResetPassword from "./components/ResetPassword/ResetPassword.js"
 export default function Routes() {
     return (
         <Switch>
-            <Route path="/" exact component={Home} />
+            <Route path="/" exact component={Login} />
             <Route path="/reviews" exact component={Reviews} />
+            <Route path="/home" exact component={Home} />
             <Route path="/login" exact component={Login} />
             <Route path="/resetpassword" exact component={ResetPassword} />
             <Route component={NotFound} />

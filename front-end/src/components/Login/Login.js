@@ -21,6 +21,11 @@ export default class Login extends React.Component {
         })
     }
 
+    componentDidMount = () => {
+        localStorage.setItem("userId", -1);
+        localStorage.setItem("token", " ");
+    }
+
     onSubmit = (e) => {
         e.preventDefault();
         const form = {
@@ -35,6 +40,8 @@ export default class Login extends React.Component {
             .then((res) => {
                 toast(res.data.message)
                 localStorage.setItem("token", res.data.token);
+                localStorage.setItem("userId",res.data.userId);
+                this.props.history.push(`/reviews`)
             })
             .catch(error => {
                 toast(error.response.data.message)

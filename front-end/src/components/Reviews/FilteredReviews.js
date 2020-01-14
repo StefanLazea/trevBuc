@@ -3,7 +3,7 @@ import { Table } from 'react-bootstrap';
 
 export default function FilteredReviews(props) {
     return <>
-        <Table striped bordered hover>
+        <Table striped bordered hover responsive>
             <tbody>
                 <tr >
                     <th>Name</th>

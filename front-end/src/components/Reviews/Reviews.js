@@ -165,13 +165,10 @@ export default class Reviews extends React.Component {
     }
 
     PressShowMyReviews = () => {
-        Axios.get(backUrl+ '/reviews/user/' +this.state.userId).then(
-            res => {
-                this.setState({myReviews: res.data, showMyReviewsButtonState: !this.state.showMyReviewsButtonState,addButtonState : false,
+        
+                this.setState({ showMyReviewsButtonState: !this.state.showMyReviewsButtonState,addButtonState : false,
                 showButtonState: false});
             }
-        )
-    }
 
     render() {
         return <>
@@ -207,7 +204,7 @@ export default class Reviews extends React.Component {
                 }
 
                               {                        
-                               this.state.showMyReviewsButtonState ===true ? <FilteredReviews reviews={this.state.myReviews} />
+                               this.state.showMyReviewsButtonState ===true ? <FilteredReviews allowEditing={true} userId={this.state.userId} />
                                : null}
 
             

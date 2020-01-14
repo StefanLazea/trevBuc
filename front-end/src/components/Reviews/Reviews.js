@@ -159,13 +159,18 @@ export default class Reviews extends React.Component {
             filteredReviews: [] }));
     }
 
+    PressShowMyReviews = () => {
+        Axios.get()
+    }
+
     render() {
         return <>
 
          <div className="App container">
                 <NavigationBar />
         <button onClick = {this.PressAddReview}>Add Review</button>
-        <button onClick = {this.PressShowReview}>Show Reviewes</button>
+        <button onClick = {this.PressShowReview}>Show All Reviewes</button>
+        <button onClick={this.PressShowMyReviews}> Show my reviews</button>
         {this.state.addButtonState === true ?
          <ReviewForm userId={this.state.userId} />
         : null}

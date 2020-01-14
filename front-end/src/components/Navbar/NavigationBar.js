@@ -10,7 +10,7 @@ function NavigationBar(props) {
             <Navbar fluid collapseOnSelect fixedTop>
                 <Navbar.Header>
                     <Navbar.Brand>
-                        <Link to="/">Scratch</Link>
+                        <Link to="/">TrevBuc</Link>
                     </Navbar.Brand>
                     <Navbar.Toggle />
                 </Navbar.Header>

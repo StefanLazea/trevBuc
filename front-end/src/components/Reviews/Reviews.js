@@ -1,9 +1,9 @@
 import React from "react";
 import Axios from "axios";
 import "./Reviews.css";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { getUserId, getToken } from '../../services/Token';
+import { getToken } from '../../services/Token';
 import FilteredReviews from './FilteredReviews';
 const backUrl = require("../../../src/configuration.json").backend_url;
 
@@ -13,7 +13,7 @@ export default class Reviews extends React.Component {
         super(props);
         this.state = {
             reviews: [],
-                userId: -1,
+            userId: -1,
             placeholderText: "Example: 300",
             starNumber: 1,
             checked: false,
@@ -74,7 +74,7 @@ export default class Reviews extends React.Component {
     }
     handleSubmit = async (event) => {
         event.preventDefault();
-        if(this.state.userId === -1){
+        if (this.state.userId === -1) {
             console.log("user is not logged in");
         }
         var transportType = {
@@ -86,8 +86,8 @@ export default class Reviews extends React.Component {
             transportTypeDb = res.data;
         }
         )
-       
-        
+
+
 
         var review = {
             leaving_point: String(this.leavingPointRef.current.value),
@@ -97,33 +97,33 @@ export default class Reviews extends React.Component {
             observations: String(this.observationsRef.current.value),
             rating: String(this.state.starNumber),
             congestion_level: parseInt(this.congestionLevelRef.current.value),
-            userId: parseInt(this.state.userId), 
+            userId: parseInt(this.state.userId),
             transportTypeId: parseInt(transportTypeDb.id),
 
         }
 
         Axios.post(backUrl + "/reviews", review,
-        { headers: { "Authorization": getToken() } }).then(res => {
-            var existingReviews = [...this.state.reviews];
-            existingReviews.push(res.data);
-            console.log(res.data);
-            this.setState({ reviews: existingReviews });
-        })
-      
+            { headers: { "Authorization": getToken() } }).then(res => {
+                var existingReviews = [...this.state.reviews];
+                existingReviews.push(res.data);
+                console.log(res.data);
+                this.setState({ reviews: existingReviews });
+            })
 
-       
 
-          
-        
-       
-            // Axios.put(backUrl + "/reviews/" + this.state.updatedReviewId, review,
-            //     { headers: { "Authorization": getToken() } }).then(res => {
-            //         var existingReviews = [...this.state.reviews];
-            //         existingReviews[this.state.updatedIndex] = res.data;
-            //         console.log(this.state.updatedIndex);
-            //         this.setState({ reviews: existingReviews, buttonText: "Add Review" });
-            //     })
-        
+
+
+
+
+
+        // Axios.put(backUrl + "/reviews/" + this.state.updatedReviewId, review,
+        //     { headers: { "Authorization": getToken() } }).then(res => {
+        //         var existingReviews = [...this.state.reviews];
+        //         existingReviews[this.state.updatedIndex] = res.data;
+        //         console.log(this.state.updatedIndex);
+        //         this.setState({ reviews: existingReviews, buttonText: "Add Review" });
+        //     })
+
     }
 
     handleSelect = () => {
@@ -141,57 +141,57 @@ export default class Reviews extends React.Component {
     }
 
     componentDidMount() {
-        Axios.get(backUrl+ '/reviews')
+        Axios.get(backUrl + '/reviews')
             .then(res => {
                 const reviews = res.data;
                 this.setState({ reviews: reviews });
             })
-            this.setState({userId: localStorage.getItem('userId')});
+        this.setState({ userId: localStorage.getItem('userId') });
 
 
         // Axios.post(backUrl+ '/login', this.state.user)
         //     .then((res) => {
         //         localStorage.setItem("token", res.data.token);
         //       this.setState({userId: localStorage.getItem("userId")});
-               
+
         //     })
         //     .catch(error => {
         //         toast(error.response.data.message)
         //     });
 
-            
+
     }
 
-    
 
-    handleInputChange = (event) =>{
+
+    handleInputChange = (event) => {
         let myReviews = [...this.state.reviews];
-        myReviews = myReviews.filter(review => review.leaving_point === event.target.value )
+        myReviews = myReviews.filter(review => review.leaving_point === event.target.value)
         event.preventDefault()
         console.log(event.target.value)
-        
-            this.setState({
-                searchFilter : event.target.value,
-                filteredReviews: myReviews
-            })
+
+        this.setState({
+            searchFilter: event.target.value,
+            filteredReviews: myReviews
+        })
 
     }
 
     PressAddReview = () => {
-        this.setState( {addButtonState : !this.state.addButtonState})
-        this.setState( {showButtonState: false })
+        this.setState({ addButtonState: !this.state.addButtonState })
+        this.setState({ showButtonState: false })
     }
 
     PressShowReview = () => {
-        this.setState( {showButtonState : !this.state.showButtonState})
-        this.setState( {addButtonState: false,filteredReviews: [], reviews: [...this.state.reviews]})
+        this.setState({ showButtonState: !this.state.showButtonState })
+        this.setState({ addButtonState: false, filteredReviews: [], reviews: [...this.state.reviews] })
     }
 
     render() {
         return <>
-        <button onClick = {this.PressAddReview}>Add Review</button>
-        <button onClick = {this.PressShowReview}>Show Reviewes</button>
-        {this.state.addButtonState === true ? <form className="form-container" onSubmit={this.handleSubmit}>
+            <button onClick={this.PressAddReview}>Add Review</button>
+            <button onClick={this.PressShowReview}>Show Reviewes</button>
+            {this.state.addButtonState === true ? <form className="form-container" onSubmit={this.handleSubmit}>
                 <label>Select the transport type</label>
                 <select className="form-control" ref={this.transportTypeRef} onChange={this.handleSelect}>
                     <option value="STB">STB</option>
@@ -219,28 +219,28 @@ export default class Reviews extends React.Component {
                 </div>
                 <button className="submit-button" type="submit">{this.state.buttonText}</button>
             </form> : null}
-   
-                  { this.state.showButtonState === true ? 
-            <form>
-                <div className="lander">
 
-                <label>Search By Leaving Point</label>
-                
-                <input type="text" placeholder="Leaving Point" name="searchFilter" onInput={this.handleInputChange}></input>
+            {this.state.showButtonState === true ?
+                <form>
+                    <div className="lander">
 
-                { (this.state.searchFilter.length > 0 && this.state.filteredReviews.length > 0) ? 
-                  <FilteredReviews reviews={this.state.filteredReviews}/>
-                : null }
+                        <label>Search By Leaving Point</label>
+
+                        <input type="text" placeholder="Leaving Point" name="searchFilter" onInput={this.handleInputChange}></input>
+
+                        {(this.state.searchFilter.length > 0 && this.state.filteredReviews.length > 0) ?
+                            <FilteredReviews reviews={this.state.filteredReviews} />
+                            : null}
 
 
 
-                </div> 
-            </form> : null}
+                    </div>
+                </form> : null}
 
-           
-             
-           
-       
+
+
+
+
         </>
     }
 }

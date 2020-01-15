@@ -70,8 +70,8 @@ export default class Login extends React.Component {
                             TrevBUC
                         </div>
 
-                        <div className="col-lg-12 login-form">
-                            <div className="col-lg-12 login-form">
+                        <div className="col-md-12 login-form">
+                            <div className="col-md-12 login-form">
                                 <form>
                                     <div className="form-group">
                                         <label className="form-control-label">Email</label>
@@ -91,7 +91,7 @@ export default class Login extends React.Component {
                                             onChange={e => this.handleChange(e)} placeholder="Password" />
                                     </div>
 
-                                    <div className="col-lg-12 col-sm-12 loginbttm">
+                                    <div className="col-md-12 col-sm-12 loginbttm">
                                         <div className="col-sm-12">
                                             <Button type="submit" onClick={(e) => this.onSubmit(e)}
                                                 className="btn btn-primary left-align">Login

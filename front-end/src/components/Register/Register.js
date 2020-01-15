@@ -30,21 +30,23 @@ export default class Register extends React.Component {
       password: ' ',
       email: ' ',
       confirmPassword: '',
-      emailError: true
+      emailError: true,
+      passwordError: true,
+      passwordMatchError: true
     };
   }
 
   handleChange = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
     this.setState({
-      [e.target.name]: e.target.value,
-    });
+      [name]: value,
+    },
+      () => { this.validateField(name, value) });
   }
 
   //{`form-group ${this.errorClass(this.state.registerErrors.email)}`}
   validateField(fieldName, value) {
-    let fieldValidationErrors;
-    let passwordValid;
-    let confirmPasswordValid;
     switch (fieldName) {
       case 'email':
         if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(value)) {
@@ -55,12 +57,21 @@ export default class Register extends React.Component {
         }
         break;
       case 'password':
-        passwordValid = value.length >= 6;
-        fieldValidationErrors.password = passwordValid ? '' : ' is too short';
+        if (value.length >= 6) {
+          this.setState({ passwordError: false })
+        } else {
+          this.setState({ passwordError: true })
+          toast("Parola nu trebuie sa fie mai mica de 6 caractere");
+        }
         break;
       case 'confirmPassword':
-        confirmPasswordValid = passwordValid === fieldValidationErrors.confirmPassword;
-        fieldValidationErrors.confirmPassword = confirmPasswordValid ? '' : 'does not match the password';
+        // console.log(typeof value, typeof pass, value, pass)
+        if (value === this.state.password) {
+          this.setState({ passwordMatchError: false })
+        } else {
+          this.setState({ passwordMatchError: true })
+          toast("Parola trebuie sa corespunda");
+        }
         break;
       default:
         break;
@@ -74,32 +85,36 @@ export default class Register extends React.Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    this.validateField("email", this.state.email);
-    const form = {
-      password: this.state.password,
-      username: this.state.email
+    // this.validateField("email", this.state.email);
+    // this.validateField("password", this.state.password);
+    // this.validateField("confirmPassword", this.state.confirmPassword, this.state.password);
+
+    if (this.state.emailError === false && this.state.passwordMatchError === false && this.state.passwordError === false) {
+      const form = {
+        password: this.state.password,
+        username: this.state.email
+      }
+
+      console.log(this.state.emailError)
+
+      Axios.post(`${backUrl}/register`, JSON.stringify(form),
+        {
+          headers: { "Content-Type": "application/json" }
+        })
+        .then((res) => {
+          toast(res.data.message)
+          this.nextPath("/login");
+        })
+        .catch(error => {
+          if (error.response !== undefined) {
+            toast(error.response.data.message)
+          } else {
+            toast("Something went wrong")
+          }
+        });
+    } else {
+      toast("Apasa pe camp pentru a vedea eroarea!")
     }
-
-    console.log(this.state.emailError)
-
-    // console.log(JSON.stringify(form))
-
-    // Axios.post(`${backUrl}/register`, JSON.stringify(form),
-    //   {
-    //     headers: { "Content-Type": "application/json" }
-    //   })
-    //   .then((res) => {
-    //     toast(res.data.message)
-    //     this.nextPath("/login");
-    //   })
-    //   .catch(error => {
-    //     if (error.response !== undefined) {
-    //       toast(error.response.data.message)
-    //     } else {
-    //       toast("Something went wrong")
-    //     }
-    //   });
-
   }
 
   render() {
@@ -112,25 +127,25 @@ export default class Register extends React.Component {
           <input type="email" required className="form-control"
             name="email"
             placeholder="Email"
-            onChange={e => this.handleChange(e)} />
+            onMouseMoveCapture={e => this.handleChange(e)} />
         </div>
 
-        <div className="form-group">
+        <div className={`form-group ${this.errorClass(this.state.passwordError)}`}>
           <label htmlFor="password">Password</label>
           <input type="password"
             className="form-control"
             name="password"
             placeholder="Password"
-            onChange={e => this.handleChange(e)} />
+            onMouseMoveCapture={e => this.handleChange(e)} />
         </div>
 
-        <div className="form-group">
+        <div className={`form-group ${this.errorClass(this.state.passwordError)}`}>
           <label htmlFor="confirmPassword">Confirm password</label>
           <input type="password"
             className="form-control"
             name="confirmPassword"
             placeholder="ConfirmPassword"
-            onChange={e => this.handleChange(e)} />
+            onMouseMoveCapture={e => this.handleChange(e)} />
         </div>
 
         <button type="submit" className="btn btn-primary" onClick={(e) => this.onSubmit(e)}>Sign up</button>

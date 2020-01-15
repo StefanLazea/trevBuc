@@ -3,3 +3,4 @@ back-end/configuration.json
 front-end/src/configuration.json
 front-end/node_modules/
 .vscode/
+.idea/

@@ -13,21 +13,60 @@ export default class Register extends React.Component {
         
         this.onChangeUserName = this.onChangeUserName.bind(this);
         this.onChangeUserPassword = this.onChangeUserPassword.bind(this);
+        //this.handleConfirmPassword = this.handleConfirmPassword.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         
         this.state = {
             username:' ',
-            password:' '
+            password:' ',
+            confirmPassword: ' ',
+            
+            usernameError: ' ',
+            passwordError: ' '
         };
     }
     
-    onChangeUserName(e) {
-        this.setState({ name: e.target.value })
+    change = e => {
+    this.props.onChange({ [e.target.name]: e.target.value });
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+    
+    validate = () => {
+    let isError = false;
+    const errors = {
+      usernameError: ' ',
+      passwordError: ' '
+    };
+
+    if (this.state.username.length < 5) {
+      isError = true;
+      errors.usernameError = "Valid email required ";
     }
 
-    onChangeUserPassword(e) {
-        this.setState({ email: e.target.value })
-    }
+    this.setState({
+      ...this.state,
+      ...errors
+    });
+
+    return isError;
+  };
+
+    // onChangeUserName(e) {
+    //     this.setState({ name: e.target.value })
+    // }
+
+    // onChangeUserPassword(e) {
+    //     this.setState({ email: e.target.value })
+    // }
+    
+//     handleConfirmPassword(event) {
+//     if (event.target.value !== this.state.password) {
+//       message.error('error')
+//       this.setState({confirmPassword: event.target.value})
+//     }
+// }
     
      onSubmit = (e) => {
         e.preventDefault();
@@ -63,18 +102,13 @@ export default class Register extends React.Component {
       <legend class="">Register</legend>
     </div>
     <div class="control-group">
-      <label class="control-label"  for="username">Username</label>
-      <div class="controls">
-        <input type="text" id="username" name="username" placeholder="" class="input-xlarge"/>
-        <p class="help-block">Username can contain any letters or numbers, without spaces</p>
-      </div>
-    </div>
- 
-    <div class="control-group">
       <label class="control-label" for="email">E-mail</label>
       <div class="controls">
         <input type="text" id="email" name="email" placeholder="" class="input-xlarge" />
         <p class="help-block">Please provide your E-mail</p>
+          value={this.state.username}
+          onChange={e => this.change(e)}
+          errorText={this.state.usernameError}
       </div>
     </div>
  
@@ -83,6 +117,9 @@ export default class Register extends React.Component {
       <div class="controls">
         <input type="password" id="password" name="password" placeholder="" class="input-xlarge" />
         <p class="help-block">Password should be at least 4 characters</p>
+          value={this.state.password}
+          onChange={e => this.change(e)}
+          errorText={this.state.passwordError}
       </div>
     </div>
  
@@ -96,7 +133,7 @@ export default class Register extends React.Component {
  
     <div class="control-group">
       <div class="controls">
-        <button class="btn btn-success">Register</button>
+        <button class="btn btn-success" onClick={e => this.onSubmit(e)}>Register</button>
       </div>
     </div>
   </fieldset>

@@ -145,7 +145,6 @@ export default class Reviews extends React.Component {
     }
 
 
-
     PressAddReview = () => {
         if (this.state.isUserLoggedIn) {
             this.setState({ addButtonState: !this.state.addButtonState, showButtonState: false,showAllReviewsButtonState:false, showMyReviewsButtonState : false })
@@ -154,7 +153,6 @@ export default class Reviews extends React.Component {
         else {
             toast("U need to login in order to add a review!");
         }
-
 
     }
 

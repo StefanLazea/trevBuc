@@ -3,11 +3,13 @@ body {
 }
 
 .login-box {
-    margin-top: 75px;
-    height: auto;
+    margin-top: 90px;
+    height: 70%;
     background: #1A2226;
     text-align: center;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    position:absolute;
+    margin-left:10%;
 }
 
 .login-key {

@@ -15,7 +15,7 @@ export default function Routes() {
             <Route path="/home" exact component={Home} />
             <Route path="/login" exact component={Login} />
             <Route path="/register" exact component={Register} />
-            <Route path="/resetpassword" exact component={ResetPassword} />
+            <Route path="/forgot-password" exact component={ResetPassword} />
             <Route component={NotFound} />
         </Switch>
     )

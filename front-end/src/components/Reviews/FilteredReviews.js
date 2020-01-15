@@ -106,7 +106,7 @@ export default class FilteredReviews extends React.Component {
                                 <td>{review.observations}</td>
                                 <td>{review.rating}</td>
                                 <td><Button className="btn-primary" onClick={() => { this.editContent(review.id) }}>{this.state.editButtonText}</Button>
-                                    <Button className="btn-danger" onClick={() => { this.deleteReview(review.id) }}><i class="fa fa-trash"></i></Button>
+                                    <Button className="btn-danger" onClick={() => { this.deleteReview(review.id) }}><i className="fa fa-trash"></i></Button>
                                 </td>
                             </tr>) :
                         this.state.reviews.map(review =>

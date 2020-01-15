@@ -3,6 +3,7 @@ import Axios from "axios";
 import "./ReviewForm.css";
 import 'react-toastify/dist/ReactToastify.css';
 import { getToken } from '../../../services/Token';
+import { toast } from "react-toastify";
 const backUrl = require("../../../../src/configuration.json").backend_url;
 
 export default class ReviewForm extends React.Component {
@@ -42,25 +43,8 @@ export default class ReviewForm extends React.Component {
         this.setState({ starNumber: i });
 
     }
-    // updateReview = async (id) => {
-    //     var reviewToUpdate;
-    //     var transportTypeToUpdate;
-
-    //     await Axios.get(backUrl + '/reviews/' + id).then(res => reviewToUpdate = res.data);
-    //     await Axios.get(backUrl + '/transport-type/' + reviewToUpdate.transportTypeId).then(res => transportTypeToUpdate = res.data);
-    //     this.leavingPointRef.current.value = reviewToUpdate.leaving_point;
-    //     this.arrivngPointRef.current.value = reviewToUpdate.arriving_point;
-    //     this.transportNameRef.current.value = transportTypeToUpdate.name;
-    //     this.transportTypeRef.current.value = transportTypeToUpdate.type;
-    //     this.leftHourRef.current.value = reviewToUpdate.leaving_hour;
-    //     this.durationRef.current.value = reviewToUpdate.duration;
-    //     this.congestionLevelRef.current.value = reviewToUpdate.congestion_level;
-    //     this.observationsRef.current.value = reviewToUpdate.observations;
-    //     this.starClick(parseInt(reviewToUpdate.rating));
-    //     var index = this.state.reviews.indexOf(reviewToUpdate);
-    //     console.log("index" + index);
-    //     this.setState({ buttonText: "Update review", updatedIndex: index, updatedReviewId: id });
-    //  }
+   
+ 
 
 
     handleSubmit = async (event) => {
@@ -95,13 +79,21 @@ export default class ReviewForm extends React.Component {
             { headers: { "Authorization": getToken() } }).then(res => {
                 var existingReviews = [...this.state.reviews];
                 existingReviews.push(res.data);
-                console.log(res.data);
                 this.setState({ reviews: existingReviews });
+                toast("Review was added successfully!")
             })
+            this.transportNameRef.current.value= " "
+            this.leavingPointRef.current.value=" ";
+            this.arrivngPointRef.current.value= " ";
+            this.leftHourRef.current.value=" ";
+           this.durationRef.current.value=" ";
+           this.observationsRef.current.value=" ";
+           this.congestionLevelRef.current.value=" ";
+           this.starClick(1);
     }
 
     handleSelect = () => {
-        switch (this.transportTypeRef.current.value) {
+        switch (this.transportNameRef.current.value) {
             case "Taxi":
                 this.setState({ placeholderText: "Example: B-47-ASD" });
                 break;

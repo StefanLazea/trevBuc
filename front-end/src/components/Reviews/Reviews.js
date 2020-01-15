@@ -52,28 +52,9 @@ export default class Reviews extends React.Component {
         this.setState({ starNumber: i });
 
     }
-    updateReview = async (id) => {
-        var reviewToUpdate;
-        var transportTypeToUpdate;
+    
 
-        await Axios.get(backUrl + '/reviews/' + id).then(res => reviewToUpdate = res.data);
-        await Axios.get(backUrl + '/transport-type/' + reviewToUpdate.transportTypeId).then(res => transportTypeToUpdate = res.data);
-        this.leavingPointRef.current.value = reviewToUpdate.leaving_point;
-        this.arrivngPointRef.current.value = reviewToUpdate.arriving_point;
-        this.transportNameRef.current.value = transportTypeToUpdate.name;
-        this.transportTypeRef.current.value = transportTypeToUpdate.type;
-        this.leftHourRef.current.value = reviewToUpdate.leaving_hour;
-        this.durationRef.current.value = reviewToUpdate.duration;
-        this.congestionLevelRef.current.value = reviewToUpdate.congestion_level;
-        this.observationsRef.current.value = reviewToUpdate.observations;
-        this.starClick(parseInt(reviewToUpdate.rating));
-        var index = this.state.reviews.indexOf(reviewToUpdate);
-        console.log("index" + index);
-        this.setState({ buttonText: "Update review", updatedIndex: index, updatedReviewId: id });
-
-
-
-    }
+    
     handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -109,14 +90,6 @@ export default class Reviews extends React.Component {
                 console.log(res.data);
                 this.setState({ reviews: existingReviews });
             })
-
-        // Axios.put(backUrl + "/reviews/" + this.state.updatedReviewId, review,
-        //     { headers: { "Authorization": getToken() } }).then(res => {
-        //         var existingReviews = [...this.state.reviews];
-        //         existingReviews[this.state.updatedIndex] = res.data;
-        //         console.log(this.state.updatedIndex);
-        //         this.setState({ reviews: existingReviews, buttonText: "Add Review" });
-        //     })
 
     }
 

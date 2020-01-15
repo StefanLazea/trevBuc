@@ -25,8 +25,17 @@ export default class ResetPassword extends React.Component {
      username:this.state.username,
      password:this.state.password
    }
+    Axios.put(`${backUrl}/resetpassword`,JSON.stringify(password),{
+      headers: { "Content-Type": "application/json" }
+    }
+ ).then(r => console.log(r.status))
+    .catch(e => console.log(e));
  }
  
+ 
+
+ 
+  
   
   render() {
 

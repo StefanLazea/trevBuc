@@ -1,7 +1,45 @@
 .Navbar{
-  margin-bottom: 100px;
+  margin-bottom: 10%;
 }
 
 .Navbar .navbar-brand {
   font-weight: bold;
+  color: white;
+}
+
+.navbar-default:hover
+{
+  background-color: #527DBC !important;
+}
+
+.navbar-default .navbar-nav>li>a{
+  color: white;
+}
+
+.navbar-default .navbar-toggle{
+  border-color: #527DBC;
+}
+
+.navbar-default .navbar-toggle .icon-bar{
+  background-color: white;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form{
+  border-color: white;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+  background-color: #527DBC;
+}
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover{
+  background-color: #7db0fa;
+}
+
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
+  background-color: #527DBC;
+}
+
+.color-nav{
+  background-color: #527DBC;
 }

@@ -7,7 +7,7 @@ import "./NavigationBar.css"
 function NavigationBar(props) {
     return (
         <div className="Navbar container">
-            <Navbar fluid collapseOnSelect fixedTop>
+            <Navbar className="color-nav" fluid collapseOnSelect fixedTop>
                 <Navbar.Header>
                     <Navbar.Brand>
                         <Link to="/">TrevBuc</Link>

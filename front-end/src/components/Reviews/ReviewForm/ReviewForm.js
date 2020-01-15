@@ -14,7 +14,7 @@ export default class ReviewForm extends React.Component {
             userId: -1,
             placeholderText: "Example: 300",
             starNumber: 1,
-            buttonText: "Add Review",
+            buttonText: "Submit",
         }
 
 

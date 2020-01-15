@@ -20,6 +20,10 @@ export default class FilteredReviews extends React.Component {
 
     }
 
+    validateFields = () => {
+        
+    }
+
     componentDidMount = () => {
         Axios.get(backUrl + '/reviews/user/' + this.props.userId).then(
             res => {
@@ -65,9 +69,9 @@ export default class FilteredReviews extends React.Component {
                 arriving_point: tabelRaw.childNodes[2].innerText,
                 leaving_hour: tabelRaw.childNodes[3].innerText,
                 duration: parseInt(tabelRaw.childNodes[4].innerText),
-                observations: tabelRaw.childNodes[5].innerText,
-                rating: tabelRaw.childNodes[6].innerText,
-                congestion_level: parseInt(tabelRaw.childNodes[7].innerText),
+                observations: tabelRaw.childNodes[6].innerText,
+                rating: tabelRaw.childNodes[7].innerText,
+                congestion_level: parseInt(tabelRaw.childNodes[5].innerText),
                 userId: userId,
                 transportTypeId: transportTypeId,
 

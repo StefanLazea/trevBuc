@@ -20,8 +20,6 @@ export default class Reviews extends React.Component {
             userId: -1,
             placeholderText: "Example: 300",
             starNumber: 1,
-            checked: false,
-            buttonText: "Add Review",
             addButtonState: false,
             showButtonState: false,
             showMyReviewsButtonState: false,

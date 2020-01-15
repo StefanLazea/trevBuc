@@ -33,6 +33,10 @@ componentDidMount = () =>{
          this.setState({reviews: reviewsCopy});
 
    }
+
+   editContent = () =>{
+       
+   }
     render() {
 
     
@@ -61,7 +65,7 @@ componentDidMount = () =>{
                             <td>{review.congestion_level}</td>
                             <td>{review.observations}</td>
                             <td>{review.rating}</td>
-                            <td><button>Edit</button>
+                            <td><button onClick={this.editContent}>Edit</button>
                                 <button onClick={() => {this.deleteReview(review.id)}}>Delete</button>
                             </td>
                         </tr>) :

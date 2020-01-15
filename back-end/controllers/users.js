@@ -63,9 +63,12 @@ const resetPassword = async (req, resp) => {
     if (!userFound) {
         return resp.status(404).send({ message: "No user found for this username" })
     } else {
+         const salt = bcrypt.genSaltSync(10);
+        let ePassword = bcrypt.hashSync(req.body.password, salt);
         await Users.update(
             {
-                password: req.body.password
+                
+                password: ePassword
             },
             {
                 where:

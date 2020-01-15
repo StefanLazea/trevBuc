@@ -4,144 +4,108 @@ import "./Register.css";
 //import {withRoute} from "react-router-dom";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { RegisterErrors } from "./RegisterErrors";
+//import "./RegisterErrors.js";
 
 const backUrl = require("../../../src/configuration.json").backend_url;
 
 export default class Register extends React.Component {
     constructor(props) {
         super(props);
-        
-        this.onChangeUserName = this.onChangeUserName.bind(this);
-        this.onChangeUserPassword = this.onChangeUserPassword.bind(this);
-        //this.handleConfirmPassword = this.handleConfirmPassword.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
+       // this.onSubmit = this.onSubmit.bind(this);
         
         this.state = {
-            username:' ',
-            password:' ',
-            confirmPassword: ' ',
-            
-            usernameError: ' ',
-            passwordError: ' '
+              email: '',
+              password: '',
+              confirmPassword: '',
+              registerErrors: {email: '', password: '', confirmPassword: ''},
+              emailValid: false,
+              passwordValid: false,
+              confirmPasswordValid: false,
+              formValid: false
         };
     }
     
-    change = e => {
-    this.props.onChange({ [e.target.name]: e.target.value });
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  };
-    
-    validate = () => {
-    let isError = false;
-    const errors = {
-      usernameError: ' ',
-      passwordError: ' '
-    };
+    handleUserInput = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({[name]: value},
+                  () => { this.validateField(name, value) });
+  }
 
-    if (this.state.username.length < 5) {
-      isError = true;
-      errors.usernameError = "Valid email required ";
+  validateField(fieldName, value) {
+    let fieldValidationErrors = this.state.registerErrors;
+    let emailValid = this.state.emailValid;
+    let passwordValid = this.state.passwordValid;
+    let confirmPasswordValid = this.state.confirmPasswordValid;
+
+    switch(fieldName) {
+      case 'email':
+        emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+        fieldValidationErrors.email = emailValid ? '' : ' is invalid';
+        break;
+      case 'password':
+        passwordValid = value.length >= 6;
+        fieldValidationErrors.password = passwordValid ? 'ok': ' is too short';
+        break;
+      case 'confirmPassword':
+        confirmPasswordValid = passwordValid == confirmPasswordValid;
+        console.log(confirmPasswordValid);
+        fieldValidationErrors.confirmPassword = confirmPasswordValid ? 'ok': 'does not match the password';
+      default:
+        break;
     }
+    this.setState({registerErrors: fieldValidationErrors,
+                    emailValid: emailValid,
+                    passwordValid: passwordValid,
+                    confirmPasswordValid: confirmPasswordValid
+                  }, this.validateForm);
+  }
+  
+    validateForm() {
+    this.setState({formValid: this.state.emailValid && this.state.passwordValid && this.state.confirmPasswordValid});
+  }
 
-    this.setState({
-      ...this.state,
-      ...errors
-    });
-
-    return isError;
-  };
-
-    // onChangeUserName(e) {
-    //     this.setState({ name: e.target.value })
-    // }
-
-    // onChangeUserPassword(e) {
-    //     this.setState({ email: e.target.value })
-    // }
+  errorClass(error) {
+    return(error.length === 0 ? '' : 'has-error');
+  }
     
-//     handleConfirmPassword(event) {
-//     if (event.target.value !== this.state.password) {
-//       message.error('error')
-//       this.setState({confirmPassword: event.target.value})
-//     }
-// }
-    
-     onSubmit = (e) => {
-        e.preventDefault();
-        const userObject = {
-            username: this.state.username,
-            password: this.state.password
-        }
-
-        Axios.post(`${backUrl}/register`, JSON.stringify(userObject),
-            {
-                headers: { "Content-Type": "application/json" }
-            })
-            .then((res) => {
-                toast(res.data.message)
-                
-                localStorage.setItem("token", res.data.token);
-                this.props.history.push(`/reviews`)
-            })
-            .catch(error => {
-                toast(error.response.data.message)
-            });
-            
-            this.setState({ username: '', password: '' })
-    }
-
-
-
-    render() {
-        return (
-           <form class="form-horizontal" action='' method="POST">
-  <fieldset>
-    <div id="legend">
-      <legend class="">Register</legend>
-    </div>
-    <div class="control-group">
-      <label class="control-label" for="email">E-mail</label>
-      <div class="controls">
-        <input type="text" id="email" name="email" placeholder="" class="input-xlarge" />
-        <p class="help-block">Please provide your E-mail</p>
-          value={this.state.username}
-          onChange={e => this.change(e)}
-          errorText={this.state.usernameError}
-      </div>
-    </div>
- 
-    <div class="control-group">
-      <label class="control-label" for="password">Password</label>
-      <div class="controls">
-        <input type="password" id="password" name="password" placeholder="" class="input-xlarge" />
-        <p class="help-block">Password should be at least 4 characters</p>
-          value={this.state.password}
-          onChange={e => this.change(e)}
-          errorText={this.state.passwordError}
-      </div>
-    </div>
- 
-    <div class="control-group">
-      <label class="control-label"  for="password_confirm">Password (Confirm)</label>
-      <div class="controls">
-        <input type="password" id="password_confirm" name="password_confirm" placeholder="" class="input-xlarge" />
-        <p class="help-block">Please confirm password</p>
-      </div>
-    </div>
- 
-    <div class="control-group">
-      <div class="controls">
-        <button class="btn btn-success" onClick={e => this.onSubmit(e)}>Register</button>
-      </div>
-    </div>
-  </fieldset>
-</form>
-        )
-    }
-    
-    
-    
+     render () {
+    return (
+      <form className="demoForm">
+        <h2>Sign up</h2>
+        
+        <div className="panel panel-default">
+          <RegisterErrors registerErrors={this.state.registerErrors} />
+        </div>
+        
+        <div className={`form-group ${this.errorClass(this.state.registerErrors.email)}`}>
+          <label htmlFor="email">Email address</label>
+          <input type="email" required className="form-control" name="email"
+            placeholder="Email"
+            value={this.state.email}
+            onChange={this.handleUserInput}  />
+        </div>
+        
+        <div className={`form-group ${this.errorClass(this.state.registerErrors.password)}`}>
+          <label htmlFor="password">Password</label>
+          <input type="password" className="form-control" name="password"
+            placeholder="Password"
+            value={this.state.password}
+            onChange={this.handleUserInput}  />
+        </div>
+        
+         <div className={`form-group ${this.errorClass(this.state.registerErrors.confirmPassword)}`}>
+          <label htmlFor="confirmPassword">Confirm password</label>
+          <input type="password" className="form-control" name="confirmPassword"
+            placeholder="ConfirmPassword"
+            value={this.state.confirmPassword}
+            onChange={this.handleUserInput}  />
+        </div>
+        
+        <button type="submit" className="btn btn-primary" disabled={!this.state.formValid}>Sign up</button>
+      </form>
+    )
+  }
     
 }

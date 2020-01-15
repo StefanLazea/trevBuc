@@ -3,8 +3,8 @@ body {
 }
 
 .login-box {
-    margin-top: 90px;
-    height: 70%;
+    margin-top: 70px;
+    height: auto;
     background: #1A2226;
     text-align: center;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
@@ -36,7 +36,7 @@ body {
     text-align: left;
 }
 
-input[type=text] {
+#username {
     background-color: #1A2226;
     border: none;
     border-bottom: 2px solid #0DB8DE;

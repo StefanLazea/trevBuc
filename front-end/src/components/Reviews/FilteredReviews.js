@@ -144,7 +144,7 @@ if(/^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(review.leaving_hour) === fal
                                     <Button className="btn-danger" onClick={() => { this.deleteReview(review.id) }}><i className="fa fa-trash"></i></Button>
                                 </td>
                             </tr>) :
-                        this.state.reviews.map(review =>
+                        this.props.reviews.map(review =>
 
                             <tr key={review.id}>
                                 <td>{review.transportTypeId}</td>

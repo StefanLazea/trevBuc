@@ -25,6 +25,7 @@ export default class ResetPassword extends React.Component {
      username:this.state.username,
      password:this.state.password
    }
+   alert(JSON.stringify(password))
     Axios.put(`${backUrl}/resetpassword`,JSON.stringify(password),{
       headers: { "Content-Type": "application/json" }
     }
@@ -44,9 +45,9 @@ export default class ResetPassword extends React.Component {
         <div className="row">
           <div className="col-sm-4">
 
-            <label>Current Password</label>
-            <div className="form-group pass_show">
-              <input type="password" className="form-control" placeholder="Current Password" />
+            <label>Email</label>
+            <div className="form-group">
+              <input type="Email" className="form-control" placeholder="Email" />
             </div>
             <label>New Password</label>
             <div className="form-group pass_show">

@@ -4,12 +4,13 @@ body {
 
 .login-box {
     margin-top: 70px;
+    width: auto;
     height: auto;
     background: #1A2226;
     text-align: center;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-    position:absolute;
-    margin-left:10%;
+    position:relative;
+    /* margin-left: 5%; */
 }
 
 .login-key {

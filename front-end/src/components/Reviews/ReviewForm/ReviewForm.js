@@ -10,13 +10,13 @@ export default class ReviewForm extends React.Component {
         super(props);
         this.state = {
             reviews: [],
-                userId: -1,
+            userId: -1,
             placeholderText: "Example: 300",
             starNumber: 1,
-            buttonText: "Add Review",    
+            buttonText: "Add Review",
         }
-       
-        
+
+
     }
 
     transportTypeRef = React.createRef();
@@ -60,59 +60,44 @@ export default class ReviewForm extends React.Component {
     //     var index = this.state.reviews.indexOf(reviewToUpdate);
     //     console.log("index" + index);
     //     this.setState({ buttonText: "Update review", updatedIndex: index, updatedReviewId: id });
-//  }
+    //  }
 
 
     handleSubmit = async (event) => {
         event.preventDefault();
-        
-            var transportType = {
-                name: this.transportNameRef.current.value,
-                type: this.transportTypeRef.current.value
-            }
-            var transportTypeDb;
-            await Axios.post(backUrl + "/transport-type", transportType).then(res => {
-                transportTypeDb = res.data;
-            }
-            )
-           
-            
-    
-            var review = {
-                leaving_point: String(this.leavingPointRef.current.value),
-                arriving_point: String(this.arrivngPointRef.current.value),
-                leaving_hour: String(this.leftHourRef.current.value),
-                duration: parseInt(this.durationRef.current.value),
-                observations: String(this.observationsRef.current.value),
-                rating: String(this.state.starNumber),
-                congestion_level: parseInt(this.congestionLevelRef.current.value),
-                userId: parseInt(this.props.userId), 
-                transportTypeId: parseInt(transportTypeDb.id),
-    
-            }
-    
-            Axios.post(backUrl + "/reviews", review,
+
+        var transportType = {
+            name: this.transportNameRef.current.value,
+            type: this.transportTypeRef.current.value
+        }
+        var transportTypeDb;
+        await Axios.post(backUrl + "/transport-type", transportType).then(res => {
+            transportTypeDb = res.data;
+        }
+        )
+
+
+
+        var review = {
+            leaving_point: String(this.leavingPointRef.current.value),
+            arriving_point: String(this.arrivngPointRef.current.value),
+            leaving_hour: String(this.leftHourRef.current.value),
+            duration: parseInt(this.durationRef.current.value),
+            observations: String(this.observationsRef.current.value),
+            rating: String(this.state.starNumber),
+            congestion_level: parseInt(this.congestionLevelRef.current.value),
+            userId: parseInt(this.props.userId),
+            transportTypeId: parseInt(transportTypeDb.id),
+
+        }
+
+        Axios.post(backUrl + "/reviews", review,
             { headers: { "Authorization": getToken() } }).then(res => {
                 var existingReviews = [...this.state.reviews];
                 existingReviews.push(res.data);
                 console.log(res.data);
                 this.setState({ reviews: existingReviews });
             })
-        
-        
-        
-
-          
-        
-       
-            // Axios.put(backUrl + "/reviews/" + this.state.updatedReviewId, review,
-            //     { headers: { "Authorization": getToken() } }).then(res => {
-            //         var existingReviews = [...this.state.reviews];
-            //         existingReviews[this.state.updatedIndex] = res.data;
-            //         console.log(this.state.updatedIndex);
-            //         this.setState({ reviews: existingReviews, buttonText: "Add Review" });
-            //     })
-        
     }
 
     handleSelect = () => {
@@ -133,7 +118,7 @@ export default class ReviewForm extends React.Component {
 
     render() {
         return <>
-       <form className="form-container" onSubmit={this.handleSubmit}>
+            <form className="form-container" onSubmit={this.handleSubmit}>
                 <label>Select the transport type</label>
                 <select className="form-control" ref={this.transportTypeRef} onChange={this.handleSelect}>
                     <option value="STB">STB</option>
@@ -160,7 +145,7 @@ export default class ReviewForm extends React.Component {
                     <span id={'star4'} onClick={() => this.starClick(5)} className="fa fa-star"></span>
                 </div>
                 <button className="submit-button" type="submit">{this.state.buttonText}</button>
-            </form> 
+            </form>
         </>
     }
 }

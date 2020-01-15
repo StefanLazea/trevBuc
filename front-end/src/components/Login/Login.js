@@ -64,19 +64,19 @@ export default class Login extends React.Component {
                             <i className="fa fa-key" aria-hidden="false"></i>
                         </div>
                         <div className="col-lg-12 login-title">
-                            TREVBUC
+                            TrevBUC
                         </div>
 
                         <div className="col-lg-12 login-form">
                             <div className="col-lg-12 login-form">
                                 <form>
                                     <div className="form-group">
-                                        <label className="form-control-label">USERNAME</label>
+                                        <label className="form-control-label">Email</label>
                                         <input type="text"
                                             name='username'
                                             className="form-control"
                                             onChange={e => this.handleChange(e)}
-                                            placeholder="Enter Username" />
+                                            placeholder="Enter email" />
                                     </div>
                                     <div className="form-group">
                                         <label className="form-control-label">PASSWORD</label>

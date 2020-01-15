@@ -147,7 +147,7 @@ export default class Reviews extends React.Component {
 
     PressAddReview = () => {
         if (this.state.isUserLoggedIn) {
-            this.setState({ addButtonState: !this.state.addButtonState, showButtonState: false,showAllReviewsButtonState:false, showMyReviewsButtonState : false })
+            this.setState({ addButtonState: !this.state.addButtonState, showButtonState: false, showAllReviewsButtonState: false, showMyReviewsButtonState: false })
         }
 
         else {
@@ -169,24 +169,28 @@ export default class Reviews extends React.Component {
     }
 
     PressShowMyReviews = () => {
-        
-                this.setState({ showMyReviewsButtonState: !this.state.showMyReviewsButtonState,addButtonState : false,
-                showButtonState: false, showAllReviewsButtonState:false});
-            }
 
-            PressShowAllReviews = () => {
-                Axios.get(backUrl + "/reviews")
-                .then(res => this.setState({
-                    filteredReviews: res.data,
-                    showButtonState: false,
-                    showMyReviewsButtonState: false,
-                    addButtonState: false,
-                    showAllReviewsButtonState: !this.state.showAllReviewsButtonState
+        this.setState({
+            showMyReviewsButtonState: !this.state.showMyReviewsButtonState, addButtonState: false,
+            showButtonState: false, showAllReviewsButtonState: false
+        });
+    }
 
-                }));
-                this.setState({ showMyReviewsButtonState: false,addButtonState : false,
-                    showButtonState: false});
-            }
+    PressShowAllReviews = () => {
+        Axios.get(backUrl + "/reviews")
+            .then(res => this.setState({
+                filteredReviews: res.data,
+                showButtonState: false,
+                showMyReviewsButtonState: false,
+                addButtonState: false,
+                showAllReviewsButtonState: !this.state.showAllReviewsButtonState
+
+            }));
+        this.setState({
+            showMyReviewsButtonState: false, addButtonState: false,
+            showButtonState: false
+        });
+    }
 
 
     render() {
@@ -194,16 +198,17 @@ export default class Reviews extends React.Component {
 
             <div className="App container">
                 <NavigationBar />
+                <div className="spacing">
+                    <button onClick={this.PressAddReview}>Add Review</button>
+                    <button onClick={this.PressFilterReview}>Filter Reviews</button>
+                    <button onClick={this.PressShowMyReviews}> Show my reviews</button>
+                    <button onClick={this.PressShowAllReviews}>Show All Reviews</button>
+                </div>
+                {this.state.addButtonState === true ?
+                    <ReviewForm userId={this.state.userId} />
+                    : null}
 
-        <button onClick = {this.PressAddReview}>Add Review</button>
-        <button onClick = {this.PressFilterReview}>Filter Reviews</button>
-        <button onClick={this.PressShowMyReviews}> Show my reviews</button>
-        <button onClick={this.PressShowAllReviews}>Show All Reviews</button>
-        {this.state.addButtonState === true ?
-         <ReviewForm userId={this.state.userId} />
-        : null }
 
-                
                 {this.state.showButtonState === true ?
                     <form>
                         <div className="lander">
@@ -216,23 +221,23 @@ export default class Reviews extends React.Component {
                                 <AllReviews reviews={this.state.filteredReviews} />
                                 : null}
 
-                             
-                           
+
+
 
                         </div>
                     </form> : null
                 }
 
-                              {                        
-                               this.state.showMyReviewsButtonState ===true ? <FilteredReviews allowEditing={true} userId={this.state.userId} />
-                               : null}
+                {
+                    this.state.showMyReviewsButtonState === true ? <FilteredReviews allowEditing={true} userId={this.state.userId} />
+                        : null}
 
-                         {
-                             this.state.showAllReviewsButtonState === true ? <AllReviews reviews={this.state.filteredReviews} />
-                             : null
-                         }
-    </div>
-        
+                {
+                    this.state.showAllReviewsButtonState === true ? <AllReviews reviews={this.state.filteredReviews} />
+                        : null
+                }
+            </div>
+
 
         </>
     }

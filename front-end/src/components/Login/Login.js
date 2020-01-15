@@ -41,7 +41,6 @@ export default class Login extends React.Component {
                 this.props.history.push(`/reviews`)
             })
             .catch(error => {
-                console.log(typeof error.response)
                 if (error.response !== undefined) {
                     toast(error.response.data.message)
                 } else {
@@ -62,7 +61,7 @@ export default class Login extends React.Component {
                     <div className="col-lg-3 col-md-2"></div>
                     <div className="col-lg-6 col-md-8 login-box">
                         <div className="col-lg-12 login-key">
-                            <i className="fa fa-key" aria-hidden="true"></i>
+                            <i className="fa fa-key" aria-hidden="false"></i>
                         </div>
                         <div className="col-lg-12 login-title">
                             TREVBUC
@@ -88,15 +87,23 @@ export default class Login extends React.Component {
                                             onChange={e => this.handleChange(e)} placeholder="Password" />
                                     </div>
 
-                                    <div className="col-lg-12 loginbttm">
-                                        <button type="submit" onClick={(e) => this.onSubmit(e)}
-                                            className="btn btn-primary">LOGIN
-                                            </button>
-                                        <button onClick={() => this.nextPath("/register")} type="button"
-                                            className="btn btn-primary">Register
-                                            </button>
+                                    <div className="col-lg-12 col-sm-12 loginbttm">
+                                        <div className="col-sm-12">
+                                            <Button type="submit" onClick={(e) => this.onSubmit(e)}
+                                                className="btn btn-primary left-align">Login
+                                            </Button>
+                                            <Button onClick={() => this.nextPath("/register")} type="button"
+                                                className="btn btn-primary right-align">Register
+                                            </Button>
+                                        </div>
+
                                         <Button onClick={() => this.nextPath("/reviews")} type="button"
                                             className="btn btn-danger" size="lg" block>See Reviews
+                                            </Button>
+                                    </div>
+                                    <div className="text-right">
+                                        <Button onClick={() => this.nextPath("/forgot-password")} type="button"
+                                            className="btn-primary-outline">Forgot password
                                             </Button>
                                     </div>
                                 </form>
@@ -104,8 +111,8 @@ export default class Login extends React.Component {
                         </div>
                         <div className="col-lg-3 col-md-2"></div>
                     </div>
-                </div>
-            </div>
+                </div >
+            </div >
         )
     }
 }

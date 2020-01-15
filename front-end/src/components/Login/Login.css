@@ -124,3 +124,28 @@ label {
 .loginbttm {
     padding: 0px;
 }
+
+.btn-primary-outline {
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    color: white;
+}
+
+.right-align {
+    margin-bottom: 2%;
+    float: right;
+    display: flex;
+    width: 30%;
+    text-align: center;
+    justify-content: center;
+}
+
+.left-align {
+    margin-bottom: 2%;
+    float: left;
+    display: flex;
+    width: 30%;
+    text-align: center;
+    justify-content: center;
+}

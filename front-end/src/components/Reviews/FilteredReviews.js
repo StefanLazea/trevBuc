@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
 import Axios from 'axios';
+import { getToken } from '../../services/Token';
 import { toast } from 'react-toastify';
 const backUrl = require("../../../src/configuration.json").backend_url;
  
@@ -11,8 +12,11 @@ export default class FilteredReviews extends React.Component {
 constructor(props){
     super(props);
     this.state = {
-        reviews: []
+        reviews: [],
+        editButtonText: "Edit"
     }
+
+    
 }
 
 componentDidMount = () =>{
@@ -34,8 +38,43 @@ componentDidMount = () =>{
 
    }
 
-   editContent = () =>{
+   editContent =  async (id) =>{
+       var tds = document.querySelectorAll('td');
        
+       if(this.state.editButtonText === "Edit"){
+        tds.forEach(tabelCell => tabelCell.contentEditable = true);
+        this.setState({editButtonText: "Save"});
+       }
+
+       else {
+        tds.forEach(tabelCell => tabelCell.contentEditable = false);
+        var tabelRaw = document.getElementById(id);
+        let reviewId;
+        let userId;
+        let transportTypeId;
+        
+        await Axios.get(backUrl+ '/reviews/'+ id).then(res => {
+            reviewId = res.data.id;
+            userId = res.data.userId;
+            transportTypeId = res.data.userId;
+        })
+        var review = {
+            id: reviewId,
+            leaving_point: tabelRaw.childNodes[1].innerText,
+             arriving_point: tabelRaw.childNodes[2].innerText,
+            leaving_hour: tabelRaw.childNodes[3].innerText,
+            duration: parseInt(tabelRaw.childNodes[4].innerText),
+            observations: tabelRaw.childNodes[5].innerText,
+            rating: tabelRaw.childNodes[6].innerText,
+            congestion_level: parseInt(tabelRaw.childNodes[7].innerText),
+            userId: userId, 
+            transportTypeId: transportTypeId,
+
+        }
+        Axios.put(backUrl+ '/reviews/' + id,review,{ headers: { "Authorization": getToken() } }).then(toast("The review was updated succesfully"));
+
+       }
+
    }
     render() {
 
@@ -56,7 +95,7 @@ componentDidMount = () =>{
                 {      this.props.allowEditing === true ?
                     this.state.reviews.map(review =>
 
-                        <tr key={review.id}>
+                        <tr id={review.id} key={review.id}>
                             <td>{review.transportTypeId}</td>
                             <td>{review.leaving_point}</td>
                             <td>{review.arriving_point}</td>
@@ -65,7 +104,7 @@ componentDidMount = () =>{
                             <td>{review.congestion_level}</td>
                             <td>{review.observations}</td>
                             <td>{review.rating}</td>
-                            <td><button onClick={this.editContent}>Edit</button>
+                            <td><button onClick={() => {this.editContent(review.id)}}>{this.state.editButtonText}</button>
                                 <button onClick={() => {this.deleteReview(review.id)}}>Delete</button>
                             </td>
                         </tr>) :

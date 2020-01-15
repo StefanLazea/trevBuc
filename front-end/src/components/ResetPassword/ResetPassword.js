@@ -1,14 +1,33 @@
 import React from "react";
+import Axios from "axios";
+
+const backUrl = require("../../../src/configuration.json").backend_url;
+
 
 export default class ResetPassword extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      username:" ",
+    password:" "
     }
 
   }
 
-
+ handleChange= event=>{
+   this.setState({name:event.target.value});
+ }
+ 
+ 
+ handleSubmit=e=>{
+   e.preventDefault();
+   const password={
+     username:this.state.username,
+     password:this.state.password
+   }
+ }
+ 
+  
   render() {
 
     return (
@@ -26,7 +45,7 @@ export default class ResetPassword extends React.Component {
             </div>
             <label>Confirm Password</label>
             <div class="form-group pass_show">
-              <input type="password" class="form-control" placeholder="Confirm Password" />
+              <input type="password" className="form-control" placeholder="Confirm Password" onChange={this.handleChange}/>
             </div>
             <button type="submit" class="btn btn-primary resizebtn" id="LoginGmail">Reset</button>
           </div>

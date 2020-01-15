@@ -1,5 +1,6 @@
 import React from "react";
 import Axios from "axios";
+import {withRouter} from 'react-router-dom'
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -20,6 +21,7 @@ export default class Login extends React.Component {
             [e.target.name]: e.target.value
         })
     }
+    
 
 
     onSubmit = (e) => {
@@ -40,13 +42,18 @@ export default class Login extends React.Component {
                 this.props.history.push(`/reviews`)
             })
             .catch(error => {
-                toast(error.response.data.message)
+               //toast(error.response.data.message)
             });
     }
-
+    
+     nextPath(path) {
+    this.props.history.push(path);
+  }
+   
+    
     render() {
         return (
-            <form className="center">
+            <form className="center" id ="login">
                 <div className="form-group" >
                     <label htmlFor="exampleInputUsername1">Username</label>
                     <input className="form-control" id="exampleInputUsername1" aria-describedby="UsernameHelp"
@@ -63,7 +70,9 @@ export default class Login extends React.Component {
                         onChange={e => this.handleChange(e)} placeholder="Password" />
                 </div>
                 <button type="submit" onClick={(e) => this.onSubmit(e)} className="btn btn-primary resizebtn" >Login</button>
-                <button type="button" className="btn btn-light ">Reset Password</button>
+                <br/>
+                <br/>
+                <button onClick={() => this.nextPath("/resetpassword") } type="button" className="btn btn-light " >Reset Password</button>
             </form>
         )
     }

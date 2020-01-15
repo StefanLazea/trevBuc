@@ -22,10 +22,10 @@ const registerUser = async (req, res) => {
             username: req.body.username,
             password: ePassword
         },
-        {
-            where:
-                { id: req.params.id }
-        });
+            {
+                where:
+                    { id: req.params.id }
+            });
     } catch (err) {
         return res.send(err);
     }
@@ -53,34 +53,35 @@ const login = async (req, res) => {
         {
             expiresIn: "3h"
         });
-        
-    res.send({userId: userFound.id, token: "Bearer " + token, message: "V-ati logat cu success" })
+
+    res.send({ userId: userFound.id, token: "Bearer " + token, message: "V-ati logat cu success" })
 };
 
-const resetpassword = async(req, resp) => {
+const resetPassword = async (req, resp) => {
     let userFound = await findUserByUsername(req.body.username);
-    if(userFound){
-        return resp.status(404).send({message:"No user found for this username"})
+
+    if (userFound) {
+        return resp.status(404).send({ message: "No user found for this username" })
+    } else {
+        await Users.update(
+            {
+                password: req.body.password
+            },
+            {
+                where:
+                    { username: req.body.username }
+            })
+            .then(resp.status(201).send({ message: "The user with username: '" + req.body.username + "' has been updated" }))
+            .catch(err => resp.status(500).send({
+                message: "Error"
+            })
+            )
     }
-    else
-    { 
-        await Users.update({
-            password:req.body.password
-        },
-         {
-            where:
-                { username: req.body.username }
-        }).then(resp.status(201).send({message:"The user with username: '" + req.body.username + "' has been updated"})).catch(err=> resp.status(400).send({
-            message:"Error"
-        }))
-    
-    
-    }
-    
+
 }
 
 module.exports = {
     registerUser,
     login,
-    resetpassword
+    resetPassword
 }

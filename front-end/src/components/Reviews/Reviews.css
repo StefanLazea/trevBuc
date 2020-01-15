@@ -1,39 +1,45 @@
-.transportNamebox{
+.transportNamebox {
     margin-top: 2px;
     margin-bottom: 5px;
 }
 
-.numberInput{
+.numberInput {
     width: 120px;
 }
 
-.durationInput{
+.durationInput {
     margin-top: 10px;
-    width:150px;
+    width: 150px;
 }
 
-.form-container{
+.form-container {
     display: flex;
     flex-direction: column;
 }
 
 
-.submit-button{
+.submit-button {
     margin-top: 10px;
     width: 150px
 }
 
-.textarea{
+.textarea {
     resize: vertical;
 }
 
-.lander{
+.lander {
     margin-top: 100px;
 }
 
 .checked {
     color: orange;
-  }
-  .rating-bar{
-      flex-direction: row;
-  }
+}
+
+.rating-bar {
+    flex-direction: row;
+}
+
+body {
+    background: #222D32;
+    font-family: 'Roboto', sans-serif;
+}

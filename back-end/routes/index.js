@@ -9,7 +9,7 @@ router.post('/register', userController.registerUser);
 //route for login an user with credentials
 router.post('/login', userController.login);
 
-router.put('/resetpassword',userController.resetpassword);
+router.put('/resetpassword', userController.resetPassword);
 
 // REVIEWS
 

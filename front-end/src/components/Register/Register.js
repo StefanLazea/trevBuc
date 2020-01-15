@@ -42,7 +42,12 @@ export default class Register extends React.Component {
     this.setState({
       [name]: value,
     },
-      () => { this.validateField(name, value) });
+      () => {
+        if (name === "confirmPassword") {
+          this.validateField("password", value);
+        }
+        this.validateField(name, value)
+      });
   }
 
   //{`form-group ${this.errorClass(this.state.registerErrors.email)}`}
@@ -85,10 +90,7 @@ export default class Register extends React.Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    // this.validateField("email", this.state.email);
-    // this.validateField("password", this.state.password);
-    // this.validateField("confirmPassword", this.state.confirmPassword, this.state.password);
-
+    console.log(this.state.emailError, this.state.passwordError, this.state.passwordMatchError);
     if (this.state.emailError === false && this.state.passwordMatchError === false && this.state.passwordError === false) {
       const form = {
         password: this.state.password,
@@ -108,8 +110,6 @@ export default class Register extends React.Component {
         .catch(error => {
           if (error.response !== undefined) {
             toast(error.response.data.message)
-          } else {
-            toast("Something went wrong")
           }
         });
     } else {
@@ -127,7 +127,7 @@ export default class Register extends React.Component {
           <input type="email" required className="form-control"
             name="email"
             placeholder="Email"
-            onMouseMoveCapture={e => this.handleChange(e)} />
+            onClick={e => this.handleChange(e)} />
         </div>
 
         <div className={`form-group ${this.errorClass(this.state.passwordError)}`}>
@@ -136,7 +136,7 @@ export default class Register extends React.Component {
             className="form-control"
             name="password"
             placeholder="Password"
-            onMouseMoveCapture={e => this.handleChange(e)} />
+            onClick={e => this.handleChange(e)} />
         </div>
 
         <div className={`form-group ${this.errorClass(this.state.passwordError)}`}>
@@ -145,7 +145,7 @@ export default class Register extends React.Component {
             className="form-control"
             name="confirmPassword"
             placeholder="ConfirmPassword"
-            onMouseMoveCapture={e => this.handleChange(e)} />
+            onClick={e => this.handleChange(e)} />
         </div>
 
         <button type="submit" className="btn btn-primary" onClick={(e) => this.onSubmit(e)}>Sign up</button>

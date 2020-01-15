@@ -20,6 +20,7 @@ export default class Login extends React.Component {
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
+          
         })
     }
 
@@ -41,11 +42,15 @@ export default class Login extends React.Component {
                 this.props.history.push(`/reviews`)
             })
             .catch(error => {
+
                 if (error.response !== undefined) {
                     toast(error.response.data.message)
                 } else {
                     toast("A aparut o eroare. Incercati mai tarziu!")
                 }
+
+                //toast(error.response.data.message)
+
             });
     }
 

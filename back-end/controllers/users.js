@@ -60,7 +60,7 @@ const login = async (req, res) => {
 const resetPassword = async (req, resp) => {
     let userFound = await findUserByUsername(req.body.username);
 
-    if (userFound) {
+    if (!userFound) {
         return resp.status(404).send({ message: "No user found for this username" })
     } else {
         await Users.update(

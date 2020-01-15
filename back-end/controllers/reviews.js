@@ -1,4 +1,5 @@
 const Reviews = require('../models').Reviews;
+const Users = require('../models').Users;
 const TransportTypes = require('../models').transportType;
 
 const createReview = async (req, res) => {
@@ -12,7 +13,9 @@ const createReview = async (req, res) => {
         congestion_level: req.body.congestion_level,
         userId: req.body.userId,
         transportTypeId: req.body.transportTypeId
-    }).then(res.status(201).send({message:"Review created"}))
+    }).then(result => {res.send(result);
+        res.status(201).send({message:"Review created"})}
+        )
 }
 
 const getAllReviews = async (req, res) => {
@@ -68,6 +71,27 @@ const getReviewsByTransportTypeId = async (req, res) => {
 }
 
 
+const getReviewsByUserId = async (req, res) => {
+    let foundUserId;
+    try{
+    await Users.findOne(
+        {
+            where: { id: req.params.id }
+        }
+    ).then((result) => foundUserId = result.id);
+
+    await Reviews.findAll(
+        {
+            where: { userId: foundUserId }
+        }).then(result => res.send(result));
+    }
+    catch(err)
+    {
+        return res.status(404).send({ message: "No elements found in the database" });
+    }
+}
+
+
 const deleteReviewById = async(req, res) => {
     await Reviews.destroy(
         {
@@ -93,6 +117,7 @@ module.exports = {
     createReview,
     getAllReviews,
     updateReview,
+    getReviewsByUserId,
     getReviewsByTransportTypeId,
     deleteReviewById,
     getReviewById

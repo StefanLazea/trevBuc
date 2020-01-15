@@ -8,7 +8,6 @@ const Review = require("../models").Reviews;
 router.post('/register', userController.registerUser);
 //route for login an user with credentials
 router.post('/login', userController.login);
-router.post('/logout', userController.logout);
 
 
 // REVIEWS
@@ -22,6 +21,9 @@ router.get('/reviews', reviewsController.getAllReviews);
 
 //update a review
 router.put('/reviews/:id', verifyAuth, reviewsController.updateReview);
+
+//get a user reviews
+router.get('/reviews/user/:id', reviewsController.getReviewsByUserId);
 
 //get review for the transport type with the id
 router.get('/reviews/transport-type/:id', reviewsController.getReviewsByTransportTypeId);

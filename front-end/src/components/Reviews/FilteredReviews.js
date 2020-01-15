@@ -14,13 +14,35 @@ export default class FilteredReviews extends React.Component {
         super(props);
         this.state = {
             reviews: [],
-            editButtonText: "Edit"
+            editButtonText: "Edit",
+            isOk: true
         }
 
 
     }
 
-    validateFields = () => {
+    validateFields = (review) => {
+    
+        var id = parseInt(review.duration)
+        if(isNaN(id)){
+    toast("Update failed! Duration must be a number");
+    this.setState({isOk: false});
+        }
+        var rating = parseInt(review.rating);
+        if(isNaN(rating)|| (rating >5 || rating<1)){
+            toast("Update failed! Rating should be a digit from 1 to 5");
+            this.setState({isOk: false});
+        }
+var congestion_level = parseInt(review.congestion_level);
+if(isNaN(congestion_level)|| (congestion_level>10 || congestion_level<1)){
+    toast("Update failed! Rating should be a number from 1 to 10");
+            this.setState({isOk: false});
+}
+
+if(/^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(review.leaving_hour) === false){
+    toast("Update failed! Leaving hour is not valid!");
+            this.setState({isOk: false});
+}
         
     }
 
@@ -33,7 +55,7 @@ export default class FilteredReviews extends React.Component {
     }
 
     deleteReview(id) {
-        Axios.delete(backUrl + '/reviews/' + id).then(toast('the review was succesfully'));
+        Axios.delete(backUrl + '/reviews/' + id).then(toast('the review was succesfully deleted'));
         var reviewsCopy = [...this.state.reviews];
         var review = reviewsCopy.find(review => review.id === id);
         var index = reviewsCopy.indexOf(review);
@@ -65,6 +87,7 @@ export default class FilteredReviews extends React.Component {
                 userId = res.data.userId;
                 transportTypeId = res.data.userId;
             })
+            this.setState({isOk:true});
             var review = {
                 id: reviewId,
                 leaving_point: tabelRaw.childNodes[1].innerText,
@@ -78,8 +101,13 @@ export default class FilteredReviews extends React.Component {
                 transportTypeId: transportTypeId,
 
             }
-            Axios.put(backUrl + '/reviews/' + id, review, { headers: { "Authorization": getToken() } }).then(toast("The review was updated succesfully"));
-            document.getElementById("button"+id).innerHTML="Edit";
+            
+            await this.validateFields(review);
+            if(this.state.isOk === true){
+                Axios.put(backUrl + '/reviews/' + id, review, { headers: { "Authorization": getToken() } }).then(toast("The review was updated succesfully"));
+       
+            }
+                 document.getElementById("button"+id).innerHTML="Edit";
              
         }
 

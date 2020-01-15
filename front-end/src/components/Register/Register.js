@@ -4,26 +4,10 @@ import "./Register.css";
 //import {withRoute} from "react-router-dom";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-//import "./RegisterErrors.js";
-
 const backUrl = require("../../../src/configuration.json").backend_url;
 
 export default class Register extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   // this.onSubmit = this.onSubmit.bind(this);
 
-  //   // this.state = {
-  //   //   email: '',
-  //   //   password: '',
-  //   //   confirmPassword: '',
-  //   //   registerErrors: { email: '', password: '', confirmPassword: '' },
-  //   //   emailValid: false,
-  //   //   passwordValid: false,
-  //   //   confirmPasswordValid: false,
-  //   //   // formValid: false
-  //   // };
-  // }
   constructor(props) {
     super(props);
     this.state = {
@@ -97,15 +81,13 @@ export default class Register extends React.Component {
         username: this.state.email
       }
 
-      console.log(this.state.emailError)
-
       Axios.post(`${backUrl}/register`, JSON.stringify(form),
         {
           headers: { "Content-Type": "application/json" }
         })
         .then((res) => {
-          toast(res.data.message)
-          this.nextPath("/login");
+          toast(res.data.message);
+          this.props.history.push(`/login`)
         })
         .catch(error => {
           if (error.response !== undefined) {

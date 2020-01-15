@@ -3,6 +3,7 @@ import Axios from "axios";
 import NavigationBar from '../Navbar/NavigationBar'
 import "./Reviews.css";
 import { toast } from "react-toastify";
+import { Button } from "react-bootstrap";
 import 'react-toastify/dist/ReactToastify.css';
 import { getUserId, getToken } from '../../services/Token';
 import FilteredReviews from './FilteredReviews';
@@ -63,8 +64,7 @@ export default class Reviews extends React.Component {
         var transportTypeDb;
         await Axios.post(backUrl + "/transport-type", transportType).then(res => {
             transportTypeDb = res.data;
-        }
-        )
+        })
 
 
 
@@ -98,13 +98,12 @@ export default class Reviews extends React.Component {
         }
         catch (error) {
             this.setState({ isUserLoggedIn: false });
-
         }
     }
 
 
 
-    handleInputChange = (event) => {
+    handleInputChangeLeaving = (event) => {
         let myReviews = [...this.state.reviews];
         myReviews = myReviews.filter(review => review.leaving_point === event.target.value)
         event.preventDefault()
@@ -112,7 +111,16 @@ export default class Reviews extends React.Component {
             searchFilter: event.target.value,
             filteredReviews: myReviews
         })
+    }
 
+    handleInputChangeArriving = (event) => {
+        let myReviews = [...this.state.reviews];
+        myReviews = myReviews.filter(review => review.arriving_point === event.target.value)
+        event.preventDefault()
+        this.setState({
+            searchFilter: event.target.value,
+            filteredReviews: myReviews
+        })
     }
 
 
@@ -122,7 +130,7 @@ export default class Reviews extends React.Component {
         }
 
         else {
-            toast("U need to login in order to add a review!");
+            toast("You need to login in order to add a review!");
         }
 
     }
@@ -170,10 +178,10 @@ export default class Reviews extends React.Component {
             <div className="App container">
                 <NavigationBar />
                 <div className="spacing">
-                    <button onClick={this.PressAddReview}>Add Review</button>
-                    <button onClick={this.PressFilterReview}>Filter Reviews</button>
-                    <button onClick={this.PressShowMyReviews}> Show my reviews</button>
-                    <button onClick={this.PressShowAllReviews}>Show All Reviews</button>
+                    <Button onClick={this.PressAddReview}>Add Review</Button>
+                    <Button onClick={this.PressShowMyReviews}>Show my reviews</Button>
+                    <Button onClick={this.PressFilterReview}>Filter Reviews</Button>
+                    <Button onClick={this.PressShowAllReviews}>Show All Reviews</Button>
                 </div>
                 {this.state.addButtonState === true ?
                     <ReviewForm userId={this.state.userId} />
@@ -184,32 +192,34 @@ export default class Reviews extends React.Component {
                     <form>
                         <div className="lander">
 
-                            <label>Search By Leaving Point</label>
+                            <h3><span class="label label-default">Search By Leaving Point</span></h3>
 
-                            <input type="text" placeholder="Leaving Point" name="searchFilter" onInput={this.handleInputChange}></input>
+                            <h3><span class="label label-default">Search By Arriving Point</span></h3>
+                        </div>
+
+                        <div className="fields">
+                            <input type="text" placeholder="Leaving Point" name="searchFilter" onInput={this.handleInputChangeLeaving}></input>
+
+                            <input type="text" placeholder="Arriving Point" name="searchFilter" onInput={this.handleInputChangeArriving}></input>
+                         </div>
 
                             {(this.state.searchFilter.length > 0 && this.state.filteredReviews.length > 0) ?
                                 <AllReviews reviews={this.state.filteredReviews} />
                                 : null}
 
-
-
-
-                        </div>
                     </form> : null
                 }
 
                 {
                     this.state.showMyReviewsButtonState === true ? <FilteredReviews allowEditing={true} userId={this.state.userId} />
-                        : null}
+                        : null
+                }
 
                 {
                     this.state.showAllReviewsButtonState === true ? <AllReviews reviews={this.state.filteredReviews} />
                         : null
                 }
             </div>
-
-
         </>
     }
 }

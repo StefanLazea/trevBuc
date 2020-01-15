@@ -1,6 +1,7 @@
 .transportNamebox{
     margin-top: 2px;
     margin-bottom: 5px;
+    text-transform: uppercase; 
 }
 
 .numberInput{
@@ -12,11 +13,11 @@
     width:150px;
 }
 
+
 .form-container{
     display: flex;
     flex-direction: column;
 }
-
 
 .submit-button{
     margin-top: 10px;
@@ -28,7 +29,7 @@
 }
 
 .lander{
-    margin-top: 100px;
+    margin-top: 10px;
 }
 
 .checked {

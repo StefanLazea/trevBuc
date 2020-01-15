@@ -20,15 +20,30 @@
 
 .submit-button {
     margin-top: 10px;
-    width: 150px
+    width: 150px;
+    margin-bottom: 10px;
 }
+
+h3{
+    display:inline-block;
+    margin-right: 5px;
+}
+
+
+
+.fields input[type="text"]{
+    margin-right: 7px;
+    width: 213px;
+    height: 40px;
+    text-transform: uppercase; 
+}
+
+::placeholder{
+    text-transform: none;
+} 
 
 .textarea {
     resize: vertical;
-}
-
-.lander {
-    margin-top: 100px;
 }
 
 .checked {

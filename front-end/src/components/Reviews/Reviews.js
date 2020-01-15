@@ -144,23 +144,7 @@ export default class Reviews extends React.Component {
 
     }
 
-<<<<<<< HEAD
-    componentDidMount() {
-        Axios.get(backUrl + '/reviews')
-            .then(res => {
-                const reviews = res.data;
-                this.setState({ reviews: reviews });
-            })
-        document.getElementById("star0").className = "fa fa-star checked"
 
-        Axios.post( backUrl + `/login`, this.state.user)
-            .then((res) => {
-                localStorage.setItem("token", res.data.token);
-            })
-            .catch(error => {
-                toast(error.response.data.message)
-            });
-=======
     PressAddReview = () => {
         if (this.state.isUserLoggedIn) {
             this.setState({ addButtonState: !this.state.addButtonState, showButtonState: false,showAllReviewsButtonState:false, showMyReviewsButtonState : false })
@@ -170,7 +154,6 @@ export default class Reviews extends React.Component {
             toast("U need to login in order to add a review!");
         }
 
->>>>>>> 5e24954d9206d97d49a13d823ec3de8371b96c17
     }
 
     PressFilterReview = () => {

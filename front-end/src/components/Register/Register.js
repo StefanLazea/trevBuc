@@ -13,11 +13,15 @@ export default class Register extends React.Component {
         
         this.onChangeUserName = this.onChangeUserName.bind(this);
         this.onChangeUserPassword = this.onChangeUserPassword.bind(this);
+        //this.handleConfirmPassword = this.handleConfirmPassword.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         
         this.state = {
             username:' ',
-            password:' '
+            password:' ',
+            confirmPassword: ' ',
+            usernameError: ' ',
+            passwordError: ' '
         };
     }
     
@@ -28,6 +32,13 @@ export default class Register extends React.Component {
     onChangeUserPassword(e) {
         this.setState({ email: e.target.value })
     }
+    
+//     handleConfirmPassword(event) {
+//     if (event.target.value !== this.state.password) {
+//       message.error('error')
+//       this.setState({confirmPassword: event.target.value})
+//     }
+// }
     
      onSubmit = (e) => {
         e.preventDefault();
@@ -62,14 +73,6 @@ export default class Register extends React.Component {
     <div id="legend">
       <legend class="">Register</legend>
     </div>
-    <div class="control-group">
-      <label class="control-label"  for="username">Username</label>
-      <div class="controls">
-        <input type="text" id="username" name="username" placeholder="" class="input-xlarge"/>
-        <p class="help-block">Username can contain any letters or numbers, without spaces</p>
-      </div>
-    </div>
- 
     <div class="control-group">
       <label class="control-label" for="email">E-mail</label>
       <div class="controls">

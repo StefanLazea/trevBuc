@@ -41,7 +41,12 @@ export default class Login extends React.Component {
                 this.props.history.push(`/reviews`)
             })
             .catch(error => {
-                toast(error.response.data.message)
+                console.log(typeof error.response)
+                if (error.response !== undefined) {
+                    toast(error.response.data.message)
+                } else {
+                    toast("A aparut o eroare. Incercati mai tarziu!")
+                }
             });
     }
 

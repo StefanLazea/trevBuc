@@ -29,7 +29,8 @@ export default class Register extends React.Component {
     this.state = {
       password: ' ',
       email: ' ',
-      confirmPassword: ''
+      confirmPassword: '',
+      emailError: true
     };
   }
 
@@ -42,13 +43,16 @@ export default class Register extends React.Component {
   //{`form-group ${this.errorClass(this.state.registerErrors.email)}`}
   validateField(fieldName, value) {
     let fieldValidationErrors;
-    let emailValid;
     let passwordValid;
     let confirmPasswordValid;
     switch (fieldName) {
       case 'email':
-        emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-        fieldValidationErrors.email = emailValid ? '' : ' is invalid';
+        if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(value)) {
+          this.setState({ emailError: false })
+        } else {
+          this.setState({ emailError: true })
+          toast("Email incorect");
+        }
         break;
       case 'password':
         passwordValid = value.length >= 6;
@@ -64,36 +68,37 @@ export default class Register extends React.Component {
   }
 
   errorClass(error) {
-    return (error.length === 0 ? '' : 'has-error');
+    return (error === false ? '' : 'has-error');
   }
 
   onSubmit = (e) => {
     e.preventDefault();
-    this.validateField("em")
 
+    this.validateField("email", this.state.email);
     const form = {
       password: this.state.password,
       username: this.state.email
     }
 
+    console.log(this.state.emailError)
 
-    console.log(JSON.stringify(form))
+    // console.log(JSON.stringify(form))
 
-    Axios.post(`${backUrl}/register`, JSON.stringify(form),
-      {
-        headers: { "Content-Type": "application/json" }
-      })
-      .then((res) => {
-        toast(res.data.message)
-        this.nextPath("/login");
-      })
-      .catch(error => {
-        if (error.response !== undefined) {
-          toast(error.response.data.message)
-        } else {
-          toast("Something went wrong")
-        }
-      });
+    // Axios.post(`${backUrl}/register`, JSON.stringify(form),
+    //   {
+    //     headers: { "Content-Type": "application/json" }
+    //   })
+    //   .then((res) => {
+    //     toast(res.data.message)
+    //     this.nextPath("/login");
+    //   })
+    //   .catch(error => {
+    //     if (error.response !== undefined) {
+    //       toast(error.response.data.message)
+    //     } else {
+    //       toast("Something went wrong")
+    //     }
+    //   });
 
   }
 
@@ -102,7 +107,7 @@ export default class Register extends React.Component {
       <form className="demoForm">
         <h2>Sign up</h2>
 
-        <div className="form-group">
+        <div className={`form-group ${this.errorClass(this.state.emailError)}`}>
           <label htmlFor="email">Email address</label>
           <input type="email" required className="form-control"
             name="email"

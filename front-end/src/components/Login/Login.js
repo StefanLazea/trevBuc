@@ -20,7 +20,7 @@ export default class Login extends React.Component {
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
-          
+
         })
     }
 
@@ -49,8 +49,6 @@ export default class Login extends React.Component {
                     toast("A aparut o eroare. Incercati mai tarziu!")
                 }
 
-                //toast(error.response.data.message)
-
             });
     }
 
@@ -77,7 +75,8 @@ export default class Login extends React.Component {
                                 <form>
                                     <div className="form-group">
                                         <label className="form-control-label">Email</label>
-                                        <input type="text"
+                                        <input type="email"
+                                            id="username"
                                             name='username'
                                             className="form-control"
                                             onChange={e => this.handleChange(e)}

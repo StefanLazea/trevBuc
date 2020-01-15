@@ -22,7 +22,7 @@ export default class Register extends React.Component {
               emailValid: false,
               passwordValid: false,
               confirmPasswordValid: false,
-              formValid: false
+             // formValid: false
         };
     }
     
@@ -46,12 +46,12 @@ export default class Register extends React.Component {
         break;
       case 'password':
         passwordValid = value.length >= 6;
-        fieldValidationErrors.password = passwordValid ? 'ok': ' is too short';
+        fieldValidationErrors.password = passwordValid ? '': ' is too short';
         break;
       case 'confirmPassword':
-        confirmPasswordValid = passwordValid == confirmPasswordValid;
-        console.log(confirmPasswordValid);
-        fieldValidationErrors.confirmPassword = confirmPasswordValid ? 'ok': 'does not match the password';
+        confirmPasswordValid = passwordValid === fieldValidationErrors.confirmPassword;
+        fieldValidationErrors.confirmPassword = confirmPasswordValid ? '': 'does not match the password';
+        break;
       default:
         break;
     }
@@ -62,13 +62,43 @@ export default class Register extends React.Component {
                   }, this.validateForm);
   }
   
-    validateForm() {
-    this.setState({formValid: this.state.emailValid && this.state.passwordValid && this.state.confirmPasswordValid});
-  }
+  //   validateForm() {
+  //   this.setState({formValid: this.state.emailValid && this.state.passwordValid && this.state.confirmPasswordValid});
+  // }
 
   errorClass(error) {
     return(error.length === 0 ? '' : 'has-error');
   }
+  
+  onSubmit = (e) => {
+        e.preventDefault();
+
+        const formValid ={
+          email: this.state.emailValid,
+          password: this.state.passwordValid
+        }
+
+        Axios.post(`${backUrl}/register`, JSON.stringify(formValid),
+            {
+                headers: { "Content-Type": "application/json" }
+            })
+            .then((res) => {
+                //toast(res.data.message)
+
+                this.nextPath ("/login");
+            })
+            .catch(error => {
+
+                if (error.response !== undefined) {
+                    toast(error.response.data.message)
+                } else {
+                    toast("hopa")
+                }
+
+            });
+       
+    }
+  
     
      render () {
     return (
@@ -103,7 +133,7 @@ export default class Register extends React.Component {
             onChange={this.handleUserInput}  />
         </div>
         
-        <button type="submit" className="btn btn-primary" disabled={!this.state.formValid}>Sign up</button>
+        <button type="submit" className="btn btn-primary" onClick={(e) => this.onSubmit(e)}>Sign up</button>
       </form>
     )
   }

@@ -44,15 +44,17 @@ export default class FilteredReviews extends React.Component {
     }
 
     editContent = async (id) => {
-        var tds = document.querySelectorAll('td');
-
-        if (this.state.editButtonText === "Edit") {
-            tds.forEach(tabelCell => tabelCell.contentEditable = true);
-            this.setState({ editButtonText: "Save" });
+        if (document.getElementById("button"+id).innerHTML === "Edit") {
+            document.getElementById("button"+id).innerHTML="Save";
+           
+            document.getElementById(id).contentEditable=true;
+            document.getElementById(id).childNodes[0].contentEditable= false;
         }
 
         else {
-            tds.forEach(tabelCell => tabelCell.contentEditable = false);
+            document.getElementById(id).contentEditable=false;
+           
+
             var tabelRaw = document.getElementById(id);
             let reviewId;
             let userId;
@@ -77,7 +79,8 @@ export default class FilteredReviews extends React.Component {
 
             }
             Axios.put(backUrl + '/reviews/' + id, review, { headers: { "Authorization": getToken() } }).then(toast("The review was updated succesfully"));
-
+            document.getElementById("button"+id).innerHTML="Edit";
+             
         }
 
     }
@@ -109,7 +112,7 @@ export default class FilteredReviews extends React.Component {
                                 <td>{review.congestion_level}</td>
                                 <td>{review.observations}</td>
                                 <td>{review.rating}</td>
-                                <td><Button className="btn-primary" onClick={() => { this.editContent(review.id) }}>{this.state.editButtonText}</Button>
+                                <td><Button id={"button"+review.id} className="btn-primary" onClick={() => { this.editContent(review.id) }}>Edit</Button>
                                     <Button className="btn-danger" onClick={() => { this.deleteReview(review.id) }}><i className="fa fa-trash"></i></Button>
                                 </td>
                             </tr>) :

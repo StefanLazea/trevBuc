@@ -119,14 +119,14 @@ export default class ReviewForm extends React.Component {
                 </select>
                 <label>Transport name</label>
                 <input type="text" className="transportNamebox" ref={this.transportNameRef} placeholder={this.state.placeholderText}></input>
-                <input type="text" className="transportNamebox" ref={this.leavingPointRef} placeholder="Punct de plecare"></input>
-                <input type="text" className="transportNamebox" ref={this.arrivngPointRef} placeholder="Punct de sosire"></input>
+                <input type="text" className="transportNamebox" ref={this.leavingPointRef} placeholder="Leaving point"></input>
+                <input type="text" className="transportNamebox" ref={this.arrivngPointRef} placeholder="Arriving point"></input>
                 <label>Leaving Hour</label>
                 <input type="time" className="numberInput" ref={this.leftHourRef} required></input>
-                <input type="text" className="durationInput" ref={this.durationRef} placeholder="Time in minutes" required></input>
-                <label>Grad de aglomerare</label>
+                <input type="text" className="durationInput" ref={this.durationRef} placeholder="Duration in minutes" required></input>
+                <label>Congestion level</label>
                 <input type="number" className="numberInput" ref={this.congestionLevelRef} min={1} max={10} placeholder="1 - 10" required></input>
-                <label>Observatii</label>
+                <label>Observations</label>
                 <textarea ref={this.observationsRef} className="textarea"></textarea>
                 <label>Rating</label>
                 <div className="ratingBar">

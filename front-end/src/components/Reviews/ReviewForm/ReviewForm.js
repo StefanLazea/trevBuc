@@ -15,6 +15,7 @@ export default class ReviewForm extends React.Component {
             placeholderText: "Example: 300",
             starNumber: 1,
             buttonText: "Submit",
+            isOk: true
         }
 
 
@@ -45,51 +46,65 @@ export default class ReviewForm extends React.Component {
     }
    
  
+ validateFields = () => {
 
+ var id = parseInt(this.durationRef.current.value);
+ if(isNaN(id) === true){
+    this.setState({isOk:false})
+    toast("The duration is not a valid number");
+
+ }
+}
 
     handleSubmit = async (event) => {
         event.preventDefault();
+        await this.validateFields();
+if(this.state.isOk === true){
 
-        var transportType = {
-            name: this.transportNameRef.current.value,
-            type: this.transportTypeRef.current.value
-        }
-        var transportTypeDb;
-        await Axios.post(backUrl + "/transport-type", transportType).then(res => {
-            transportTypeDb = res.data;
-        }
-        )
+    var transportType = {
+        name: this.transportNameRef.current.value,
+        type: this.transportTypeRef.current.value
+    }
+    var transportTypeDb;
+    await Axios.post(backUrl + "/transport-type", transportType).then(res => {
+        transportTypeDb = res.data;
+    }
+    )
 
 
 
-        var review = {
-            leaving_point: String(this.leavingPointRef.current.value),
-            arriving_point: String(this.arrivngPointRef.current.value),
-            leaving_hour: String(this.leftHourRef.current.value),
-            duration: parseInt(this.durationRef.current.value),
-            observations: String(this.observationsRef.current.value),
-            rating: String(this.state.starNumber),
-            congestion_level: parseInt(this.congestionLevelRef.current.value),
-            userId: parseInt(this.props.userId),
-            transportTypeId: parseInt(transportTypeDb.id),
+    var review = {
+        leaving_point: String(this.leavingPointRef.current.value),
+        arriving_point: String(this.arrivngPointRef.current.value),
+        leaving_hour: String(this.leftHourRef.current.value),
+        duration: parseInt(this.durationRef.current.value),
+        observations: String(this.observationsRef.current.value),
+        rating: String(this.state.starNumber),
+        congestion_level: parseInt(this.congestionLevelRef.current.value),
+        userId: parseInt(this.props.userId),
+        transportTypeId: parseInt(transportTypeDb.id),
 
-        }
+    }
 
-        Axios.post(backUrl + "/reviews", review,
-            { headers: { "Authorization": getToken() } }).then(res => {
-                var existingReviews = [...this.state.reviews];
-                existingReviews.push(res.data);
-                this.setState({ reviews: existingReviews });
-                toast("Review was added successfully!")
-            })
-            this.transportNameRef.current.value= " "
-            this.leavingPointRef.current.value=" ";
-            this.arrivngPointRef.current.value= " ";
-            this.leftHourRef.current.value=" ";
-           this.durationRef.current.value=" ";
-           this.observationsRef.current.value=" ";
-           this.congestionLevelRef.current.value=" ";
-           this.starClick(1);
+    Axios.post(backUrl + "/reviews", review,
+        { headers: { "Authorization": getToken() } }).then(res => {
+            var existingReviews = [...this.state.reviews];
+            existingReviews.push(res.data);
+            this.setState({ reviews: existingReviews });
+            toast("Review was added successfully!")
+        })
+       
+}
+
+this.transportNameRef.current.value= " "
+this.leavingPointRef.current.value=" ";
+this.arrivngPointRef.current.value= " ";
+this.leftHourRef.current.value=" ";
+this.durationRef.current.value=" ";
+this.observationsRef.current.value=" ";
+this.congestionLevelRef.current.value=" ";
+this.starClick(1);
+       
     }
 
     handleSelect = () => {
@@ -118,9 +133,9 @@ export default class ReviewForm extends React.Component {
                     <option value="Metrou">Metrou</option>
                 </select>
                 <label>Transport name</label>
-                <input type="text" className="transportNamebox" ref={this.transportNameRef} placeholder={this.state.placeholderText}></input>
-                <input type="text" className="transportNamebox" ref={this.leavingPointRef} placeholder="Leaving point"></input>
-                <input type="text" className="transportNamebox" ref={this.arrivngPointRef} placeholder="Arriving point"></input>
+                <input type="text" className="transportNamebox" ref={this.transportNameRef} placeholder={this.state.placeholderText} required></input>
+                <input type="text" className="transportNamebox" ref={this.leavingPointRef} placeholder="Leaving point" required></input>
+                <input type="text" className="transportNamebox" ref={this.arrivngPointRef} placeholder="Arriving point" required></input>
                 <label>Leaving Hour</label>
                 <input type="time" className="numberInput" ref={this.leftHourRef} required></input>
                 <input type="text" className="durationInput" ref={this.durationRef} placeholder="Duration in minutes" required></input>

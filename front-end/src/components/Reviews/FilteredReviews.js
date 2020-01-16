@@ -25,30 +25,26 @@ export default class FilteredReviews extends React.Component {
         review.arriving_point = review.arriving_point.toUpperCase();
 
         var id = parseInt(review.duration)
-        if(isNaN(id))
-        {
+        if (isNaN(id)) {
             toast("Update failed! Duration must be a number");
-            this.setState({isOk: false});
+            this.setState({ isOk: false });
         }
-        
+
         var rating = parseInt(review.rating);
-        if(isNaN(rating)|| (rating >5 || rating<1))
-        {
+        if (isNaN(rating) || (rating > 5 || rating < 1)) {
             toast("Update failed! Rating should be a digit from 1 to 5");
-            this.setState({isOk: false});
+            this.setState({ isOk: false });
         }
 
         var congestion_level = parseInt(review.congestion_level);
-        if(isNaN(congestion_level)|| (congestion_level>10 || congestion_level<1))
-        {
+        if (isNaN(congestion_level) || (congestion_level > 10 || congestion_level < 1)) {
             toast("Update failed! Rating should be a number from 1 to 10");
-            this.setState({isOk: false});
+            this.setState({ isOk: false });
         }
 
-        if(/^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(review.leaving_hour) === false)
-        {
+        if (/^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(review.leaving_hour) === false) {
             toast("Update failed! Leaving hour is not valid!");
-            this.setState({isOk: false});
+            this.setState({ isOk: false });
         }
     }
 
@@ -72,16 +68,16 @@ export default class FilteredReviews extends React.Component {
     }
 
     editContent = async (id) => {
-        if (document.getElementById("button"+id).innerHTML === "Edit") {
-            document.getElementById("button"+id).innerHTML="Save";
-           
-            document.getElementById(id).contentEditable=true;
-            document.getElementById(id).childNodes[0].contentEditable= false;
+        if (document.getElementById("button" + id).innerHTML === "Edit") {
+            document.getElementById("button" + id).innerHTML = "Save";
+
+            document.getElementById(id).contentEditable = true;
+            document.getElementById(id).childNodes[0].contentEditable = false;
         }
 
         else {
-            document.getElementById(id).contentEditable=false;
-           
+            document.getElementById(id).contentEditable = false;
+
 
             var tabelRaw = document.getElementById(id);
             let reviewId;
@@ -93,7 +89,7 @@ export default class FilteredReviews extends React.Component {
                 userId = res.data.userId;
                 transportTypeId = res.data.userId;
             })
-            this.setState({isOk:true});
+            this.setState({ isOk: true });
             var review = {
                 id: reviewId,
                 leaving_point: tabelRaw.childNodes[1].innerText,
@@ -107,13 +103,13 @@ export default class FilteredReviews extends React.Component {
                 transportTypeId: transportTypeId,
 
             }
-            
+
             await this.validateFields(review);
-            if(this.state.isOk === true){
+            if (this.state.isOk === true) {
                 Axios.put(backUrl + '/reviews/' + id, review, { headers: { "Authorization": getToken() } }).then(toast("The review was updated succesfully"));
             }
-                 document.getElementById("button"+id).innerHTML="Edit";
-             
+            document.getElementById("button" + id).innerHTML = "Edit";
+
         }
 
     }
@@ -145,7 +141,7 @@ export default class FilteredReviews extends React.Component {
                                 <td>{review.congestion_level}</td>
                                 <td>{review.observations}</td>
                                 <td>{review.rating}</td>
-                                <td><Button id={"button"+review.id} className="btn-primary" onClick={() => { this.editContent(review.id) }}>Edit</Button>
+                                <td><Button id={"button" + review.id} className="btn-primary" onClick={() => { this.editContent(review.id) }}>Edit</Button>
                                     <Button className="btn-danger" onClick={() => { this.deleteReview(review.id) }}><i className="fa fa-trash"></i></Button>
                                 </td>
                             </tr>) :

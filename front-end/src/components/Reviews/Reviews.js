@@ -51,9 +51,9 @@ export default class Reviews extends React.Component {
         this.setState({ starNumber: i });
 
     }
-    
 
-    
+
+
     handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -192,20 +192,20 @@ export default class Reviews extends React.Component {
                     <form>
                         <div className="lander">
 
-                            <h3><span class="label label-default">Search By Leaving Point</span></h3>
+                            <h3><span className="label label-default">Search By Leaving Point</span></h3>
 
-                            <h3><span class="label label-default">Search By Arriving Point</span></h3>
+                            <h3><span className="label label-default">Search By Arriving Point</span></h3>
                         </div>
 
                         <div className="fields">
                             <input type="text" placeholder="Leaving Point" name="searchFilter" onInput={this.handleInputChangeLeaving}></input>
 
                             <input type="text" placeholder="Arriving Point" name="searchFilter" onInput={this.handleInputChangeArriving}></input>
-                         </div>
+                        </div>
 
-                            {(this.state.searchFilter.length > 0 && this.state.filteredReviews.length > 0) ?
-                                <AllReviews reviews={this.state.filteredReviews} />
-                                : null}
+                        {(this.state.searchFilter.length > 0 && this.state.filteredReviews.length > 0) ?
+                            <AllReviews reviews={this.state.filteredReviews} />
+                            : null}
 
                     </form> : null
                 }

@@ -50,7 +50,7 @@ export default class Register extends React.Component {
           this.setState({ passwordError: false })
         } else {
           this.setState({ passwordError: true })
-          toast("Parola nu trebuie sa fie mai mica de 6 caractere");
+          toast("Password must have at least 6 characters");
         }
         break;
       case 'confirmPassword':
@@ -59,7 +59,7 @@ export default class Register extends React.Component {
           this.setState({ passwordMatchError: false })
         } else {
           this.setState({ passwordMatchError: true })
-          toast("Parola trebuie sa corespunda");
+          toast("Your password and confirmation password do not match");
         }
         break;
       default:
@@ -95,7 +95,7 @@ export default class Register extends React.Component {
           }
         });
     } else {
-      toast("Apasa pe camp pentru a vedea eroarea!")
+      toast("Click on the field to see the error!")
     }
   }
 
@@ -109,7 +109,7 @@ export default class Register extends React.Component {
           <input type="email" required className="form-control"
             name="email"
             placeholder="Email"
-            onClick={e => this.handleChange(e)} />
+            onBlur={e => this.handleChange(e)} />
         </div>
 
         <div className={`form-group ${this.errorClass(this.state.passwordError)}`}>
@@ -118,7 +118,7 @@ export default class Register extends React.Component {
             className="form-control"
             name="password"
             placeholder="Password"
-            onClick={e => this.handleChange(e)} />
+            onBlur={e => this.handleChange(e)} />
         </div>
 
         <div className={`form-group ${this.errorClass(this.state.passwordError)}`}>
@@ -127,7 +127,7 @@ export default class Register extends React.Component {
             className="form-control"
             name="confirmPassword"
             placeholder="ConfirmPassword"
-            onClick={e => this.handleChange(e)} />
+            onBlur={e => this.handleChange(e)} />
         </div>
 
         <button type="submit" className="btn btn-primary" onClick={(e) => this.onSubmit(e)}>Sign up</button>

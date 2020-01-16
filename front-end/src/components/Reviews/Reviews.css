@@ -30,12 +30,11 @@ h3{
 }
 
 
-
 .fields input[type="text"]{
     margin-right: 7px;
     width: 213px;
     height: 40px;
-    text-transform: uppercase; 
+    text-transform: uppercase;  
 }
 
 ::placeholder{

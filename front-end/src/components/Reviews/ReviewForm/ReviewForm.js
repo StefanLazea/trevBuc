@@ -45,11 +45,21 @@ export default class ReviewForm extends React.Component {
    
  
    validateFields = () => {
-    var id = parseInt(this.durationRef.current.value);
-    if(isNaN(id) === true){
+
+    var obs_length = this.observationsRef.current.value;
+    if(obs_length.length > 200)
+    {
         this.setState({isOk:false})
-        toast("The duration is not a valid number");
+        toast("You can't enter more than 200 characters");
+    }
+
+    var id = parseInt(this.durationRef.current.value);
+    if(isNaN(id) === true)
+        {
+            this.setState({isOk:false})
+            toast("The duration is not a valid number");
         }
+        
     }
 
     handleSubmit = async (event) => {
@@ -87,7 +97,7 @@ export default class ReviewForm extends React.Component {
         })
        
     }
-
+    /*
     this.transportNameRef.current.value= " "
     this.leavingPointRef.current.value=" ";
     this.arrivngPointRef.current.value= " ";
@@ -95,11 +105,12 @@ export default class ReviewForm extends React.Component {
     this.durationRef.current.value=" ";
     this.observationsRef.current.value=" ";
     this.congestionLevelRef.current.value=" ";
-    this.starClick(1);
+    this.starClick(1); 
+    */
     }
 
     handleSelect = () => {
-        switch (this.transportNameRef.current.value) {
+        switch (this.transportTypeRef.current.value) {
             case "Taxi":
                 this.setState({ placeholderText: "Example: B-47-ASD" });
                 break;

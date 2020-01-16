@@ -105,7 +105,7 @@ export default class Reviews extends React.Component {
 
     handleInputChangeLeaving = (event) => {
         let myReviews = [...this.state.reviews];
-        myReviews = myReviews.filter(review => review.leaving_point === event.target.value)
+        myReviews = myReviews.filter(review => review.leaving_point === event.target.value.toUpperCase())
         event.preventDefault()
         this.setState({
             searchFilter: event.target.value,
@@ -115,7 +115,7 @@ export default class Reviews extends React.Component {
 
     handleInputChangeArriving = (event) => {
         let myReviews = [...this.state.reviews];
-        myReviews = myReviews.filter(review => review.arriving_point === event.target.value)
+        myReviews = myReviews.filter(review => review.arriving_point === event.target.value.toUpperCase())
         event.preventDefault()
         this.setState({
             searchFilter: event.target.value,

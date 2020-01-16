@@ -46,7 +46,7 @@ export default class Login extends React.Component {
                 if (error.response !== undefined) {
                     toast(error.response.data.message)
                 } else {
-                    toast("A aparut o eroare. Incercati mai tarziu!")
+                    toast("An error occured. Please try again later!")
                 }
 
             });

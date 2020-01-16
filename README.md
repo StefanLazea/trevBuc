@@ -1,4 +1,4 @@
-# web-transport
+# TREVBUC
 Our app for giving feedback on public transport in Bucharest.
 
 ## Introduction

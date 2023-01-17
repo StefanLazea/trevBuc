@@ -65,6 +65,15 @@ const resetPassword = async (req, resp) => {
     } else {
          const salt = bcrypt.genSaltSync(10);
         let ePassword = bcrypt.hashSync(req.body.password, salt);
+        //TODO REFACTOR
+        /*
+        const user = Users.update();
+        if(user){
+            return resp.status(201).send({...});
+        }else{
+            return resp.status(500).send({...]);
+        }
+        */
         await Users.update(
             {
                 

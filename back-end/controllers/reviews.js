@@ -4,7 +4,7 @@ const TransportTypes = require('../models').transportType;
 
 const createReview = async (req, res) => {
     //TODO: refactor from using await and then in the same function
-    await Reviews.create({
+   const review = await Reviews.create({
         leaving_point: req.body.leaving_point,
         arriving_point: req.body.arriving_point,
         leaving_hour: req.body.leaving_hour,
@@ -14,9 +14,12 @@ const createReview = async (req, res) => {
         congestion_level: req.body.congestion_level,
         userId: req.body.userId,
         transportTypeId: req.body.transportTypeId
-    }).then(result => {res.send(result);
-        res.status(201).send({message:"Review created"})}
-        )
+    });
+    if(review){
+      return res.send(result);
+    }else{
+      return res.status(201).send({message:"Review created"});
+    }
 }
 
 const getAllReviews = async (req, res) => {
@@ -32,7 +35,7 @@ const getAllReviews = async (req, res) => {
 
 const updateReview = async (req, res) => {
     //TODO refactor
-    await Reviews.update({
+    const update = await Reviews.update({
         leaving_point: req.body.leaving_point,
         arriving_point: req.body.arriving_point,
         leaving_hour: req.body.leaving_hour,
@@ -47,7 +50,10 @@ const updateReview = async (req, res) => {
             where:
                 { id: req.params.id }
         }
-    ).then(res.status(201).send({message:"The review with the id '" + req.params.id + "' has been updated"}));
+    );
+    if(update){
+       return res.status(201).send({message:"The review with the id '" + req.params.id + "' has been updated"}));
+    }
 
 }
 

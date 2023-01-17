@@ -1,10 +1,6 @@
 const TransportType = require('../models').transportType;
-//const { findUserByUsername } = require('../services/users');
 
-const createTransportType = async (req, res) => {
-    
-    //TODO refactor
-    
+const createTransportType = async (req, res) => {    
     const result = await TransportType.create({
         name: req.body.name,
         type: req.body.type

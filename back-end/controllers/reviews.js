@@ -3,6 +3,7 @@ const Users = require('../models').Users;
 const TransportTypes = require('../models').transportType;
 
 const createReview = async (req, res) => {
+    //TODO: refactor from using await and then in the same function
     await Reviews.create({
         leaving_point: req.body.leaving_point,
         arriving_point: req.body.arriving_point,
@@ -30,6 +31,7 @@ const getAllReviews = async (req, res) => {
 };
 
 const updateReview = async (req, res) => {
+    //TODO refactor
     await Reviews.update({
         leaving_point: req.body.leaving_point,
         arriving_point: req.body.arriving_point,
@@ -93,6 +95,7 @@ const getReviewsByUserId = async (req, res) => {
 
 
 const deleteReviewById = async(req, res) => {
+    //TODO REFACTOR
     await Reviews.destroy(
         {
             where: { id: req.params.id }
